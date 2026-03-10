@@ -2,21 +2,56 @@
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import "../styles/global.css";
-
 import "@fortawesome/fontawesome-free/css/all.min.css";
-export const phone = []
 
+interface Props {
+  title?: string;
+  /** string = URL explícita del idioma alterno; null = no existe traducción; undefined = calcular desde pathname */
+  altLangUrl?: string | null;
+}
+
+const { title, altLangUrl } = Astro.props;
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? '';
+const lang = Astro.currentLocale ?? 'es';
+const isEn = lang === 'en';
+const pathname = Astro.url.pathname;
+
+// null = sin traducción; undefined = calcular desde pathname
+const computedAltPath: string | null =
+  altLangUrl === null
+    ? null
+    : (altLangUrl ?? (
+        isEn
+          ? (pathname.replace(/^\/en/, '') || '/')
+          : ('/en' + pathname)
+      ));
+
+// hreflang: la URL del idioma actual y la del alterno (si existe)
+const esFullUrl = isEn
+  ? (computedAltPath !== null ? siteUrl + computedAltPath : null)
+  : siteUrl + pathname;
+
+const enFullUrl = isEn
+  ? siteUrl + pathname
+  : (computedAltPath !== null ? siteUrl + computedAltPath : null);
+
+const canonicalUrl = siteUrl + pathname;
 ---
 
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>Astro</title>
+    <title>{title ?? 'Explora Tours Peru'}</title>
+    <link rel="canonical" href={canonicalUrl} />
+    {esFullUrl && <link rel="alternate" hreflang="es" href={esFullUrl} />}
+    {enFullUrl && <link rel="alternate" hreflang="en" href={enFullUrl} />}
+    {esFullUrl && <link rel="alternate" hreflang="x-default" href={esFullUrl} />}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@26.7.6/build/css/intlTelInput.css" />
   </head>
   <body>
-    <Header />
+    <Header altLangUrl={computedAltPath} />
     <slot />
     <Footer />
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@26.7.6/build/js/intlTelInput.min.js" defer></script>

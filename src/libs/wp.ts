@@ -5,11 +5,11 @@ const apiPage = `${domain}wp-json/wp/v2`;
 const apiBlog = `${domain}wp-json/wp/v2`;
 const apiPosts  = `${domain}wp-json/wp/v2`;
 // const apiPostsCategoy  = `${domain}wp-json/wp/v2/tour_category`;
-const apiHeader = `${domain}/wp-json/theme/v1`;
+const apiHeader = `${domain}wp-json/theme/v1`;
 const apiNav  = `${domain}wp-json/wp/v2`;
 const idLogo  = `${domain}wp-json/custom/v1`;
 const apiLogo = `${domain}wp-json/wp/v2`;
-const sidebar = `${domain}/wp-json/custom/v1`;
+const sidebar = `${domain}wp-json/custom/v1`;
 
 // export const getCategoryFullDays = async () => {
 //   try {
@@ -56,9 +56,10 @@ export const getInfoPage = async () => {
   }
 };
 
-export const getInfoBlog = async () => {
+export const getInfoBlog = async (lang: string = 'es') => {
   try {
-    const response = await fetch(`${apiBlog}/pages?slug=blog`);
+    const langParam = lang === 'en' ? '&lang=en' : '';
+    const response = await fetch(`${apiBlog}/pages?slug=blog${langParam}`);
 
     if (!response.ok) throw new Error(`Error al obtener datos del Blog`);
 
@@ -72,9 +73,10 @@ export const getInfoBlog = async () => {
 };
 
 
-export const getPosts = async () => {
+export const getPosts = async (lang: string = 'es') => {
   try {
-    const response = await fetch(`${apiPosts}/posts?per_page=100`);
+    const langParam = lang === 'en' ? '&lang=en' : '';
+    const response = await fetch(`${apiPosts}/posts?per_page=100${langParam}`);
 
     if (!response.ok) throw new Error("Error al obtener datos del Blog")
 
@@ -87,9 +89,10 @@ export const getPosts = async () => {
   }
 };
 
-export const getInfoPageHome = async () => {
+export const getInfoPageHome = async (lang: string = 'es') => {
   try {
-    const response = await fetch(`${apiPage}/pages?slug=home`);
+    const langParam = lang === 'en' ? '&lang=en' : '';
+    const response = await fetch(`${apiPage}/pages?slug=home${langParam}`);
 
     if (!response.ok) throw new Error(`Error al obtener datos de la Pagina de Inicio)`);
 
@@ -102,8 +105,9 @@ export const getInfoPageHome = async () => {
   }
 };
 
-export const getSidebarTour = async () => {
-  const response = await fetch(`${sidebar}/sidebar-tour`);
+export const getSidebarTour = async (lang: string = 'es') => {
+  const endpoint = lang === 'en' ? 'sidebar-tour-en' : 'sidebar-tour';
+  const response = await fetch(`${sidebar}/${endpoint}`);
 
   if (!response.ok) {
     throw new Error("No se pudo conectar a la API de Sidebar - Widget");
@@ -114,8 +118,9 @@ export const getSidebarTour = async () => {
   return data;
 };
 
-export const getSidebarBlog = async () => {
-  const response = await fetch(`${sidebar}/sidebar-blog`);
+export const getSidebarBlog = async (lang: string = 'es') => {
+  const endpoint = lang === 'en' ? 'sidebar-blog-en' : 'sidebar-blog';
+  const response = await fetch(`${sidebar}/${endpoint}`);
 
   if (!response.ok) {
     throw new Error("No se pudo conectar a la API de Sidebar - Widget");
@@ -126,8 +131,9 @@ export const getSidebarBlog = async () => {
   return data;
 };
 
-export const getTourInfo = async () => {
-  const response = await fetch(`${apiTour}/tour?per_page=100`);
+export const getTourInfo = async (lang: string = 'es') => {
+  const langParam = lang === 'en' ? '&lang=en' : '';
+  const response = await fetch(`${apiTour}/tour?per_page=100${langParam}`);
 
   if (!response.ok) {
     throw new Error("No se pudo conectar a la API de los tours");
@@ -137,9 +143,9 @@ export const getTourInfo = async () => {
 };
 
 
-export const getHeaderInfo = async () => {
+export const getHeaderInfo = async (lang: string = 'es') => {
   try {
-    const response = await fetch(`${apiNav}/top-nav/`);
+    const response = await fetch(`${apiNav}/top-nav/?lang=${lang}`);
 
     if (!response.ok) {
       throw new Error("No se pudo conectar a la API");
@@ -209,12 +215,13 @@ export const getImages = async (logo: number) => {
   }
 };
 
-export const getInfoByTours = async (url: any) => {
-  const response = await fetch(`${apiTour}/tour?slug=${url}`);
+export const getInfoByTours = async (url: any, lang: string = 'es') => {
+  const langParam = lang === 'en' ? '&lang=en' : '';
+  const response = await fetch(`${apiTour}/tour?slug=${url}${langParam}`);
 
   if (!response.ok) throw new Error(`Error al obtener datos del tour (${url})`);
 
   const data = await response.json();
-  
+
   return data;
 };

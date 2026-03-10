@@ -2,13 +2,30 @@
 import { getHeaderInfo, getLogoInfo, getInfoHeader } from "../libs/wp";
 import RedesSociales from "./RedesSociales.astro";
 
-const headerinfo = await getHeaderInfo();
+interface Props {
+  /** string = URL de la traducción; null = sin traducción; undefined = calcular fallback */
+  altLangUrl?: string | null;
+}
+
+const { altLangUrl } = Astro.props;
+
+const lang = Astro.currentLocale ?? 'es';
+const isEn = lang === 'en';
+const homeHref = isEn ? '/en/' : '/';
+// null explícito = sin traducción disponible → no mostrar bandera
+const altLangHref: string | null =
+  altLangUrl === null
+    ? null
+    : (altLangUrl ?? (isEn ? '/' : '/en/'));
+const altLangLabel = isEn ? 'ES' : 'EN';
+
+const headerinfo = await getHeaderInfo(lang);
 
 const getHeader = await getInfoHeader();
-const header = getHeader.header || null;
+const header = getHeader?.header ?? null;
 
-const links = header.link || [];
-const texts = header.text || [];
+const links = header?.link ?? [];
+const texts = header?.text ?? [];
 
 const getLogo = await getLogoInfo();
 
@@ -23,14 +40,14 @@ interface MenuItem {
   <div class="container mx-auto">
     <div class="flex items-center justify-between py-3">
       <div>
-        <a href="/" class="inline-block">
+        <a href={homeHref} class="inline-block">
           <img decoding="async" src={getLogo} draggable="false" alt="Logo" class="w-full h-15 object-contain object-center" />
         </a>
       </div>
 
       <div class="hidden lg:block">
         <div class="flex flex-col gap-2">
-          <div class="flex gap-3">
+          <div class="flex gap-3 items-center">
             {
               links.map((c: any) => (
                 <div>
@@ -53,7 +70,26 @@ interface MenuItem {
                 </>
               ))
             }
+|
+              {altLangHref !== null && (
+              <div class="flex items-center justify-end gap-2">
+                <a href={altLangHref} title={altLangLabel} class="flex items-center gap-1.5 px-2 py-1 rounded-lg hover:bg-gray-100 transition-colors text-sm font-medium text-gray-700">
+                  {isEn ? (
+                    <>
+                      <img src="https://flagcdn.com/es.svg" alt="Español" class="h-4 w-6 object-cover rounded-sm shadow-sm" />
+                    </>
+                  ) : (
+                    <>
+                      <img src="https://flagcdn.com/gb.svg" alt="English" class="h-4 w-6 object-cover rounded-sm shadow-sm" />
+                    </>
+                  )}
+                </a>
+              </div>
+              )}
+
           </div>
+
+        
           <div class="flex items-center justify-end gap-5">
             <RedesSociales />
             <a href="#" class="inline-block bg-green py-2 px-7 rounded-lg text-white font-medium hover:bg-yellow hover:text-black transition-colors text-base"><i class="fa-solid fa-phone"></i> Contact Us</a>
@@ -108,7 +144,7 @@ interface MenuItem {
 
   <div id="mobileMenu" class="fixed top-0 right-0 h-full w-full max-w-full bg-white shadow-xl transform translate-x-full transition-transform duration-300 lg:hidden flex flex-col z-50">
     <div class="flex items-center justify-between px-5 py-4 border-b border-neutral-200">
-      <a href="/" class="inline-block">
+      <a href={homeHref} class="inline-block">
         <img decoding="async" src={getLogo} alt="Logo" class="w-full h-15" loading="lazy" />
       </a>
 
@@ -166,6 +202,22 @@ interface MenuItem {
           <a href="" class="uppercase text-white bg-blue py-3 px-7 inline-block rounded-lg font-medium"><i class="fa-solid fa-envelope"></i> Plan Your Trip</a>
         </div>
         <RedesSociales />
+        <hr class="my-5 text-gray-icon" />
+        {altLangHref !== null && (
+          <a href={altLangHref} class="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors w-max">
+            {isEn ? (
+              <>
+                <img src="https://flagcdn.com/es.svg" alt="Español" class="h-4 w-6 object-cover rounded-sm shadow-sm" />
+                <span class="text-sm font-medium">Español</span>
+              </>
+            ) : (
+              <>
+                <img src="https://flagcdn.com/gb.svg" alt="English" class="h-4 w-6 object-cover rounded-sm shadow-sm" />
+                <span class="text-sm font-medium">English</span>
+              </>
+            )}
+          </a>
+        )}
         <hr class="my-5 text-gray-icon" />
         <div class="w-full">
           <p class="text-gray-icon font-sm">© 2026 Explora Peru Tours. Todos los derechos reservados.</p>

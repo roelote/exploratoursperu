@@ -1,25 +1,24 @@
 ---
-import MainLayout from "../../layouts/MainLayout.astro";
-import { getPosts, getSidebarBlog } from "../../libs/wp";
+import MainLayout from "../../../layouts/MainLayout.astro";
+import { getPosts, getSidebarBlog } from "../../../libs/wp";
 
-const sidebar = await getSidebarBlog();
-const allPosts = await getPosts();
+const sidebar = await getSidebarBlog('en');
+const allPosts = await getPosts('en');
 
 export async function getStaticPaths() {
-  const allPosts = await getPosts();
+  const allPosts = await getPosts('en');
 
   return allPosts.map((post: any) => {
-    const enSlug: string | null = post.wpml_translations?.en?.slug ?? null;
+    const esSlug: string | null = post.wpml_translations?.es?.slug ?? null;
     return {
       params: { slug: post.slug },
-      props: { post, altLangUrl: enSlug ? `/en/blog/${enSlug}` : null },
+      props: { post, altLangUrl: esSlug ? `/blog/${esSlug}` : null },
     };
   });
 }
 
 const { post, altLangUrl } = Astro.props as { post: any; altLangUrl: string | null };
 const blogs = allPosts.slice(0, 5);
-// console.log(post);
 
 function getDateFormatter(date: any) {
   return new Date(date).toLocaleDateString("en-US", {
@@ -50,7 +49,7 @@ function getDateFormatter(date: any) {
                       </p>
                     </div>
                     <div>
-                        <span class="size-2 bg-yellow block rounded-full"></span>
+                      <span class="size-2 bg-yellow block rounded-full"></span>
                     </div>
                     <div>
                       <p class="flex items-center gap-1 mb-0!">
@@ -67,19 +66,19 @@ function getDateFormatter(date: any) {
             <div class="w-full lg:w-1/3 sticky top-2 right-0">
               <div class="w-full shadow-[0px_0px_30px_0px_rgba(0,0,0,0.1)] p-5 rounded-[20px] overflow-hidden">
                 <p set:html={sidebar.content} />
-                <h3 class="text-lg md:text-2xl text-start font-semibold mb-3">Entradas recientes</h3>
+                <h3 class="text-lg md:text-2xl text-start font-semibold mb-3">Recent Posts</h3>
                 <div class="flex flex-col gap-3">
                   {
                     blogs.map((last: any) => (
                       <div>
                         <div class="flex items-center justify-between gap-2">
-                          <div class="w-[80px] min-w-[80px] h-[80px] ">
+                          <div class="w-[80px] min-w-[80px] h-[80px]">
                             <img decoding="async" fetchpriority="high" class="w-full h-full object-cover object-center rounded-lg" src={last.featured_image.thumbnail} alt="" />
                           </div>
                           <div class="w-full">
                             <p class="text-base! mb-0! font-semibold line-clamp-2">{last.title.rendered}</p>
                             <p class="text-sm mb-0! flex items-center gap-1">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-month">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <>
                                   <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                   <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />

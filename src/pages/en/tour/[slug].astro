@@ -1,11 +1,11 @@
 ---
 import type { GetStaticPaths } from "astro";
-import MainLayout from "../../layouts/MainLayout.astro";
-import { getTourInfo, getInfoByTours, getSidebarTour } from "../../libs/wp";
-import SliderHiking from "../../components/SliderHiking.astro";
+import MainLayout from "../../../layouts/MainLayout.astro";
+import { getTourInfo, getInfoByTours, getSidebarTour } from "../../../libs/wp";
+import SliderHiking from "../../../components/SliderHiking.astro";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
-import Gallery from "../../components/Tours/Gallery.astro";
-import Detalles from "../../components/Tours/Detalles.astro";
+import Gallery from "../../../components/Tours/Gallery.astro";
+import Detalles from "../../../components/Tours/Detalles.astro";
 
 interface Props {
   tour: any;
@@ -15,26 +15,26 @@ interface Props {
 const { slug } = Astro.params;
 const { altLangUrl } = Astro.props;
 
-const sidebar = await getSidebarTour();
+const sidebar = await getSidebarTour('en');
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const getTours = await getTourInfo();
+  const getTours = await getTourInfo('en');
 
   return getTours.map((tour: any) => {
-    const enSlug: string | null = tour.wpml_translations?.en?.slug ?? null;
+    const esSlug: string | null = tour.wpml_translations?.es?.slug ?? null;
     return {
       params: { slug: tour.slug },
-      props: { tour, altLangUrl: enSlug ? `/en/tour/${enSlug}` : null }
+      props: { tour, altLangUrl: esSlug ? `/tour/${esSlug}` : null }
     };
   });
 };
 
 if (!slug) {
-  throw new Error("Slug no esta definido");
+  throw new Error("Slug is not defined");
 }
 
-const getUrlTourInfo = await getInfoByTours(slug);
-const getByurl = getUrlTourInfo
+const getUrlTourInfo = await getInfoByTours(slug, 'en');
+const getByurl = getUrlTourInfo;
 
 const [contentTour] = getUrlTourInfo;
 
@@ -55,7 +55,7 @@ const wrapper = contentTour.content.rendered;
               <nav class="w-full xl:mb-2">
                 <ul class="list-none flex flex-wrap xl:flex-nowrap items-center gap-x-3">
                   <li>
-                    <a href="/" class="text-sm capitalize text-green font-medium hover:underline">
+                    <a href="/en/" class="text-sm capitalize text-green font-medium hover:underline">
                       <i class="fa-solid fa-house"></i> Explore Tours Peru
                     </a>
                   </li>
@@ -65,7 +65,7 @@ const wrapper = contentTour.content.rendered;
                   </li>
                   >
                   <li>
-                    <span class="text-sm capitalize text-black">Camino Inca a Machu Picchu 4 Days</span>
+                    <span class="text-sm capitalize text-black">{titlePage}</span>
                   </li>
                 </ul>
               </nav>
@@ -101,8 +101,8 @@ const wrapper = contentTour.content.rendered;
   </main>
   <section>
     <div class="container">
-      <h2 class="text-2xl font-semibold text-center capitalize">Tours Relacionados</h2>
-      <SliderHiking />
+      <h2 class="text-2xl font-semibold text-center capitalize">Related Tours</h2>
+      <SliderHiking lang="en" />
     </div>
   </section>
 </MainLayout>
@@ -110,7 +110,6 @@ const wrapper = contentTour.content.rendered;
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     // TABS START
-    
     document.querySelectorAll(".responsive-tabs").forEach((tabsContainer) => {
       const titles = tabsContainer.querySelectorAll(".tabtitle");
       const contents = tabsContainer.querySelectorAll(".tabcontent");
@@ -148,14 +147,11 @@ const wrapper = contentTour.content.rendered;
         });
       });
     });
-
     // TABS END
 
     // ACCORDION START
-
     var acc = document.getElementsByClassName("advgb-accordion-header");
     var i;
-
     for (i = 0; i < acc.length; i++) {
       acc[i].addEventListener("click", function () {
         this.classList.toggle("active");
@@ -167,7 +163,6 @@ const wrapper = contentTour.content.rendered;
         }
       });
     }
-
     // ACCORDION END
   });
 </script>
