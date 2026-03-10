@@ -42,7 +42,7 @@ const titlePage = contentTour.title.rendered;
 const wrapper = contentTour.content.rendered;
 ---
 
-<MainLayout altLangUrl={altLangUrl}>
+<MainLayout altLangUrl={altLangUrl} seo={contentTour?.yoast_head_json}>
   <main>
     <section>
       {getUrlTourInfo.map((tour: any) => <Gallery img={tour.acf.seccion_galleria} />)}

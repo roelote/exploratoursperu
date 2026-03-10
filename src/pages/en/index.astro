@@ -18,7 +18,7 @@ const data = getImgDetail?.map((url: any) => getImages(url.icon));
 const getUrls = await Promise.all(data || []);
 ---
 
-<MainLayout>
+<MainLayout seo={dataHome?.yoast_head_json}>
   <main>
     <section>
       <div class="w-full relative">
