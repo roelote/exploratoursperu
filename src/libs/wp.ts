@@ -1,5 +1,31 @@
 const domain = import.meta.env.WP_DOMAIN;
 
+/**
+ * Normaliza URLs de WordPress en una estructura de datos de cualquier profundidad.
+ * WordPress almacena las URLs con el dominio de instalación (puede ser local:
+ * http://web.exploratours/ etc.). Esta función reemplaza ese origen por el de
+ * WP_DOMAIN, garantizando que todas las imágenes funcionen en producción.
+ *
+ * Solo reemplaza URLs que contengan /wp-content/ o /wp-includes/ para ser preciso.
+ */
+const _wpOrigin = (domain.endsWith('/') ? domain.slice(0, -1) : domain);
+
+const normalizeUrls = <T>(data: T): T => {
+  if (!data) return data;
+  const str = JSON.stringify(data);
+  const fixed = str.replace(
+    /"(https?:\/\/[^"]+\/wp-(?:content|includes)\/[^"]*)"/g,
+    (_match, url: string) => '"' + url.replace(/^https?:\/\/[^/]+/, _wpOrigin) + '"'
+  );
+  return JSON.parse(fixed) as T;
+};
+
+/** Corrige el origen de una URL individual de WordPress */
+export const fixWpUrl = (url: string | null | undefined): string => {
+  if (!url) return '';
+  return url.replace(/^https?:\/\/[^/]+/, _wpOrigin);
+};
+
 const apiTour = `${domain}wp-json/wp/v2`;
 const apiPage = `${domain}wp-json/wp/v2`;
 const apiBlog = `${domain}wp-json/wp/v2`;
@@ -65,7 +91,7 @@ export const getInfoBlog = async (lang: string = 'es') => {
 
     const [data] = await response.json();
 
-    return data ?? null;
+    return normalizeUrls(data ?? null);
 
   } catch (error) {
     return null;
@@ -82,7 +108,7 @@ export const getPosts = async (lang: string = 'es') => {
 
     const data = await response.json();
 
-    return data ?? []; 
+    return normalizeUrls(data ?? []);
   } catch (error) {
     console.error(error);
     return [];
@@ -98,7 +124,7 @@ export const getInfoPageHome = async (lang: string = 'es') => {
 
     const [data] = await response.json();
 
-    return data ?? null;
+    return normalizeUrls(data ?? null);
 
   } catch (error) {
     return null;
@@ -139,7 +165,7 @@ export const getTourInfo = async (lang: string = 'es') => {
     throw new Error("No se pudo conectar a la API de los tours");
   }
 
-  return await response.json();
+  return normalizeUrls(await response.json());
 };
 
 
@@ -189,9 +215,7 @@ export const getLogo = async (logo: number) => {
 
     const data = await response.json();
 
-    const logoURL = data.guid.rendered;
-
-    return logoURL;
+    return fixWpUrl(data.guid.rendered);
   } catch (error) {
     return null;
   }
@@ -207,9 +231,9 @@ export const getImages = async (logo: number) => {
 
     const data = await response.json();
     return {
-      url : data.guid.rendered,
+      url: fixWpUrl(data.guid.rendered),
       title: data.title.rendered
-    }
+    };
   } catch (error) {
     return null;
   }
@@ -221,7 +245,5 @@ export const getInfoByTours = async (url: any, lang: string = 'es') => {
 
   if (!response.ok) throw new Error(`Error al obtener datos del tour (${url})`);
 
-  const data = await response.json();
-
-  return data;
+  return normalizeUrls(await response.json());
 };
