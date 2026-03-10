@@ -1,0 +1,94 @@
+---
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+const { data } = Astro.props;
+---
+
+<div class="my-10">
+  <div class="swiper mySwiperFulldays">
+    <div class="swiper-wrapper py-5">
+      {
+        data.map((c: any) => (
+          <div class="swiper-slide">
+            <div class="w-full h-full p-5 border border-neutral-200 rounded-[20px]">
+              <div class="flex flex-col gap-0">
+                <div>
+                  <a href={"/tour/" + c.slug}>
+                    <img decoding="async" loading="lazy" class="w-full h-[350px] object-cover object-center rounded-[20px]" src={c.featured_img} alt="" />
+                  </a>
+                </div>
+                <div class="w-full">
+                  <div class="pt-5">
+                    <h3 class="line-clamp-1">{c.title.rendered}</h3>
+                  </div>
+                  <div class="flex items-center justify-between gap-2 py-2">
+                    <div>
+                      <p class="capitalize mb-0!">
+                        <i class="fa-solid fa-location-dot" /> Cusco, Perú
+                      </p>
+                    </div>
+                    <div>
+                      <i class="fa-solid fa-star text-nowrap" style="color: rgb(243, 181, 0);" />
+                      <i class="fa-solid fa-star text-nowrap" style="color: rgb(243, 181, 0);" />
+                      <i class="fa-solid fa-star text-nowrap" style="color: rgb(243, 181, 0);" />
+                      <i class="fa-solid fa-star text-nowrap" style="color: rgb(243, 181, 0);" />
+                      <i class="fa-solid fa-star text-nowrap" style="color: rgb(243, 181, 0);" />
+                    </div>
+                  </div>
+                  <div class="flex items-center justify-between gap-2 py-2">
+                    <div>
+                      <p class="text-sm uppercase font-medium text-gray mb-0!"><span class="font-bold text-xl text-black">$ 549</span> / person</p>
+                    </div>
+                    <div>
+                      <a href={"/tour/" + c.slug} class="inline-block bg-green text-nowrap py-2 px-7 rounded-lg text-white font-medium hover:bg-yellow hover:text-black transition-colors text-base">
+                        Ver Tour <i class="fa-solid fa-arrow-right-long" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+    <div class="swiper-button-prev bg-white/50 hover:bg-white transition-colors rounded-full text-black! p-3 shadow-lg"></div>
+    <div class="swiper-button-next bg-white/50 hover:bg-white transition-colors rounded-full text-black! p-3 shadow-lg"></div>
+  </div>
+</div>
+
+<script>
+  import Swiper from "swiper";
+  import { Navigation, Pagination } from "swiper/modules";
+
+  new Swiper(".mySwiperFulldays", {
+    modules: [Navigation],
+    loop: true,
+    slidesPerView: 4,
+    spaceBetween: 10,
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    breakpoints: {
+      320: {
+        slidesPerView: 1,
+      },
+      640: {
+        slidesPerView: 1,
+      },
+      1024: {
+        slidesPerView: 2,
+      },
+      1280: {
+        slidesPerView: 4,
+      },
+    },
+  });
+</script>

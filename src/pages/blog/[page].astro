@@ -1,0 +1,251 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import { getInfoBlog, getPosts, getSidebarBlog } from "../../libs/wp";
+
+export async function getStaticPaths() {
+  const allPosts = await getPosts();
+  const postsPerPage = 6;
+  const totalPages = Math.ceil(allPosts.length / postsPerPage);
+
+  return Array.from({ length: totalPages }, (_, i) => {
+    const pageNum = i + 1;
+    const start = i * postsPerPage;
+    const end = start + postsPerPage;
+
+    return {
+      params: { page: String(pageNum) },
+      props: { 
+        posts: allPosts.slice(start, end),
+        totalPages,
+        allPosts
+      },
+    };
+  });
+}
+
+const { page } = Astro.params;
+const { posts, totalPages, allPosts } = Astro.props;
+const currentPage = Number(page);
+
+
+const data = await getInfoBlog();
+const sidebar = await getSidebarBlog();
+const blogs = allPosts.slice(0, 5);
+
+function getDateFormatter(date: any) {
+  return new Date(date).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+function quitarHTML(str: any) {
+  return str.replace(/<[^>]*>?/gm, "");
+}
+---
+<MainLayout>
+  <main>
+    <section>
+      <div class="w-full h-[450px] overflow-hidden">
+        <div class="relative w-full h-full bg-cover bg-center after:content-[''] after:absolute after:inset-0 after:bg-black/50 after:w-full after:h-full flex items-center justify-center" style={`background-image: url(${data.featured_img ?? ""})`}>
+          <div class="relative z-20">
+            <h1 class="text-white text-4xl block text-center mb-3">{data.title.rendered}</h1>
+            <div class="flex items-center justify-center gap-2">
+              <div>
+                <a href="/" class="inline-block text-white text-base">Home</a>
+              </div>
+              <div>
+                <span class="size-2 bg-yellow block rounded-full"></span>
+              </div>
+              <div>
+                <span class="text-yellow text-base">{data.title.rendered}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="container">
+        <div class="my-16">
+          <div class="flex items-start flex-col xl:flex-row justify-between gap-10">
+            <div class="w-full">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                {
+                  posts.length > 0 ? (
+                    posts.map((post: any) => (
+                      <div class="bg-white w-full shadow hover:shadow-2xl transition-shadow rounded-[20px] overflow-hidden group/img">
+                        <div class="flex flex-col">
+                          <div class="w-full h-full">
+                            <a href={post.slug} class="inline-block overflow-hidden w-full">
+                              <img decoding="async" fetchpriority="high" loading="eager" class="w-full h-[300px] object-cover object-center group-hover/img:scale-110 transition-transform" src={post.featured_image.full} alt="" />
+                            </a>
+                          </div>
+                          <div class="w-full p-5 lg:p-7">
+                            <div class="w-full flex items-center justify-between gap-5 mb-3">
+                              <div>
+                                <p class="flex items-center gap-1 mb-0!">
+                                  <i class="fa-solid fa-hourglass-end" /> <span class="text-sm">{post.reading_time.minutes} min read</span>
+                                </p>
+                              </div>
+                              <div>
+                                <p class="flex items-center gap-1 mb-0!">
+                                  <i class="fa-solid fa-user" /> <span class="text-sm">Explora Tours</span>
+                                </p>
+                              </div>
+                            </div>
+                            <h2 class="line-clamp-2 text-lg! lg:text-2xl!">{post.title.rendered}</h2>
+                            <p class="text-start line-clamp-2">{quitarHTML(post.content.rendered)}</p>
+                            <hr class="my-5!" />
+                            <div class="flex items-end justify-between">
+                              <div>
+                                <p class="flex items-center gap-1 mb-0!">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-month">
+                                    <>
+                                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                      <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+                                      <path d="M16 3v4" />
+                                      <path d="M8 3v4" />
+                                      <path d="M4 11h16" />
+                                      <path d="M8 14v4" />
+                                      <path d="M12 14v4" />
+                                      <path d="M16 14v4" />
+                                    </>
+                                  </svg>
+                                  <span class="text-sm">{getDateFormatter(post.date)}</span>
+                                </p>
+                              </div>
+                              <div>
+                                <a href={post.slug} class="inline-block group bg-green py-3 px-7 text-center capitalize font-medium rounded-lg hover:text-black hover:bg-yellow text-white transition-colors">
+                                  Read More <i class="fa-solid fa-arrow-right-long text-white group-hover:text-black transition-colors" />
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div>
+                      <p class="text-start block">No hay nuevos posts en este momento. Regresa al inicio y descubre increíbles tours esperándote.</p>
+                      <a href="/" class="group/btn w-max inline-block group bg-green py-3 px-7 text-center capitalize font-medium rounded-lg hover:text-black hover:bg-yellow text-white transition-colors">
+                        <i class="fa-solid fa-arrow-left  text-white group-hover/btn:text-black transition-colors" /> Read More
+                      </a>
+                    </div>
+                  )
+                }
+              </div>
+
+              <div>
+                <div>
+                  {
+                    totalPages > 1 && (
+                      <div class="flex items-center justify-center gap-2 mt-12">
+                        {currentPage > 1 && (
+                          <a href={`${currentPage - 1 === 1 ? "/blog/" : `/blog/${currentPage - 1}` }`} 
+                          class="size-5 text-gray-600 hover:text-black">
+                            <i class="fa-solid fa-angle-left" />
+                          </a>
+                        )}
+
+                        {currentPage > 2 && (
+                          <>
+                            {currentPage === 1 ? (
+                              <span class="px-4 py-2 rounded bg-blue text-white cursor-default">1</span>
+                            ) : (
+                              <a href="/blog/" class="px-4 py-2 rounded hover:bg-gray-100">
+                                1
+                              </a>
+                            )}
+
+                            {currentPage > 3 && <span class="px-2">...</span>}
+                          </>
+                        )}
+
+                        {Array.from({ length: 3 }).map((_, i) => {
+                          const page = currentPage - 1 + i;
+
+                          if (page < 1 || page > totalPages) return null;
+
+                          if (page === currentPage) {
+                            return <span class="px-4 py-2 rounded bg-blue text-white cursor-default">{page}</span>;
+                          }
+
+                          return (
+                            <a href={page === 1 ? "/blog/" : `/blog/${page}`} class="px-4 py-2 rounded hover:bg-gray-100">
+                              {page}
+                            </a>
+                          );
+                        })}
+
+                        {currentPage < totalPages - 1 && (
+                          <>
+                            {currentPage < totalPages - 2 && <span class="px-2">...</span>}
+
+                            {currentPage === totalPages ? (
+                              <span class="px-4 py-2 rounded bg-blue text-white cursor-default">{totalPages}</span>
+                            ) : (
+                              <a href={`/blog/${totalPages}`} class="px-4 py-2 rounded hover:bg-gray-100">
+                                {totalPages}
+                              </a>
+                            )}
+                          </>
+                        )}
+
+                        {currentPage < totalPages && (
+                          <a href={`/blog/${currentPage + 1}`} class="px-3 py-2 text-gray-600 hover:text-black">
+                            <i class="fa-solid fa-angle-right" />
+                          </a>
+                        )}
+                      </div>
+                    )
+                  }
+                </div>
+              </div>
+            </div>
+            <div class="w-full lg:w-1/3 sticky top-2 right-0">
+              <div class="w-full shadow-[0px_0px_30px_0px_rgba(0,0,0,0.1)] p-5 rounded-[20px] overflow-hidden">
+                <p set:html={sidebar.content} />
+                <h3 class="text-lg md:text-2xl text-start font-semibold mb-3">Entradas recientes</h3>
+                <div class="flex flex-col gap-3">
+                  {
+                    posts.length > 0
+                      ? blogs.map((last: any) => (
+                          <div>
+                            <div class="flex items-center justify-between gap-2">
+                              <div class="w-[80px] min-w-[80px] h-[80px] ">
+                                <img decoding="async" fetchpriority="high" class="w-full h-full object-cover object-center rounded-lg" src={last.featured_image.thumbnail} alt="" />
+                              </div>
+                              <div class="w-full">
+                                <p class="text-base! mb-0! font-semibold line-clamp-2">{last.title.rendered}</p>
+                                <p class="text-sm mb-0! flex items-center gap-1">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-month">
+                                    <>
+                                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                      <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+                                      <path d="M16 3v4" />
+                                      <path d="M8 3v4" />
+                                      <path d="M4 11h16" />
+                                      <path d="M8 14v4" />
+                                      <path d="M12 14v4" />
+                                      <path d="M16 14v4" />
+                                    </>
+                                  </svg>{" "}
+                                  {getDateFormatter(last.date)}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      : "No hay nuevas entradas..."
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</MainLayout>

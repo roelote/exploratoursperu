@@ -1,0 +1,19 @@
+{
+  "name": "website",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@fancyapps/ui": "^6.1.13",
+    "@fortawesome/fontawesome-free": "^7.2.0",
+    "@tailwindcss/vite": "^4.2.0",
+    "astro": "^5.18.0",
+    "swiper": "^12.1.2",
+    "tailwindcss": "^4.2.0"
+  }
+}

@@ -1,0 +1,220 @@
+---
+import { getHeaderInfo, getLogoInfo, getInfoHeader } from "../libs/wp";
+import RedesSociales from "./RedesSociales.astro";
+
+const headerinfo = await getHeaderInfo();
+
+const getHeader = await getInfoHeader();
+const header = getHeader.header || null;
+
+const links = header.link || [];
+const texts = header.text || [];
+
+const getLogo = await getLogoInfo();
+
+interface MenuItem {
+  name: string;
+  href: string;
+  children?: MenuItem[];
+}
+---
+
+<header>
+  <div class="container mx-auto">
+    <div class="flex items-center justify-between py-3">
+      <div>
+        <a href="/" class="inline-block">
+          <img decoding="async" src={getLogo} draggable="false" alt="Logo" class="w-full h-15 object-contain object-center" />
+        </a>
+      </div>
+
+      <div class="hidden lg:block">
+        <div class="flex flex-col gap-2">
+          <div class="flex gap-3">
+            {
+              links.map((c: any) => (
+                <div>
+                  <a href={c.url} class="hover:text-green text-[13px] flex items-center flex-row flex-nowrap gap-1">
+                    <img decoding="async" class="size-5" src={c.img.url} alt="" />
+                    <span class="font-medium"> {c.text_bold}</span>
+                    <span class="font-light">{c.text}</span>
+                  </a>
+                </div>
+              ))
+            }
+            <span class="text-gray-400">|</span>
+            {
+              texts.map((p: any, index: number) => (
+                <>
+                  <a href={p.url.url} title={p.url.title} class="hover:text-green text-[13px]">
+                    {p.text}
+                  </a>
+                  {index < header.text.length - 1 && <span class="text-gray-400">|</span>}
+                </>
+              ))
+            }
+          </div>
+          <div class="flex items-center justify-end gap-5">
+            <RedesSociales />
+            <a href="#" class="inline-block bg-green py-2 px-7 rounded-lg text-white font-medium hover:bg-yellow hover:text-black transition-colors text-base"><i class="fa-solid fa-phone"></i> Contact Us</a>
+            <button type="button" class="bg-gray-100 rounded-full size-10 flex items-center justify-center cursor-pointer">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="block lg:hidden">
+        <button id="menuToggle" type="button" class="cursor-pointer py-5 pl-5">
+          <i class="fa-solid fa-bars text-2xl"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <nav class="hidden lg:block bg-[#F5F5F5]">
+    <ul class="flex justify-center gap-6">
+      {
+        headerinfo?.map((menu: any) => {
+          const hasChildren = menu.children && menu.children.length > 0;
+
+          return (
+            <li class="relative group">
+              <a href={menu.href} class="py-4 px-2 inline-flex items-center gap-1 uppercase font-medium hover:text-green">
+                {menu.name}
+
+                {hasChildren && <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300 group-hover:rotate-180" />}
+              </a>
+
+              {hasChildren && (
+                <ul class="absolute left-0 top-full mt-0 w-max bg-white shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                  {menu.children.map((child: any) => (
+                    <li>
+                      <a href={child.href} class="block px-4 py-3 text-sm hover:bg-neutral-100 hover:text-green transition-colors border-b border-neutral-200">
+                        {child.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          );
+        })
+      }
+    </ul>
+  </nav>
+
+  <div id="mobileOverlay" class="fixed inset-0 bg-black/50 opacity-0 invisible transition-all duration-300 lg:hidden"></div>
+
+  <div id="mobileMenu" class="fixed top-0 right-0 h-full w-full max-w-full bg-white shadow-xl transform translate-x-full transition-transform duration-300 lg:hidden flex flex-col z-50">
+    <div class="flex items-center justify-between px-5 py-4 border-b border-neutral-200">
+      <a href="/" class="inline-block">
+        <img decoding="async" src={getLogo} alt="Logo" class="w-full h-15" loading="lazy" />
+      </a>
+
+      <button id="menuClose" class="text-2xl cursor-pointer">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="overflow-y-auto flex-1">
+      <ul class="flex flex-col">
+        {
+          headerinfo?.map((menu: MenuItem, index: number) => {
+            const hasChildren = menu.children && menu.children.length > 0;
+
+            return (
+              <li class="border-b border-neutral-200">
+                {hasChildren ? (
+                  <>
+                    <button type="button" class="w-full flex justify-between items-center px-5 py-4 font-medium" data-accordion={`accordion-${index}`}>
+                      {menu.name}
+                      <i class="fa-solid fa-chevron-down text-sm transition-transform duration-300" />
+                    </button>
+
+                    <ul id={`accordion-${index}`} class="max-h-0 overflow-hidden transition-all duration-300 bg-neutral-50">
+                      {menu.children?.map((child: MenuItem) => (
+                        <li class="border-b border-neutral-200">
+                          <a href={child.href} class="block px-8 py-3 text-sm hover:text-green">
+                            {child.name}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                ) : (
+                  <a href={menu.href} class="block px-5 py-4 font-medium">
+                    {menu.name}
+                  </a>
+                )}
+              </li>
+            );
+          })
+        }
+      </ul>
+      <div class="py-10 px-5">
+        <div class="flex items-center justify-center gap-5">
+          <div class="w-full">
+            <a href="tel:+51987654321" class="font-medium inline-block bg-red py-3 w-full text-white text-center rounded-lg text-base"><i class="fa-solid fa-phone"></i> +51 987 654 321</a>
+          </div>
+          <div class="w-full">
+            <a href="tel:+51987654321" class="font-medium inline-block bg-wasap py-3 w-full text-white text-center rounded-lg text-base"><i class="fa-brands fa-whatsapp"></i> +51 987 654 321</a>
+          </div>
+        </div>
+        <!-- <hr class="my-5 text-gray-icon"> -->
+        <div class="my-5 text-center">
+          <a href="" class="uppercase text-white bg-blue py-3 px-7 inline-block rounded-lg font-medium"><i class="fa-solid fa-envelope"></i> Plan Your Trip</a>
+        </div>
+        <RedesSociales />
+        <hr class="my-5 text-gray-icon" />
+        <div class="w-full">
+          <p class="text-gray-icon font-sm">© 2026 Explora Peru Tours. Todos los derechos reservados.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  const menuToggle = document.getElementById("menuToggle");
+  const mobileMenu = document.getElementById("mobileMenu");
+  const mobileOverlay = document.getElementById("mobileOverlay");
+  const menuClose = document.getElementById("menuClose");
+
+  function openMenu() {
+    mobileMenu?.classList.remove("translate-x-full");
+    mobileOverlay?.classList.remove("opacity-0", "invisible");
+    document.body.classList.add("overflow-hidden");
+  }
+
+  function closeMenu() {
+    mobileMenu?.classList.add("translate-x-full");
+    mobileOverlay?.classList.add("opacity-0", "invisible");
+    document.body.classList.remove("overflow-hidden");
+  }
+
+  menuToggle?.addEventListener("click", openMenu);
+  menuClose?.addEventListener("click", closeMenu);
+  mobileOverlay?.addEventListener("click", closeMenu);
+
+  const accordionButtons = document.querySelectorAll("[data-accordion]");
+
+  accordionButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const targetId = btn.getAttribute("data-accordion");
+      if (!targetId) return;
+      const content = document.getElementById(targetId);
+
+      if (content?.classList.contains("max-h-0")) {
+        content.classList.remove("max-h-0");
+        content.classList.add("max-h-96");
+      } else {
+        content?.classList.add("max-h-0");
+        content?.classList.remove("max-h-96");
+      }
+
+      const icon = btn.querySelector("i");
+      icon?.classList.toggle("rotate-180");
+    });
+  });
+</script>

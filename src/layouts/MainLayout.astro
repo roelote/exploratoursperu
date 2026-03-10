@@ -1,0 +1,30 @@
+---
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import "../styles/global.css";
+
+import "@fortawesome/fontawesome-free/css/all.min.css";
+export const phone = []
+
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Astro</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@26.7.6/build/css/intlTelInput.css" />
+  </head>
+  <body>
+    <Header />
+    <slot />
+    <Footer />
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@26.7.6/build/js/intlTelInput.min.js" defer></script>
+    <script type="module">
+      const input = document.querySelector("#phone");
+      window.intlTelInput(input, {
+        loadUtils: () => import("https://cdn.jsdelivr.net/npm/intl-tel-input@26.7.6/build/js/utils.js"),
+      });
+    </script>
+  </body>
+</html>
