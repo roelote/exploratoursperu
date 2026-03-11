@@ -1,0 +1,115 @@
+---
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+const { data } = Astro.props;
+---
+
+<div class="container my-20">
+  <div class="flex items-center flex-col justify-center lg:flex-row lg:justify-between gap-5 lg:gap-5 mb-5 lg:mb-0">
+    <div class="grow w-full lg:w-125">
+      <h3 class="text-center lg:text-start text-red text-lg normal-case"><i class="fa-solid fa-person-hiking"></i> Machu Picchu Tours</h3>
+      <h2 class="text-3xl text-center lg:text-start font-semibold tracking-wide mb-3">Caminatas más populares a Machu Picchu</h2>
+      <p class="text-center lg:text-start mb-0! text-pretty">Descubre las rutas más emocionantes para explorar el majestuoso Machu Picchu.</p>
+    </div>
+    <div class="grow w-full lg:w-125 text-center lg:text-end">
+      <a href="#" class="inline-block bg-yellow text-nowrap py-3 px-7 rounded-lg hover:text-white font-medium hover: hover:bg-green text-black transition-colors text-base">
+        Ver más <i class="fa-solid fa-arrow-right-long"></i>
+      </a>
+    </div>
+  </div>
+  <div class="swiper mySwiperMachupicchu">
+    <div class="swiper-wrapper py-5">
+      {
+        data.map((c: any) => (
+          <div class="swiper-slide">
+            <div class="overflow-hidden rounded-t-2xl group">
+              <div class="w-full h-full flex items-center flex-col">
+                <div class="w-full h-125 relative">
+                  <a href="#" class="inline-block w-full h-full">
+                    <img decoding="async" loading="lazy" src={c.featured_img} alt="" class="w-full h-full object-cover select-none" />
+                    <div class="absolute inset-0 bg-linear-to-t from-black/50 to-transparent rounded-2xl" />
+                  </a>
+                </div>
+                <div class="w-full px-5 py-7 select-none rounded-t-[30px] -translate-y-10 z-20 bg-white relative shadow-xl rounded-b-2xl group-hover:shadow-2xl transition-shadow border border-neutral-200">
+                  <div class="absolute -top-5 bg-white right-5 rounded-full p-2 shadow-lg">
+                    <div class="flex items-center gap-2">
+                      <div class="rounded-full flex items-center justify-center">
+                        <i class="fa-solid fa-star text-yellow" />
+                      </div>
+                      <div>
+                        <span class="text-sm text-gray">
+                          <span class="font-semibold text-black">4.9</span> (1.2k Reviews)
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <h2 class="text-2xl font-semibold tracking-wide mb-3" set:html={c.title.rendered} />
+                  <div class="flex gap-5 items-center">
+                    <div class="flex items-center gap-2">
+                      <i class="fa-solid fa-clock text-gray-icon" />
+                      <span class="text-gray-bold capitalize">{c.acf.detalles_tour.detalles[0].descripcion}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <i class="fa-solid fa-location-dot text-gray-icon" />
+                      <span class="text-gray-bold">Inca Trail</span>
+                    </div>
+                  </div>
+                  <div class="flex items-end justify-between mt-3">
+                    <div>
+                      <p class="text-sm uppercase font-medium text-gray mb-0!">
+                        <span class="font-bold text-3xl text-black">$ 549</span> / person
+                      </p>
+                    </div>
+                    <div>
+                      <a href={`/tour/${c.slug}`} class="inline-block bg-green text-nowrap py-2 px-7 rounded-lg text-white font-medium hover:bg-yellow hover:text-black transition-colors text-base">
+                        Ver Tour <i class="fa-solid fa-arrow-right-long" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+    <div class="swiper-button-prev bg-white/50 hover:bg-white transition-colors rounded-full text-black! p-3 shadow-lg"></div>
+    <div class="swiper-button-next bg-white/50 hover:bg-white transition-colors rounded-full text-black! p-3 shadow-lg"></div>
+  </div>
+</div>
+
+<script>
+  import Swiper from "swiper";
+  import { Navigation, Pagination } from "swiper/modules";
+
+  new Swiper(".mySwiperMachupicchu", {
+    modules: [Navigation],
+    loop: true,
+    slidesPerView: 3,
+    spaceBetween: 10,
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    breakpoints: {
+      320: {
+        slidesPerView: 1,
+      },
+      640: {
+        slidesPerView: 1,
+      },
+      1024: {
+        slidesPerView: 2,
+      },
+      1280: {
+        slidesPerView: 3,
+      },
+    },
+  });
+</script>

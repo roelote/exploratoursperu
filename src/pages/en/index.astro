@@ -8,7 +8,7 @@ const dataHome = await getInfoPageHome('en');
 
 const category = await getTourInfo('en');
 
-const getDataCategory = category.filter((category: any) => category.tour_category == 7);
+const getDataCategory = category.filter((category: any) => category.peru == 13);
 
 const acfs = dataHome?.acf.seccion_detalles ?? [];
 const getImgDetail = acfs.detalles_empresa;

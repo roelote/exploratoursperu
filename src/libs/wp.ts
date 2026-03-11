@@ -30,7 +30,6 @@ const apiTour = `${domain}wp-json/wp/v2`;
 const apiPage = `${domain}wp-json/wp/v2`;
 const apiBlog = `${domain}wp-json/wp/v2`;
 const apiPosts  = `${domain}wp-json/wp/v2`;
-// const apiPostsCategoy  = `${domain}wp-json/wp/v2/tour_category`;
 const apiHeader = `${domain}wp-json/theme/v1`;
 const apiNav  = `${domain}wp-json/wp/v2`;
 const idLogo  = `${domain}wp-json/custom/v1`;

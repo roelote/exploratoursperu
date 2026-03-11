@@ -23,6 +23,7 @@
   --color-parragraph: #6e6e6e;
   --color-wasap: #25d366;
   --color-heading: #111827;
+  --color-tripadvisor: #00AF87;
 }
 
 @layer base {
@@ -54,6 +55,7 @@
   --color-gray-bold: #64748b;
   --color-gray-icon: #d6d7d8;
   --color-parragraph: #6e6e6e;
+  --color-tripadvisor: #00AF87;
 }
 
 @media (width >= 96rem) {
@@ -73,7 +75,7 @@ p {
   margin-bottom: 1.25rem;
 }
 
-img{
+img {
   pointer-events: none;
 }
 
@@ -85,9 +87,28 @@ img{
 
 .wrapper-home-page h2 {
   font-size: 27px;
-  font-weight: bold;
+  font-weight: 600;
   letter-spacing: 0.025rem;
   color: var(--black);
+}
+
+@media (max-width: 1280px) {
+  .wrapper-home-page h2 {
+    text-align: center;
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 700px) {
+  .wrapper-home-page h2 {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 700px) {
+  .wrapper-home-page h1 {
+    font-size: 25px;
+  }
 }
 
 .has-text-align-center {
@@ -429,6 +450,29 @@ img{
 
 /* HOME PAGE */
 
+.wrapper-home-page .wp-block-column .is-vertically-aligned-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper-home-page .wp-block-columns {
+  display: flex;
+  align-items: normal;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.wrapper-home-page .wp-block-columns .wp-block-column {
+  flex-grow: 1;
+  width: 500px;
+}
+
+.wrapper-home-page .wp-block-column img {
+  border-radius: 20px;
+}
+
 .wrapper-home-page .wp-block-gallery {
   display: flex;
   align-items: center;
@@ -528,20 +572,19 @@ img{
 
 /* BLOGS */
 
-.wrapper-post a{
+.wrapper-post a {
   color: var(--color-yellow);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s ease;
 }
 
-.wrapper-post a:hover{
+.wrapper-post a:hover {
   color: var(--color-green);
   text-decoration: underline;
 }
 
 /* BLOG GALLERIA */
-
 
 .wrapper-post .wp-block-gallery {
   display: flex;
@@ -568,57 +611,55 @@ img{
 }
 
 /* BLOG LISTA */
-.wrapper-post ul{
+.wrapper-post ul {
   list-style-type: square;
   margin: 1.25rem 2.5rem;
 }
 
-.wrapper-post ul li{
-  margin: .5em 0;
+.wrapper-post ul li {
+  margin: 0.5em 0;
   color: var(--color-parragraph);
 }
 
 @media (max-width: 700px) {
-  .wrapper-post ul{
+  .wrapper-post ul {
     margin-left: 1.5rem;
   }
 }
 
 .wrapper-post .wp-block-gallery .wp-block-image {
-    position: relative;
-    margin-bottom: 0;
+  position: relative;
+  margin-bottom: 0;
 }
 
 .wrapper-post .wp-block-image .wp-element-caption {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    
-    background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, transparent 100%);
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    color: #fff;
-    font-size: 13px;
-    line-height: 1.4;
-    padding: 20px 10px 10px 10px;
-    margin: 0;
-    text-align: center;
-    
-    max-height: 40%;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 70%, transparent 100%);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  color: #fff;
+  font-size: 13px;
+  line-height: 1.4;
+  padding: 20px 10px 10px 10px;
+  margin: 0;
+  text-align: center;
+
+  max-height: 40%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .wrapper-post .wp-block-image:hover .wp-element-caption {
-    opacity: 0;
-    transition: opacity 0.3s ease;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .wrapper-post .wp-block-image .wp-element-caption {
-    opacity: 1;
+  opacity: 1;
 }
-
-
 
 /* ------------------ */

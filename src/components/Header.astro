@@ -9,15 +9,12 @@ interface Props {
 
 const { altLangUrl } = Astro.props;
 
-const lang = Astro.currentLocale ?? 'es';
-const isEn = lang === 'en';
-const homeHref = isEn ? '/en/' : '/';
+const lang = Astro.currentLocale ?? "es";
+const isEn = lang === "en";
+const homeHref = isEn ? "/en/" : "/";
 // null explícito = sin traducción disponible → no mostrar bandera
-const altLangHref: string | null =
-  altLangUrl === null
-    ? null
-    : (altLangUrl ?? (isEn ? '/' : '/en/'));
-const altLangLabel = isEn ? 'ES' : 'EN';
+const altLangHref: string | null = altLangUrl === null ? null : (altLangUrl ?? (isEn ? "/" : "/en/"));
+const altLangLabel = isEn ? "ES" : "EN";
 
 const headerinfo = await getHeaderInfo(lang);
 
@@ -38,10 +35,10 @@ interface MenuItem {
 
 <header>
   <div class="container mx-auto">
-    <div class="flex items-center justify-between py-3">
-      <div>
+    <div class="w-full h-[85px] flex items-center justify-between py-3">
+      <div class="flex items-center justify-center">
         <a href={homeHref} class="inline-block">
-          <img decoding="async" src={getLogo} draggable="false" alt="Logo" class="w-full h-15 object-contain object-center" />
+          <img decoding="async" src={getLogo} draggable="false" alt="Logo" class="w-full h-[95px] object-cover object-center" />
         </a>
       </div>
 
@@ -70,32 +67,29 @@ interface MenuItem {
                 </>
               ))
             }
-|
-              {altLangHref !== null && (
-              <div class="flex items-center justify-end gap-2">
-                <a href={altLangHref} title={altLangLabel} class="flex items-center gap-1.5 px-2 py-1 rounded-lg hover:bg-gray-100 transition-colors text-sm font-medium text-gray-700">
-                  {isEn ? (
-                    <>
-                      <img src="https://flagcdn.com/es.svg" alt="Español" class="h-4 w-6 object-cover rounded-sm shadow-sm" />
-                    </>
-                  ) : (
-                    <>
-                      <img src="https://flagcdn.com/gb.svg" alt="English" class="h-4 w-6 object-cover rounded-sm shadow-sm" />
-                    </>
-                  )}
-                </a>
-              </div>
-              )}
-
+            <span class="text-gray-400">|</span>
+            {
+              altLangHref !== null && (
+                <div class="flex items-center justify-end gap-2">
+                  <a href={altLangHref} title={altLangLabel} class="flex items-center gap-1.5 px-2 py-1 rounded-lg hover:bg-gray-100 transition-colors text-sm font-medium text-gray-700">
+                    {isEn ? (
+                      <>
+                        <img src="https://flagcdn.com/es.svg" alt="Español" class="h-4 w-6 object-cover rounded-sm shadow-sm" />
+                      </>
+                    ) : (
+                      <>
+                        <img src="https://flagcdn.com/gb.svg" alt="English" class="h-4 w-6 object-cover rounded-sm shadow-sm" />
+                      </>
+                    )}
+                  </a>
+                </div>
+              )
+            }
           </div>
 
-        
           <div class="flex items-center justify-end gap-5">
             <RedesSociales />
             <a href="#" class="inline-block bg-green py-2 px-7 rounded-lg text-white font-medium hover:bg-yellow hover:text-black transition-colors text-base"><i class="fa-solid fa-phone"></i> Contact Us</a>
-            <button type="button" class="bg-gray-100 rounded-full size-10 flex items-center justify-center cursor-pointer">
-              <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
           </div>
         </div>
       </div>
@@ -116,7 +110,7 @@ interface MenuItem {
 
           return (
             <li class="relative group">
-              <a href={menu.href} class="py-4 px-2 inline-flex items-center gap-1 uppercase font-medium hover:text-green">
+              <a href={menu.href} class="py-4 px-2 inline-flex items-center gap-1 uppercase font-medium hover:text-green cursor-pointer">
                 {menu.name}
 
                 {hasChildren && <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300 group-hover:rotate-180" />}
@@ -126,9 +120,7 @@ interface MenuItem {
                 <ul class="absolute left-0 top-full mt-0 w-max bg-white shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
                   {menu.children.map((child: any) => (
                     <li>
-                      <a href={child.href} class="block px-4 py-3 text-sm hover:bg-neutral-100 hover:text-green transition-colors border-b border-neutral-200">
-                        {child.name}
-                      </a>
+                      <a href={child.href} class="block px-4 py-3 text-sm hover:bg-neutral-100 hover:text-green transition-colors border-b border-neutral-200" set:html={child.name} />
                     </li>
                   ))}
                 </ul>
@@ -203,21 +195,23 @@ interface MenuItem {
         </div>
         <RedesSociales />
         <hr class="my-5 text-gray-icon" />
-        {altLangHref !== null && (
-          <a href={altLangHref} class="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors w-max">
-            {isEn ? (
-              <>
-                <img src="https://flagcdn.com/es.svg" alt="Español" class="h-4 w-6 object-cover rounded-sm shadow-sm" />
-                <span class="text-sm font-medium">Español</span>
-              </>
-            ) : (
-              <>
-                <img src="https://flagcdn.com/gb.svg" alt="English" class="h-4 w-6 object-cover rounded-sm shadow-sm" />
-                <span class="text-sm font-medium">English</span>
-              </>
-            )}
-          </a>
-        )}
+        {
+          altLangHref !== null && (
+            <a href={altLangHref} class="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors w-max">
+              {isEn ? (
+                <>
+                  <img src="https://flagcdn.com/es.svg" alt="Español" class="h-4 w-6 object-cover rounded-sm shadow-sm" />
+                  <span class="text-sm font-medium">Español</span>
+                </>
+              ) : (
+                <>
+                  <img src="https://flagcdn.com/gb.svg" alt="English" class="h-4 w-6 object-cover rounded-sm shadow-sm" />
+                  <span class="text-sm font-medium">English</span>
+                </>
+              )}
+            </a>
+          )
+        }
         <hr class="my-5 text-gray-icon" />
         <div class="w-full">
           <p class="text-gray-icon font-sm">© 2026 Explora Peru Tours. Todos los derechos reservados.</p>
@@ -226,7 +220,6 @@ interface MenuItem {
     </div>
   </div>
 </header>
-
 <script>
   const menuToggle = document.getElementById("menuToggle");
   const mobileMenu = document.getElementById("mobileMenu");
@@ -255,14 +248,14 @@ interface MenuItem {
     btn.addEventListener("click", () => {
       const targetId = btn.getAttribute("data-accordion");
       if (!targetId) return;
-      const content = document.getElementById(targetId);
 
-      if (content?.classList.contains("max-h-0")) {
-        content.classList.remove("max-h-0");
-        content.classList.add("max-h-96");
+      const content = document.getElementById(targetId);
+      if (!content) return;
+
+      if (content.style.maxHeight) {
+        content.style.maxHeight = null;
       } else {
-        content?.classList.add("max-h-0");
-        content?.classList.remove("max-h-96");
+        content.style.maxHeight = content.scrollHeight + "px";
       }
 
       const icon = btn.querySelector("i");
