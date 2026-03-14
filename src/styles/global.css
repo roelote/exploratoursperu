@@ -24,6 +24,7 @@
   --color-wasap: #25d366;
   --color-heading: #111827;
   --color-tripadvisor: #00AF87;
+  --radius-radio: 20px
 }
 
 @layer base {
@@ -663,3 +664,15 @@ img {
 }
 
 /* ------------------ */
+
+
+/* CATEGORIAS */
+
+.wp-block-categories-list .cat-item{
+  display: flex;
+  align-items: center; 
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #e5e5e5;
+  color: var(--color-parragraph);
+}

@@ -35,21 +35,22 @@ const apiNav  = `${domain}wp-json/wp/v2`;
 const idLogo  = `${domain}wp-json/custom/v1`;
 const apiLogo = `${domain}wp-json/wp/v2`;
 const sidebar = `${domain}wp-json/custom/v1`;
+const apiCategory = `${domain}wp-json/wp/v2`;
 
-// export const getCategoryFullDays = async () => {
-//   try {
-//     const response = await fetch(`${apiPostsCategoy}/7`);
+export const getInfoCategory = async (id:number) => {
+  try {
+    const response = await fetch(`${apiCategory}/peru/${id}`);
 
-//     if (!response.ok) throw new Error(`Error al obtener datos de la Pagina`);
+    if (!response.ok) throw new Error(`Error al obtener datos de la Pagina`);
 
-//     const data = await response.json();
+    const data = await response.json();
 
-//     return data ?? null;
+    return data ?? null;
 
-//   } catch (error) {
-//     return null;
-//   }
-// };
+  } catch (error) {
+    return null;
+  }
+};
 
 export const getInfoHeader = async () => {
   try {

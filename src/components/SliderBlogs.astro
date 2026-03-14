@@ -22,7 +22,7 @@ function quitarHTML(str: any) {
   <div class="container">
     <div class="flex items-center flex-col justify-center lg:flex-row lg:justify-between gap-5 lg:gap-5 mb-5 lg:mb-0">
       <div class="grow w-full lg:w-125">
-        <h3 class="text-center lg:text-start text-red text-lg normal-case"><i class="fa-solid fa-person-hiking"></i> Blog</h3>
+        <h3 class="text-center lg:text-start text-red text-lg normal-case"><i class="fa-brands fa-blogger-b"></i> Blog</h3>
         <h2 class="text-3xl text-center lg:text-start font-semibold tracking-wide mb-3">Últimos blogs</h2>
         <p class="text-center lg:text-start mb-0! text-pretty">Sumérgete en más historias, consejos de viaje y guías esenciales.</p>
       </div>
@@ -33,38 +33,23 @@ function quitarHTML(str: any) {
       </div>
     </div>
     <div class="swiper mySwiperBlogs">
-      <div class="swiper-wrapper py-5">
+      <div class="swiper-wrapper py-1">
         {
           posts.length > 0 ? (
             posts.map((post: any) => (
               <div class="swiper-slide">
-                <div class="bg-white w-full shadow hover:shadow-2xl transition-shadow rounded-[20px] overflow-hidden group/img">
+                <div class="bg-white w-full shadow hover:shadow-xl transition-all duration-300 rounded-radio hover:translate-y-[-10px] overflow-hidden group/img">
                   <div class="flex flex-col">
-                    <div class="w-full h-full">
-                      <a href={`/blog/${post.slug}`} class="inline-block overflow-hidden w-full">
-                        <img decoding="async" loading="lazy" class="w-full h-[300px] object-cover object-center group-hover/img:scale-110 transition-transform" src={post.featured_image.full} alt="" />
+                    <div class="w-full h-[300px]">
+                      <a href={`/blog/${post.slug}`} class="inline-block overflow-hidden w-full h-full">
+                        <img decoding="async" loading="lazy" class="w-full h-full object-cover object-center" src={post.featured_image.full} alt="" />
                       </a>
                     </div>
                     <div class="w-full p-5 lg:p-7">
-                      <div class="w-full flex items-center justify-start gap-2 mb-3">
-                        <div>
-                          <p class="flex items-center gap-1 mb-0!">
-                            <i class="fa-solid fa-hourglass-end" /> <span class="text-sm">{post.reading_time.minutes} min read</span>
-                          </p>
-                        </div>
-                        <div>
-                          <span class="size-2 bg-yellow block rounded-full" />
-                        </div>
-                        <div>
-                          <p class="flex items-center gap-1 mb-0!">
-                            <i class="fa-solid fa-user" /> <span class="text-sm">Explora Tours</span>
-                          </p>
-                        </div>
-                      </div>
                       <h2 class="line-clamp-2 text-lg! lg:text-2xl!">{post.title.rendered}</h2>
                       <p class="text-start line-clamp-2">{quitarHTML(post.content.rendered)}</p>
                       <hr class="my-5!" />
-                      <div class="flex items-end justify-between">
+                      <div class="flex items-center justify-between">
                         <div>
                           <p class="flex items-center gap-1 mb-0!">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-month">

@@ -3,12 +3,19 @@ import SliderHiking from "../../components/SliderHiking.astro";
 import SliderFullDays from "../../components/SliderFullDays.astro";
 import MainLayout from "../../layouts/MainLayout.astro";
 import { getInfoPageHome, getImages, getTourInfo } from "../../libs/wp";
+import SliderMachuPicchu from "../../components/SliderMachuPicchu.astro";
+import SliderBlogs from "../../components/SliderBlogs.astro";
+import SliderReviews from "../../components/SliderReviews.astro";
 
-const dataHome = await getInfoPageHome('en');
+const dataHome = await getInfoPageHome("en");
 
-const category = await getTourInfo('en');
+const category = await getTourInfo("en");
 
-const getDataCategory = category.filter((category: any) => category.peru == 13);
+const categoryFullday = category.filter((category: any) => category.peru == 13);
+
+const categoryMachupicchu = category.filter((category: any) => category.peru == 14);
+
+const categoryTreks = category.filter((category: any) => category.peru == 19);
 
 const acfs = dataHome?.acf.seccion_detalles ?? [];
 const getImgDetail = acfs.detalles_empresa;
@@ -63,57 +70,43 @@ const getUrls = await Promise.all(data || []);
       </div>
     </section>
     <section>
-      <div class="container">
-        <h2 class="text-3xl text-center font-bold tracking-wide mb-3">The Greatest Hiking Treks in Peru</h2>
-        <h3 class="text-2xl text-center font-medium tracking-wide mb-3">Enjoy the Best Treks and Hiking Adventures to Machu Picchu, The Lost City of the Incas</h3>
-        <p class="text-center">
-          Each of our tours is operated by our certified and experienced guides who will take you along the world-famous Trek to Machu Picchu via the Salkantay Trail and Inca Trail. Whether you travel with a small group of like-minded adventurers, or an intimate party of family and friends, our
-          full-time staff is on call around the clock, ready at any time to provide you with everything you need for the journey of a lifetime.
-        </p>
-        <SliderHiking lang="en" />
-      </div>
+      <SliderFullDays data={categoryFullday} />
     </section>
     <section>
-      <div class="w-full bg-gray-100 py-5 my-20">
+      <SliderMachuPicchu data={categoryMachupicchu} />
+    </section>
+    <section>
+      <SliderHiking data={categoryTreks} />
+    </section>
+    <section>
+      <div class="w-full bg-white py-10 my-20">
         <div class="container">
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-0">
             <div>
               <span class="block text-center font-bold text-4xl">5</span>
-              <p class="text-center font-semibold text-xl mb-0! capitalize mt-2">Years of Experience</p>
+              <p class="text-center font-semibold text-xl mb-0! capitalize mt-2">Años de experiencia</p>
             </div>
             <div>
               <span class="block text-center font-bold text-4xl">30</span>
-              <p class="text-center font-semibold text-xl mb-0! capitalize mt-2">Local Collaborators</p>
+              <p class="text-center font-semibold text-xl mb-0! capitalize mt-2">Localboradores Locales</p>
             </div>
             <div>
-              <span class="block text-center font-bold text-4xl">6,000 +</span>
-              <p class="text-center font-semibold text-xl mb-0! capitalize mt-2">Adventures Planned</p>
+              <span class="block text-center font-bold text-4xl">6,00 +</span>
+              <p class="text-center font-semibold text-xl mb-0! capitalize mt-2">Aventuras Planeadas</p>
             </div>
             <div>
-              <span class="block text-center font-bold text-4xl">70,000 +</span>
-              <p class="text-center font-semibold text-xl mb-0! capitalize mt-2">Satisfied Customers</p>
+              <span class="block text-center font-bold text-4xl">70, 000 +</span>
+              <p class="text-center font-semibold text-xl mb-0! capitalize mt-2">Clientes satisfechos</p>
             </div>
           </div>
         </div>
       </div>
     </section>
     <section>
-      <div class="container">
-        <div class="flex items-center justify-between gap-10">
-          <div class="grow w-125">
-            <h2 class="text-3xl text-start font-bold tracking-wide mb-3">The Greatest Hiking Treks in Peru</h2>
-            <p class="text-start mb-0!">
-              Discover the best full-day tours available in Peru.
-            </p>
-          </div>
-          <div class="grow w-125 text-end">
-            <a href="#" class="inline-block bg-yellow text-nowrap py-3 px-7 rounded-lg hover:text-white font-medium hover:bg-green text-black transition-colors text-base">
-              View More <i class="fa-solid fa-arrow-right-long"></i>
-            </a>
-          </div>
-        </div>
-        <SliderFullDays data={getDataCategory} />
-      </div>
+      <SliderBlogs />
+    </section>
+    <section>
+      <SliderReviews />
     </section>
   </main>
 </MainLayout>

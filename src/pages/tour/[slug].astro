@@ -6,6 +6,7 @@ import SliderHiking from "../../components/SliderHiking.astro";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
 import Gallery from "../../components/Tours/Gallery.astro";
 import Detalles from "../../components/Tours/Detalles.astro";
+import SliderToursRelacionados from "../../components/SliderToursRelacionados.astro";
 
 interface Props {
   tour: any;
@@ -102,7 +103,7 @@ const wrapper = contentTour.content.rendered;
   <section>
     <div class="container">
       <h2 class="text-2xl font-semibold text-center capitalize">Tours Relacionados</h2>
-      <SliderHiking />
+      <SliderToursRelacionados/>
     </div>
   </section>
 </MainLayout>

@@ -15,6 +15,8 @@ const categoryFullday = category.filter((category: any) => category.peru == 13);
 
 const categoryMachupicchu = category.filter((category: any) => category.peru == 14);
 
+const categoryTreks = category.filter((category: any) => category.peru == 19);
+
 const acfs = dataHome?.acf.seccion_detalles ?? [];
 const getImgDetail = acfs.detalles_empresa;
 
@@ -74,7 +76,7 @@ const getUrls = await Promise.all(data || []);
       <SliderMachuPicchu data={categoryMachupicchu} />
     </section>
     <section>
-      <SliderHiking />
+      <SliderHiking data={categoryTreks} />
     </section>
     <section>
       <div class="w-full bg-white py-10 my-20">
