@@ -2,7 +2,6 @@
 import type { GetStaticPaths } from "astro";
 import MainLayout from "../../layouts/MainLayout.astro";
 import { getTourInfo, getInfoByTours, getSidebarTour } from "../../libs/wp";
-import SliderHiking from "../../components/SliderHiking.astro";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
 import Gallery from "../../components/Tours/Gallery.astro";
 import Detalles from "../../components/Tours/Detalles.astro";
@@ -11,6 +10,7 @@ import SliderToursRelacionados from "../../components/SliderToursRelacionados.as
 interface Props {
   tour: any;
   altLangUrl: string | null;
+  gallery: any;
 }
 
 const { slug } = Astro.params;
@@ -25,7 +25,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     const enSlug: string | null = tour.wpml_translations?.en?.slug ?? null;
     return {
       params: { slug: tour.slug },
-      props: { tour, altLangUrl: enSlug ? `/en/tour/${enSlug}` : null }
+      props: { tour, altLangUrl: enSlug ? `/en/tour/${enSlug}` : null },
     };
   });
 };
@@ -35,7 +35,7 @@ if (!slug) {
 }
 
 const getUrlTourInfo = await getInfoByTours(slug);
-const getByurl = getUrlTourInfo
+const getByurl = getUrlTourInfo;
 
 const [contentTour] = getUrlTourInfo;
 
@@ -43,7 +43,7 @@ const titlePage = contentTour.title.rendered;
 const wrapper = contentTour.content.rendered;
 ---
 
-<MainLayout altLangUrl={altLangUrl} seo={contentTour?.yoast_head_json}>
+<MainLayout altLangUrl={altLangUrl} seo={contentTour?.yoast_head_json} gallery={getUrlTourInfo}>
   <main>
     <section>
       {getUrlTourInfo.map((tour: any) => <Gallery img={tour.acf.seccion_galleria} />)}
@@ -101,17 +101,14 @@ const wrapper = contentTour.content.rendered;
     </section>
   </main>
   <section>
-    <div class="container">
-      <h2 class="text-2xl font-semibold text-center capitalize">Tours Relacionados</h2>
-      <SliderToursRelacionados/>
-    </div>
+    <SliderToursRelacionados />
   </section>
 </MainLayout>
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     // TABS START
-    
+
     document.querySelectorAll(".responsive-tabs").forEach((tabsContainer) => {
       const titles = tabsContainer.querySelectorAll(".tabtitle");
       const contents = tabsContainer.querySelectorAll(".tabcontent");
@@ -170,5 +167,13 @@ const wrapper = contentTour.content.rendered;
     }
 
     // ACCORDION END
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@26.7.6/build/js/intlTelInput.min.js" defer></script>
+<script type="module">
+  const input = document.querySelector("#phone");
+  window.intlTelInput(input, {
+    loadUtils: () => import("https://cdn.jsdelivr.net/npm/intl-tel-input@26.7.6/build/js/utils.js"),
   });
 </script>

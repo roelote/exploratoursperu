@@ -3,14 +3,14 @@ import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import "../styles/global.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-
+import { getImages } from "../libs/wp";
 // ── Tipos Yoast ───────────────────────────────────────────────────────────────
 type YoastRobots = {
   index?: string;
   follow?: string;
-  'max-snippet'?: string;
-  'max-image-preview'?: string;
-  'max-video-preview'?: string;
+  "max-snippet"?: string;
+  "max-image-preview"?: string;
+  "max-video-preview"?: string;
 };
 
 type YoastOgImage = {
@@ -47,52 +47,47 @@ interface Props {
   seo?: YoastSeo | null;
 }
 
-const { title, altLangUrl, seo } = Astro.props;
+const { title, altLangUrl, seo, heroImg, gallery } = Astro.props;
 
-const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? '';
-const lang = Astro.currentLocale ?? 'es';
-const isEn = lang === 'en';
+const ids = gallery?.flatMap((tour: any) => tour.acf.seccion_galleria.galleria) ?? [];
+
+const preloadImages = ids.map((i: number) => getImages(i)) ?? [];
+
+const getImagesPreloads = await Promise.all(preloadImages) ?? [];
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? "";
+const lang = Astro.currentLocale ?? "es";
+const isEn = lang === "en";
 const pathname = Astro.url.pathname;
 
 // null = sin traducción; undefined = calcular desde pathname
-const computedAltPath: string | null =
-  altLangUrl === null
-    ? null
-    : (altLangUrl ?? (
-        isEn
-          ? (pathname.replace(/^\/en/, '') || '/')
-          : ('/en' + pathname)
-      ));
+const computedAltPath: string | null = altLangUrl === null ? null : (altLangUrl ?? (isEn ? pathname.replace(/^\/en/, "") || "/" : "/en" + pathname));
 
 // hreflang: la URL del idioma actual y la del alterno (si existe)
-const esFullUrl = isEn
-  ? (computedAltPath !== null ? siteUrl + computedAltPath : null)
-  : siteUrl + pathname;
+const esFullUrl = isEn ? (computedAltPath !== null ? siteUrl + computedAltPath : null) : siteUrl + pathname;
 
-const enFullUrl = isEn
-  ? siteUrl + pathname
-  : (computedAltPath !== null ? siteUrl + computedAltPath : null);
+const enFullUrl = isEn ? siteUrl + pathname : computedAltPath !== null ? siteUrl + computedAltPath : null;
 
 const canonicalUrl = siteUrl + pathname;
 
 // ── Campos SEO desde Yoast ────────────────────────────────────────────────────
-const pageTitle      = seo?.title ?? title ?? 'Explora Tours Peru';
-const metaDesc       = seo?.description ?? null;
-const ogTitle        = seo?.og_title ?? seo?.title ?? pageTitle;
-const ogDesc         = seo?.og_description ?? seo?.description ?? null;
-const ogImage        = seo?.og_image?.[0]?.url ?? null;
-const ogImageW       = seo?.og_image?.[0]?.width ?? null;
-const ogImageH       = seo?.og_image?.[0]?.height ?? null;
-const ogType         = seo?.og_type ?? 'website';
-const ogLocale       = seo?.og_locale ?? (isEn ? 'en_US' : 'es_ES');
-const twCard         = seo?.twitter_card ?? 'summary_large_image';
-const twTitle        = seo?.twitter_title ?? ogTitle;
-const twDesc         = seo?.twitter_description ?? ogDesc;
-const twImage        = seo?.twitter_image ?? ogImage;
+const pageTitle = seo?.title ?? title ?? "Explora Tours Peru";
+const metaDesc = seo?.description ?? null;
+const ogTitle = seo?.og_title ?? seo?.title ?? pageTitle;
+const ogDesc = seo?.og_description ?? seo?.description ?? null;
+const ogImage = seo?.og_image?.[0]?.url ?? null;
+const ogImageW = seo?.og_image?.[0]?.width ?? null;
+const ogImageH = seo?.og_image?.[0]?.height ?? null;
+const ogType = seo?.og_type ?? "website";
+const ogLocale = seo?.og_locale ?? (isEn ? "en_US" : "es_ES");
+const twCard = seo?.twitter_card ?? "summary_large_image";
+const twTitle = seo?.twitter_title ?? ogTitle;
+const twDesc = seo?.twitter_description ?? ogDesc;
+const twImage = seo?.twitter_image ?? ogImage;
 const articleModTime = seo?.article_modified_time ?? null;
 const articlePubTime = seo?.article_published_time ?? null;
 // Robots: une los valores del objeto { index: "index", follow: "follow", "max-snippet": "max-snippet:-1", ... }
-const robotsContent = seo?.robots ? Object.values(seo.robots).join(', ') : null;
+const robotsContent = seo?.robots ? Object.values(seo.robots).join(", ") : null;
 ---
 
 <html lang={lang}>
@@ -119,6 +114,10 @@ const robotsContent = seo?.robots ? Object.values(seo.robots).join(', ') : null;
     {articleModTime && <meta property="article:modified_time" content={articleModTime} />}
     {articlePubTime && <meta property="article:published_time" content={articlePubTime} />}
 
+    {heroImg ? <link rel="preload" fetchpriority="high" as="image" href={heroImg?.featured_img} /> : ""}
+
+    {getImagesPreloads ? getImagesPreloads.map((preload: any) => <link rel="preload" fetchpriority="high" as="image" href={preload?.url} />) : ""}
+
     <!-- Twitter / X -->
     <meta name="twitter:card" content={twCard} />
     <meta name="twitter:title" content={twTitle} />
@@ -131,12 +130,5 @@ const robotsContent = seo?.robots ? Object.values(seo.robots).join(', ') : null;
     <Header altLangUrl={computedAltPath} />
     <slot />
     <Footer />
-    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@26.7.6/build/js/intlTelInput.min.js" defer></script>
-    <script type="module">
-      const input = document.querySelector("#phone");
-      window.intlTelInput(input, {
-        loadUtils: () => import("https://cdn.jsdelivr.net/npm/intl-tel-input@26.7.6/build/js/utils.js"),
-      });
-    </script>
   </body>
 </html>

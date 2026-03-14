@@ -31,6 +31,7 @@ const apiPage = `${domain}wp-json/wp/v2`;
 const apiBlog = `${domain}wp-json/wp/v2`;
 const apiPosts  = `${domain}wp-json/wp/v2`;
 const apiHeader = `${domain}wp-json/theme/v1`;
+const apiFooter = `${domain}wp-json/theme/v1`;
 const apiNav  = `${domain}wp-json/wp/v2`;
 const idLogo  = `${domain}wp-json/custom/v1`;
 const apiLogo = `${domain}wp-json/wp/v2`;
@@ -55,6 +56,21 @@ export const getInfoCategory = async (id:number) => {
 export const getInfoHeader = async () => {
   try {
     const response = await fetch(`${apiHeader}/settings`);
+
+    if (!response.ok) throw new Error(`Error al obtener datos de la Pagina`);
+
+    const data = await response.json();
+
+    return data ?? null;
+
+  } catch (error) {
+    return null;
+  }
+};
+
+export const getInfoFooter = async () => {
+  try {
+    const response = await fetch(`${apiFooter}/settings`);
 
     if (!response.ok) throw new Error(`Error al obtener datos de la Pagina`);
 

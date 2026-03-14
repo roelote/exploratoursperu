@@ -24,14 +24,14 @@ function quitarHTML(str: any) {
         <p class="text-center lg:text-start mb-0! text-pretty">En esta sección se muestran los mejores tours de día completo disponibles.</p>
       </div>
       <div class="grow w-full lg:w-125 text-center lg:text-end">
-        <a href="#" class="inline-block bg-yellow text-nowrap py-3 px-7 rounded-lg hover:text-white font-medium hover: hover:bg-green text-black transition-colors text-base">
+        <a href="#" class="inline-block border-2 border-blue text-nowrap py-3 px-7 rounded-full font-medium hover:text-white hover:bg-blue text-black transition-colors duration-300 text-base">
           Ver más <i class="fa-solid fa-arrow-right-long"></i>
         </a>
         <!-- <a href="#" class="inline-block text-blue font-medium">Ver más <i class="fa-solid fa-arrow-right-long"></i></a> -->
       </div>
     </div>
     <div class="swiper mySwiperFulldays">
-      <div class="swiper-wrapper py-1">
+      <div class="swiper-wrapper py-1 my-5">
         {
           data.map((c: any) => (
             <div class="swiper-slide">
@@ -48,7 +48,6 @@ function quitarHTML(str: any) {
                   <div class="w-full">
                     <div class="pt-5">
                       <h3 class="line-clamp-1" set:html={c.title.rendered} />
-
                       <div class="flex items-center justify-between">
                         <div class="flex items-center gap-5 mb-3">
                           <p class="capitalize mb-0! text-sm">
@@ -60,11 +59,11 @@ function quitarHTML(str: any) {
                         </div>
                         <div class="flex text-yellow">★★★★★</div>
                       </div>
-                      <div class="line-clamp-2" set:html={c.excerpt.rendered} />
+                      <div class="line-clamp-2 text-start text-pretty text-sm mb-3" set:html={c.excerpt.rendered} />
                     </div>
                     <hr class="my-5!" />
                     <div class="w-full">
-                      <a href={"/tour/" + c.slug} class="w-full inline-block text-center border-2 border-green text-nowrap py-3 px-7 text-green group-hover:bg-green group-hover:text-white rounded-full transition-colors text-base">
+                      <a href={"/tour/" + c.slug} class="w-full uppercase inline-block text-center border-2 border-green text-nowrap py-3 px-7 text-black group-hover:bg-green group-hover:text-white rounded-full transition-colors text-base">
                         Ver Tour &nbsp;
                         <i class="fa-solid fa-arrow-right-long" />
                       </a>
@@ -81,8 +80,8 @@ function quitarHTML(str: any) {
           ))
         }
       </div>
-      <div class="swiper-button-prev bg-white/50 hover:bg-white transition-colors rounded-full text-black! p-3 shadow-lg"></div>
-      <div class="swiper-button-next bg-white/50 hover:bg-white transition-colors rounded-full text-black! p-3 shadow-lg"></div>
+      <div class="swiper-button-prev bg-green/50 transition-colors rounded-full hover:bg-green text-white! p-3 shadow-lg"></div>
+      <div class="swiper-button-next bg-green/50 transition-colors rounded-full hover:bg-green text-white! p-3 shadow-lg"></div>
     </div>
   </div>
 </div>

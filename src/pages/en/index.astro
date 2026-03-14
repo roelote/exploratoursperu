@@ -18,6 +18,7 @@ const categoryMachupicchu = category.filter((category: any) => category.peru == 
 const categoryTreks = category.filter((category: any) => category.peru == 19);
 
 const acfs = dataHome?.acf.seccion_detalles ?? [];
+
 const getImgDetail = acfs.detalles_empresa;
 
 const data = getImgDetail?.map((url: any) => getImages(url.icon));

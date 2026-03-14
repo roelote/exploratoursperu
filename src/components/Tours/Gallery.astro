@@ -1,22 +1,30 @@
 ---
+import { Image } from "astro:assets";
 import { getImages } from "../../libs/wp";
-import imgPlaceholder from "../../../public/img-placeholder.png"
+import imgPlaceholder from "../../../public/img-placeholder.png";
+
 const { img } = Astro.props;
 
-const fallback = imgPlaceholder;
+const fallback = imgPlaceholder.src;
 
 let images = [];
 let ImgsTitles = [];
 
-if (img?.galleria?.length > 0) {
-  const promesas = img.galleria.map((id: any) => getImages(id));
-  const data = await Promise.all(promesas);
-  images = data.map((img) => img.url);
-  ImgsTitles = data.map((img) => img.title);
+if (img?.galleria?.length) {
+  try {
+    const promesas = img.galleria.map((id: any) => getImages(id));
+    const data = await Promise.all(promesas);
+
+    images = data.map((img) => img?.url ?? fallback);
+    ImgsTitles = data.map((img) => img?.title ?? "Gallery image");
+  } catch (e) {
+    images = [fallback, fallback, fallback];
+    ImgsTitles = ["Gallery image", "Gallery image", "Gallery image"];
+  }
 }
 
 while (images.length < 3) {
-  images.push(fallback.src);
+  images.push(fallback);
   ImgsTitles.push("Gallery image");
 }
 
@@ -29,22 +37,23 @@ const hiddenTitle = ImgsTitles.slice(3);
 
 <div class="container mt-3">
   <div class="flex flex-col md:flex-row w-full h-[500px] md:h-[670px] gap-3 overflow-hidden rounded-[20px]">
+    <!-- Imagen principal -->
     <div class="w-full h-full group/col1">
-      <a href={visible[0]} data-fancybox="gallery" data-caption={visibleTitle[0]} class="group-hover/col1:opacity-90 transition-opacity duration-300">
-        <img decoding="async" fetchpriority="high" class="shadow-md w-full h-full object-cover object-center rounded-[20px]" src={visible[0]} alt={visibleTitle[0]} />
+      <a href={visible[0]} data-fancybox="gallery" data-caption={visibleTitle[0]}>
+        <Image src={visible[0]} alt={visibleTitle[0]} width={1200} height={800} format="webp" quality={70} class="shadow-md w-full h-full object-cover object-center rounded-[20px]" loading="eager" />
       </a>
     </div>
 
-    <div class="hidden md:flex w-full lg:min-w-[511px] lg:w-[511px] h-full flex-col gap-3 ">
+    <div class="hidden md:flex w-full lg:min-w-[511px] lg:w-[511px] h-full flex-col gap-3">
       <div class="grow w-full h-[300px] group/col2">
-        <a href={visible[1]} data-fancybox="gallery" data-caption={visibleTitle[1]} class="group-hover/col2:opacity-90 transition-opacity duration-300">
-          <img decoding="async" fetchpriority="high" class="shadow-md w-full h-full object-cover object-center rounded-[20px]" src={visible[1]} alt={visibleTitle[1]} />
+        <a href={visible[1]} data-fancybox="gallery" data-caption={visibleTitle[1]}>
+          <Image src={visible[1]} alt={visibleTitle[1]} width={800} height={600} format="webp" quality={70} loading="lazy" class="shadow-md w-full h-full object-cover object-center rounded-[20px]" />
         </a>
       </div>
 
       <div class="grow w-full h-[300px] group/col3">
-        <a href={visible[2]} data-fancybox="gallery" data-caption={visibleTitle[2]} class="group-hover/col3:opacity-90 transition-opacity duration-300">
-          <img decoding="async" fetchpriority="high" class="shadow-md w-full h-full object-cover object-center rounded-[20px]" src={visible[2]} alt={visibleTitle[2]} />
+        <a href={visible[2]} data-fancybox="gallery" data-caption={visibleTitle[2]}>
+          <Image src={visible[2]} alt={visibleTitle[2]} width={800} height={600} format="webp" quality={70} loading="lazy" class="shadow-md w-full h-full object-cover object-center rounded-[20px]" />
         </a>
       </div>
 
@@ -52,7 +61,7 @@ const hiddenTitle = ImgsTitles.slice(3);
         {
           hidden.map((url, i) => (
             <a href={url} data-fancybox="gallery" data-caption={hiddenTitle[i]}>
-              <img src={url} alt={hiddenTitle[i]} />
+              <Image src={url} alt={hiddenTitle[i]} width={800} height={600} loading="lazy" />
             </a>
           ))
         }
@@ -60,6 +69,7 @@ const hiddenTitle = ImgsTitles.slice(3);
     </div>
   </div>
 </div>
+
 <script>
   import { Fancybox } from "@fancyapps/ui/dist/fancybox/";
   import "@fancyapps/ui/dist/fancybox/fancybox.css";
