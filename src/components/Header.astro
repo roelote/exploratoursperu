@@ -38,7 +38,7 @@ interface MenuItem {
     <div class="w-full h-[85px] flex items-center justify-between py-3">
       <div class="flex items-center justify-center">
         <a href={homeHref} class="inline-block">
-          <img decoding="async" src={getLogo} draggable="false" alt="Logo" class="w-full h-[95px] object-cover object-center" />
+          <img decoding="async" src={getLogo} draggable="false" alt="Logo" class="w-[140px] h-[90px] md:w-full md:h-[95px] object-cover object-center" />
         </a>
       </div>
 
@@ -135,9 +135,9 @@ interface MenuItem {
   <div id="mobileOverlay" class="fixed inset-0 bg-black/50 opacity-0 invisible transition-all duration-300 lg:hidden"></div>
 
   <div id="mobileMenu" class="fixed top-0 right-0 h-full w-full max-w-full bg-white shadow-xl transform translate-x-full transition-transform duration-300 lg:hidden flex flex-col z-50">
-    <div class="flex items-center justify-between px-5 py-4 border-b border-neutral-200">
+    <div class="flex items-center justify-between px-5 border-b border-neutral-200">
       <a href={homeHref} class="inline-block">
-        <img decoding="async" src={getLogo} alt="Logo" class="w-full h-15" loading="lazy" />
+        <img decoding="async" src={getLogo} draggable="false" alt="Logo" class="w-[110px] h-[80px] object-cover object-center" loading="lazy" />
       </a>
 
       <button id="menuClose" class="text-2xl cursor-pointer">
@@ -189,12 +189,10 @@ interface MenuItem {
             <a href="tel:+51987654321" class="font-medium inline-block bg-wasap py-3 w-full text-white text-center rounded-lg text-base"><i class="fa-brands fa-whatsapp"></i> +51 987 654 321</a>
           </div>
         </div>
-        <!-- <hr class="my-5 text-gray-icon"> -->
         <div class="my-5 text-center">
           <a href="" class="uppercase text-white bg-blue py-3 px-7 inline-block rounded-lg font-medium"><i class="fa-solid fa-envelope"></i> Plan Your Trip</a>
         </div>
         <RedesSociales />
-        <hr class="my-5 text-gray-icon" />
         {
           altLangHref !== null && (
             <a href={altLangHref} class="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors w-max">

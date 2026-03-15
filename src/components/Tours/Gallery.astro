@@ -36,24 +36,27 @@ const hiddenTitle = ImgsTitles.slice(3);
 ---
 
 <div class="container mt-3">
-  <div class="flex flex-col md:flex-row w-full h-[500px] md:h-[670px] gap-3 overflow-hidden rounded-[20px]">
-    <!-- Imagen principal -->
-    <div class="w-full h-full group/col1">
+  <div class="flex flex-col md:flex-row w-full h-[500px] md:h-[670px] gap-3 overflow-hidden rounded-radio">
+
+    <div class="w-full h-full group/col1 relative">
       <a href={visible[0]} data-fancybox="gallery" data-caption={visibleTitle[0]}>
-        <Image src={visible[0]} alt={visibleTitle[0]} width={1200} height={800} format="webp" quality={70} class="shadow-md w-full h-full object-cover object-center rounded-[20px]" loading="eager" />
+        <Image src={visible[0]} alt={visibleTitle[0]} width={1200} height={800} format="webp" quality={70} class="shadow-md w-full h-full object-cover object-center rounded-radio" loading="eager" />
       </a>
+      <div class="absolute bottom-5 right-5 bg-white/90 hover:bg-white backdrop-blur-sm rounded-lg px-4 py-2 text-sm font-medium flex items-center gap-2 pointer-events-none cursor-pointer">
+        <i class="fa-solid fa-images"></i> {images.length} Fotos
+      </div>
     </div>
 
     <div class="hidden md:flex w-full lg:min-w-[511px] lg:w-[511px] h-full flex-col gap-3">
       <div class="grow w-full h-[300px] group/col2">
         <a href={visible[1]} data-fancybox="gallery" data-caption={visibleTitle[1]}>
-          <Image src={visible[1]} alt={visibleTitle[1]} width={800} height={600} format="webp" quality={70} loading="lazy" class="shadow-md w-full h-full object-cover object-center rounded-[20px]" />
+          <Image src={visible[1]} alt={visibleTitle[1]} width={800} height={600} format="webp" quality={70} loading="lazy" class="shadow-md w-full h-full object-cover object-center rounded-radio" />
         </a>
       </div>
 
       <div class="grow w-full h-[300px] group/col3">
         <a href={visible[2]} data-fancybox="gallery" data-caption={visibleTitle[2]}>
-          <Image src={visible[2]} alt={visibleTitle[2]} width={800} height={600} format="webp" quality={70} loading="lazy" class="shadow-md w-full h-full object-cover object-center rounded-[20px]" />
+          <Image src={visible[2]} alt={visibleTitle[2]} width={800} height={600} format="webp" quality={70} loading="lazy" class="shadow-md w-full h-full object-cover object-center rounded-radio" />
         </a>
       </div>
 
