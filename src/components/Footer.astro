@@ -2,80 +2,102 @@
 import { getInfoFooter } from "../libs/wp";
 
 const getFooter = await getInfoFooter();
-const col1 = getFooter.footer.col_1;
-const col2 = getFooter.footer.col_2;
-const col3 = getFooter.footer.col_3;
-const col4 = getFooter.footer.col_4;
-const copy = getFooter.footer.copyright;
+const foot = getFooter.footer;
+const col1 = foot.col_1;
+const col2 = foot.col_2;
+const col3 = foot.col_3;
+const col4 = foot.col_4;
+const copy = foot.copyright;
+const imgBackground = foot.img_background;
+const getAsociaciones = foot.asociaciones;
 ---
 
-<footer class="bg-black py-10">
-  <div class="container mx-auto">
-    <div class="flex w-full items-center md:items-start flex-col md:flex-row md:justify-between gap-10">
-      <div>
-        <img decoding="async" loading="lazy" class="object-cover object-center w-51.25 h-36.25" src={col1.img.url} alt="" />
-        <p class="w-full text-center md:w-52 md:text-start text-gray">{col1.descripcion}</p>
-        <div class="mt-10 flex items-center md:items-start flex-col md:flex-row gap-5 md:gap-10">
+<div class="container my-20">
+  <div class="flex items-center flex-wrap md:flex-nowrap justify-between gap-5">
+    {
+      getAsociaciones.map((a: any) => (
+        <div>
           {
-            col1.info.map((e: any) => (
-              <div class="text-center md:text-start">
-                <h4 class="mb-2 font-semibold tracking-wide text-red text-nowrap">{e.title}</h4>
-                <a href={e.url} class="font-light text-white">
-                  {e.contacts}
-                </a>
-              </div>
-            ))
+            !a.url 
+            ? <img decoding="async" draggable="false" loading="lazy" fetchpriority="low" src={a.img?.url} class="size-40 object-contain object-center" alt={a.img?.title} /> 
+            : <a href={a.url.url} title={a.img?.title}><img decoding="async" draggable="false" fetchpriority="low" loading="lazy" src={a.img.url} class="size-40 object-contain object-center" alt={a.img?.title} /></a>
           }
         </div>
+      ))
+    }
+  </div>
+</div>
+
+<footer>
+  <img decoding="async" loading="lazy" src={imgBackground.url} class="w-full h-auto object-cover object-center" alt="footer img" />
+  <div class="bg-black py-10">
+    <div class="container mx-auto">
+      <div class="flex w-full items-center md:items-start flex-col md:flex-row md:justify-between gap-10">
+        <div>
+          <img decoding="async" loading="lazy" class="object-cover object-center w-51.25 h-36.25" src={col1.img.url} alt="" />
+          <p class="w-full text-center md:w-52 md:text-start text-gray">{col1.descripcion}</p>
+          <div class="mt-10 flex items-center md:items-start flex-col md:flex-row gap-5 md:gap-10">
+            {
+              col1.info.map((e: any) => (
+                <div class="text-center md:text-start">
+                  <h4 class="mb-2 font-semibold tracking-wide text-red text-nowrap">{e.title}</h4>
+                  <a href={e.url} class="font-light text-white">
+                    {e.contacts}
+                  </a>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+        <div class="text-center md:text-start grid grid-cols-1 lg:grid-cols-3 gap-10 md:gap-20 bg-cover">
+          <div class="w-full">
+            <span class="text-xl font-semibold text-red text-nowrap text-center md:text-start">{col2.title}</span>
+            <ul class="text-white list-none mt-5">
+              {
+                col2.col_texts.map((c: any) => (
+                  <li>
+                    <a href={c.url} class="text-center md:text-start capitalize text-white py-2 inline-block text-nowrap font-light">
+                      {c.text}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+          <div class="w-full">
+            <span class="text-xl font-semibold text-red text-nowrap text-center md:text-start">{col3.title}</span>
+            <ul class="text-white list-none mt-5">
+              {
+                col3.col_texts.map((c: any) => (
+                  <li>
+                    <a href={c.url} class="text-center md:text-start capitalize text-white py-2 inline-block text-nowrap font-light">
+                      {c.text}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+          <div class="w-full">
+            <span class="text-xl font-semibold text-red text-nowrap text-center md:text-start">{col4.title}</span>
+            <ul class="text-white list-none mt-5">
+              {
+                col4.col_texts.map((c: any) => (
+                  <li>
+                    <a href={c.url} class="text-center md:text-start capitalize text-white py-2 inline-block text-nowrap font-light">
+                      {c.text}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
       </div>
-      <div class="text-center md:text-start grid grid-cols-1 lg:grid-cols-3 gap-10 md:gap-20 bg-cover">
-        <div class="w-full">
-          <span class="text-xl font-semibold text-red text-nowrap text-center md:text-start">{col2.title}</span>
-          <ul class="text-white list-none mt-5">
-            {
-              col2.col_texts.map((c: any) => (
-                <li>
-                  <a href={c.url} class="text-center md:text-start capitalize text-white py-2 inline-block text-nowrap font-light">
-                    {c.text}
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
-        </div>
-        <div class="w-full">
-          <span class="text-xl font-semibold text-red text-nowrap text-center md:text-start">{col3.title}</span>
-          <ul class="text-white list-none mt-5">
-            {
-              col3.col_texts.map((c: any) => (
-                <li>
-                  <a href={c.url} class="text-center md:text-start capitalize text-white py-2 inline-block text-nowrap font-light">
-                    {c.text}
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
-        </div>
-        <div class="w-full">
-          <span class="text-xl font-semibold text-red text-nowrap text-center md:text-start">{col4.title}</span>
-          <ul class="text-white list-none mt-5">
-            {
-              col4.col_texts.map((c: any) => (
-                <li>
-                  <a href={c.url} class="text-center md:text-start capitalize text-white py-2 inline-block text-nowrap font-light">
-                    {c.text}
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
-        </div>
+      <hr class="text-gray-100 my-10" />
+      <div>
+        <p class="text-gray text-center text-sm">{copy}</p>
       </div>
-    </div>
-    <hr class="text-gray-100 my-10" />
-    <div>
-      <p class="text-gray text-center text-sm">{copy}</p>
     </div>
   </div>
 </footer>

@@ -10,9 +10,7 @@ import Image from "astro/components/Image.astro";
 
 interface Props {
   seo: any;
-  heroImg?: any;
 }
-
 
 const dataHome = await getInfoPageHome();
 
@@ -23,39 +21,27 @@ const categoryFullday = category.filter((category: any) => category.peru == 13);
 const categoryMachupicchu = category.filter((category: any) => category.peru == 14);
 
 const categoryTreks = category.filter((category: any) => category.peru == 19);
-
-const acfs = dataHome?.acf.seccion_detalles ?? [];
-const getImgDetail = acfs.detalles_empresa;
-
-const data = getImgDetail?.map((url: any) => getImages(url.icon));
-
-// const getUrls = await Promise.all(data || []);
 ---
 
-<MainLayout seo={dataHome?.yoast_head_json} heroImg={dataHome}>
+<MainLayout seo={dataHome?.yoast_head_json} >
+
+  <Fragment slot="head">
+    <link rel="preload" as="image/webp" href={dataHome?.featured_img} fetchpriority="high" />
+  </Fragment>
+
   <main>
     <section>
       <div class="w-full relative">
-        <Image
-          src={dataHome?.featured_img}
-          width={1920}
-          height={1080}
-          loading="eager"
-          fetchpriority="high"
-          quality={80}
-          format="webp"
-          sizes="100vw"
-          class="w-full h-[90vh] object-cover object-center"
-          alt=""
-        />
+        <Image src={dataHome?.featured_img} width={1920} height={1080} loading="eager" fetchpriority="high" quality={80} format="webp" sizes="100vw" class="w-full h-[90vh] object-cover object-center" alt="" />
         <!-- <img decoding="async" fetchpriority="high" src={dataHome?.featured_img} class="w-full h-[90vh] object-cover object-center" alt="" /> -->
         <div class="bg-black/50 absolute inset-0 w-full h-full z-10"></div>
         <div class="w-full lg:w-248.75 absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-20 px-5 md:px-0">
           <h1 class="text-4xl text-balance text-white font-bold tracking-widest text-center uppercase">
-            DESCUBRE LOS ANDES Y EL <span class="text-yellow">CAMINO INCA</span> A <span class="text-yellow">MACHU PICCHU</span>
+            Descubre auténticos <span class="text-yellow">tours locales</span> y <span class="text-yellow">aventuras a Medida</span> en los Andes
+            <!-- DESCUBRE LOS ANDES Y EL <span class="text-yellow">CAMINO INCA</span> A <span class="text-yellow">MACHU PICCHU</span> -->
           </h1>
-          <p class="!text-white text-center inline-block my-5 text-lg">
-            En Explora Tours Peru, nos especializamos en crear experiencias de viaje inolvidables por todo Perú. Nuestro equipo de expertos se dedica a ofrecer itinerarios personalizados que muestran la impresionante belleza y la rica cultura de este increíble país.
+          <p class="text-white! text-center inline-block my-5 text-base">
+            Convierte tu viaje soñado en realidad. Exploramos las maravillas de Machu Picchu y los secretos mejor guardados de nuestra tierra con el respaldo de verdaderos expertos locales. Diseñamos experiencias seguras y memorables; tu próxima gran historia comienza aquí.
           </p>
           <div class="flex flex-col md:flex-row items-center justify-center gap-5">
             <a href="http://localhost:4321/tours/camino-inca-machu-picchu" class="w-full md:w-80 text-center bg-yellow capitalize py-3 inline-block text-black font-medium border-2 border-yellow hover:bg-transparent hover:text-white transition-all">Reserva el Camino Inca 2026</a>

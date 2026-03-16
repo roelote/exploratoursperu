@@ -1,7 +1,7 @@
 ---
 import type { GetStaticPaths } from "astro";
 import MainLayout from "../../layouts/MainLayout.astro";
-import { getTourInfo, getInfoByTours, getSidebarTour, getInfoCategory } from "../../libs/wp";
+import { getTourInfo, getInfoByTours, getSidebarTour, getInfoCategory, getImages } from "../../libs/wp";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
 import Gallery from "../../components/Tours/Gallery.astro";
 import Detalles from "../../components/Tours/Detalles.astro";
@@ -14,6 +14,7 @@ interface Props {
 }
 
 const { slug } = Astro.params;
+
 const { altLangUrl } = Astro.props;
 
 const getTours = await getTourInfo();
@@ -43,22 +44,47 @@ if (!slug) {
 }
 
 const getUrlTourInfo = await getInfoByTours(slug);
+
 const getByurl = getUrlTourInfo;
 
 const [contentTour] = getUrlTourInfo;
 
 const titlePage = contentTour.title.rendered;
 const wrapper = contentTour.content.rendered;
+
+const [ids] = getUrlTourInfo.map((tour: any) => tour.acf.seccion_galleria.galleria) ?? [];
+
+
+// TODO: optimizar esta parte para traer solo las imagenes necesarias
+
+const preloadImages = ids.map((i: number) => getImages(i)) ?? [];
+
+const getImagesPreloads = await Promise.all(preloadImages) ?? [];
+
+const imgs = getImagesPreloads.slice(0, 3);
 ---
 
-<MainLayout altLangUrl={altLangUrl} seo={contentTour?.yoast_head_json} gallery={getUrlTourInfo}>
+<MainLayout altLangUrl={altLangUrl} seo={contentTour?.yoast_head_json}>
+
+  <Fragment slot="head">
+    {
+      imgs.map((img: any, i:number) => (
+        <link
+          rel="preload"
+          as="image/webp"
+          href={img?.url}
+          fetchpriority={"high"}
+        />
+      ))
+    }
+  </Fragment>
   <main>
     <section>
       {getUrlTourInfo.map((tour: any) => <Gallery img={tour.acf.seccion_galleria} />)}
     </section>
     <section>
       <div class="container mt-3">
-        <div class="bg-green/10 rounded-[20px] mt-3 p-5 md:p-10">
+        <div class="bg-green/10 rounded-radio mt-3 p-5 md:p-10">
           <div class="w-full flex flex-col xl:flex-row items-center justify-between gap-0 xl:gap-5">
             <div>
               <nav class="w-full xl:mb-2">

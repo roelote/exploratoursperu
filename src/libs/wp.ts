@@ -53,6 +53,32 @@ export const getInfoCategory = async (id:number) => {
   }
 };
 
+export async function getImagesBatch(ids: number[], lang: string = "es") {
+  if (!ids?.length) return [];
+
+  const langParam = lang === "en" ? "&lang=en" : "";
+
+  const res = await fetch(
+    `${domain}/wp-json/wp/v2/media?include=${ids.join(",")}&per_page=${ids.length}${langParam}`
+  );
+
+  if (!res.ok) return [];
+
+  const data = await res.json();
+
+  const mapped = data.map((img:any)=>({
+    id: img.id,
+    url: fixWpUrl(img.source_url),
+    title: img.title?.rendered || "Gallery image"
+  }));
+
+  const ordered = ids
+    .map(id => mapped.find(img => img.id === Number(id)))
+    .filter(Boolean);
+
+  return ordered;
+}
+
 export const getInfoHeader = async () => {
   try {
     const response = await fetch(`${apiHeader}/settings`);

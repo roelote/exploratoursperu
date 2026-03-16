@@ -199,6 +199,10 @@ img {
   color: #000;
 }
 
+.iti--inline-dropdown:not(.iti--container) .iti__dropdown-content{
+  overflow: hidden;
+}
+
 #iti-0__search-input {
   padding: 0.5rem 0rem 0.5rem 2.5rem;
   border: none;
@@ -720,6 +724,7 @@ img {
   border: 2px solid var(--color-blue);
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
+  margin: .5em 0;
 }
 
 .btn-link:hover{

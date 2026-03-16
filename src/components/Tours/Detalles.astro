@@ -13,7 +13,7 @@ const dataImg = await Promise.all(imgs);
     <div class="flex gap-3 items-center">
       <div>
         <span class="size-12 bg-green rounded-full flex items-center justify-center">
-          <img class="size-7" decoding="async" src={dataImg[index].url} alt="" />
+          <img class="size-7" decoding="async" src={dataImg[index]?.url} alt="" />
         </span>
       </div>
       <div class="flex flex-col justify-start">

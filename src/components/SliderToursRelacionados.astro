@@ -6,21 +6,19 @@ import { getInfoCategory, getTourInfo } from "../libs/wp";
 
 const { slug } = Astro.params;
 
-const getTours = await getTourInfo();
+const lang = Astro.url.pathname.startsWith('/en') ? 'en' : 'es';
 
-const [getCategory] = getTours.filter((c: any) => c.slug == slug);
+const getTours = await getTourInfo(lang);
 
-const [idCategory] = getCategory.peru;
+const getCategory = getTours.find((c:any) => c.slug === slug);
 
+const idCategory = getCategory?.peru?.[0];
 
-const category = await getInfoCategory(idCategory) ?? [];
+const category = idCategory ? await getInfoCategory(idCategory) : null;
 
-const getInfoCategories = getTours.filter((cat: any) => cat.peru == idCategory);
-
-
-function quitarHTML(str: any) {
-  return str.replace(/<[^>]*>?/gm, "");
-}
+const getInfoCategories = idCategory
+  ? getTours.filter((cat:any) => cat.peru?.includes(idCategory))
+  : [];
 ---
 
 <div class="w-full bg-white">
@@ -80,8 +78,8 @@ function quitarHTML(str: any) {
         ))
       }
     </div>
-      <div class="swiper-button-prev bg-green transition-colors rounded-full text-white! p-3 shadow-lg"></div>
-      <div class="swiper-button-next bg-green transition-colors rounded-full text-white! p-3 shadow-lg"></div>
+      <div class="swiper-button-prev bg-green/50 transition-colors rounded-full hover:bg-green text-white! p-3 shadow-lg"></div>
+      <div class="swiper-button-next bg-green/50 transition-colors rounded-full hover:bg-green text-white! p-3 shadow-lg"></div>
       <div class="swiper-pagination mt-5 relative!" />
     </div>
     <!-- pagination -->
