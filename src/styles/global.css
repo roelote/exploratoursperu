@@ -126,6 +126,11 @@ img {
   margin-bottom: 1.25rem;
 }
 
+
+.contact-form-tour span{
+  display: inline-block;
+}
+
 .contact-form-tour label {
   font-size: 1rem;
   color: #000;
@@ -210,6 +215,35 @@ img {
 
 .iti {
   display: block;
+}
+
+.form-loading{
+display:flex;
+align-items:center;
+gap:8px;
+margin-top:10px;
+font-size:14px;
+opacity:0;
+transform:translateY(-5px);
+transition:.3s;
+}
+
+.form-loading.active{
+opacity:1;
+transform:translateY(0);
+}
+
+.loading-spinner{
+width:16px;
+height:16px;
+border:2px solid #ddd;
+border-top-color:#030246;
+border-radius:50%;
+animation:spin .6s linear infinite;
+}
+
+@keyframes spin{
+to{transform:rotate(360deg)}
 }
 
 /* ------------------ */
@@ -766,3 +800,4 @@ img {
   color: var(--color-yellow);
   text-decoration: underline;
 }
+

@@ -1,0 +1,88 @@
+---
+const { content } = Astro.props;
+---
+
+<div class="sidebar-tour-page" id="content-form-contact">
+  <div set:html={content} id="cf7-container" />
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@26.7.6/build/js/intlTelInput.min.js"></script>
+
+<script>
+window.addEventListener("load", () => {
+
+  const container = document.getElementById("cf7-container");
+  if (!container) return;
+
+  const form = container.querySelector("form");
+  if (!form) return;
+
+  const phoneInput = form.querySelector("#phone");
+  const submitBtn = form.querySelector('input[type="submit"]');
+  const hiddenPhone = form.querySelector('input[name="telefono-completo"]');
+
+  if (!phoneInput) return;
+
+  const iti = window.intlTelInput(phoneInput, {
+    loadUtils: () =>
+      import("https://cdn.jsdelivr.net/npm/intl-tel-input@26.7.6/build/js/utils.js"),
+    initialCountry: "auto",
+    geoIpLookup: (callback) => {
+      fetch("https://ipapi.co/json")
+        .then((res) => res.json())
+        .then((data) => callback(data.country_code))
+        .catch(() => callback("us"));
+    }
+  });
+
+  // loader
+  const loader = document.createElement("div");
+  loader.className = "form-loading";
+  loader.innerHTML = `
+    <div class="loading-spinner"></div>
+    <span>Enviando mensaje...</span>
+  `;
+  submitBtn.parentNode.appendChild(loader);
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    loader.classList.add("active");
+    submitBtn.disabled = true;
+
+    // guardar telefono completo
+    if (hiddenPhone) {
+      hiddenPhone.value = iti.getNumber();
+    }
+
+    const formData = new FormData(form);
+
+    try {
+      const res = await fetch(
+        "https://cms.exploratoursperu.com/wp-json/contact-form-7/v1/contact-forms/44/feedback",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const data = await res.json();
+
+      if (data.status === "mail_sent") {
+        alert("Mensaje enviado correctamente");
+        form.reset();
+      } else {
+        alert(data.message);
+      }
+
+    } catch (error) {
+      console.error(error);
+      alert("Error enviando el mensaje");
+    }
+
+    loader.classList.remove("active");
+    submitBtn.disabled = false;
+  });
+
+});
+</script>
