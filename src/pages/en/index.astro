@@ -2,48 +2,67 @@
 import SliderHiking from "../../components/SliderHiking.astro";
 import SliderFullDays from "../../components/SliderFullDays.astro";
 import MainLayout from "../../layouts/MainLayout.astro";
-import { getInfoPageHome, getImages, getTourInfo } from "../../libs/wp";
+import { getInfoPageHome, getTourInfo } from "../../libs/wp";
+import SliderMachuPicchu from "../../components/SliderMachuPicchu.astro";
+import SliderBlogs from "../../components/SliderBlogs.astro";
+import SliderReviews from "../../components/SliderReviews.astro";
+import Image from "astro/components/Image.astro";
 
-const dataHome = await getInfoPageHome('en');
+interface Props {
+  seo: any;
+  heroImg?: any;
+}
 
-const category = await getTourInfo('en');
 
-const getDataCategory = category.filter((category: any) => category.tour_category == 7);
+const dataHome = await getInfoPageHome("en");
 
-const acfs = dataHome?.acf.seccion_detalles ?? [];
-const getImgDetail = acfs.detalles_empresa;
+const category = await getTourInfo("en");
 
-const data = getImgDetail?.map((url: any) => getImages(url.icon));
+const categoryFullday = category.filter((category: any) => category.peru == 13);
 
-const getUrls = await Promise.all(data || []);
+const categoryMachupicchu = category.filter((category: any) => category.peru == 14);
+
+const categoryTreks = category.filter((category: any) => category.peru == 19);
 ---
 
-<MainLayout seo={dataHome?.yoast_head_json}>
+<MainLayout seo={dataHome?.yoast_head_json} heroImg={dataHome}>
   <main>
     <section>
       <div class="w-full relative">
-        <img decoding="async" fetchpriority="high" src={dataHome?.featured_img} class="w-full h-[90vh] object-cover object-center" alt="" />
+        <Image
+          src={dataHome?.featured_img}
+          width={1920}
+          height={1080}
+          loading="eager"
+          fetchpriority="high"
+          quality={80}
+          format="webp"
+          sizes="100vw"
+          class="w-full h-[90vh] object-cover object-center"
+          alt="Explore Tours Peru"
+        />
+        <!-- <img decoding="async" fetchpriority="high" src={dataHome?.featured_img} class="w-full h-[90vh] object-cover object-center" alt="" /> -->
         <div class="bg-black/50 absolute inset-0 w-full h-full z-10"></div>
         <div class="w-full lg:w-248.75 absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-20 px-5 md:px-0">
           <h1 class="text-4xl text-balance text-white font-bold tracking-widest text-center uppercase">
-            DISCOVERY ANDES AND <span class="text-yellow">INCA TRAIL</span> TO <span class="text-yellow">MACHU PICCHU</span>
+            Discover <span class="text-yellow">authentic local tours</span> and <span class="text-yellow">tailor-made adventures</span> in the Andes
           </h1>
-          <p class="!text-white text-center inline-block my-5 text-lg">
-            At Andean Foot Prints, we specialize in crafting unforgettable travel experiences throughout Peru. Our expert team is dedicated to providing personalized itineraries that showcase the breathtaking beauty and rich culture of this incredible country.
+          <p class="text-white! text-center inline-block my-5 text-base">
+            Turn your dream trip into reality. We explore the wonders of Machu Picchu and the best-kept secrets of our land with the support of true local experts. We design safe and memorable experiences; your next great story starts here.
           </p>
           <div class="flex flex-col md:flex-row items-center justify-center gap-5">
-            <a href="/en/tour/camino-inca-machu-picchu" class="w-full md:w-80 text-center bg-yellow capitalize py-3 inline-block text-black font-medium border-2 border-yellow hover:bg-transparent hover:text-white transition-all">Book Now Inca Trail 2026</a>
+            <a href="http://localhost:4321/tours/camino-inca-machu-picchu" class="w-full md:w-80 text-center bg-yellow capitalize py-3 inline-block text-black font-medium border-2 border-yellow hover:bg-transparent hover:text-white transition-all">Book the Inca Trail 2026</a>
             <a href="#" class="w-full md:w-80 text-center bg-transparend border-2 border-yellow capitalize py-3 inline-block font-medium text-white hover:bg-yellow hover:text-black transition-all">Explore Our Tours</a>
           </div>
         </div>
       </div>
     </section>
     <section>
-      <div class="container py-16">
+      <div class="container py-20">
         <div class="wrapper-home-page">
-          <p set:html={dataHome.content.rendered} />
+          <div set:html={dataHome.content.rendered} />
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-16">
+        <!-- <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-16">
           {
             acfs.detalles_empresa.map((acf: any, index: number) => (
               <div class="group border border-neutral-300 p-5 rounded-lg">
@@ -59,61 +78,47 @@ const getUrls = await Promise.all(data || []);
               </div>
             ))
           }
-        </div>
+        </div> -->
       </div>
     </section>
     <section>
-      <div class="container">
-        <h2 class="text-3xl text-center font-bold tracking-wide mb-3">The Greatest Hiking Treks in Peru</h2>
-        <h3 class="text-2xl text-center font-medium tracking-wide mb-3">Enjoy the Best Treks and Hiking Adventures to Machu Picchu, The Lost City of the Incas</h3>
-        <p class="text-center">
-          Each of our tours is operated by our certified and experienced guides who will take you along the world-famous Trek to Machu Picchu via the Salkantay Trail and Inca Trail. Whether you travel with a small group of like-minded adventurers, or an intimate party of family and friends, our
-          full-time staff is on call around the clock, ready at any time to provide you with everything you need for the journey of a lifetime.
-        </p>
-        <SliderHiking lang="en" />
-      </div>
+      <SliderFullDays data={categoryFullday} />
     </section>
     <section>
-      <div class="w-full bg-gray-100 py-5 my-20">
+      <SliderMachuPicchu data={categoryMachupicchu} />
+    </section>
+    <section>
+      <SliderHiking data={categoryTreks} />
+    </section>
+    <section>
+      <div class="w-full bg-white py-10 my-20">
         <div class="container">
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-0">
             <div>
               <span class="block text-center font-bold text-4xl">5</span>
-              <p class="text-center font-semibold text-xl mb-0! capitalize mt-2">Years of Experience</p>
+              <p class="text-center font-semibold text-xl mb-0! capitalize mt-2">Años de experiencia</p>
             </div>
             <div>
               <span class="block text-center font-bold text-4xl">30</span>
-              <p class="text-center font-semibold text-xl mb-0! capitalize mt-2">Local Collaborators</p>
+              <p class="text-center font-semibold text-xl mb-0! capitalize mt-2">Localboradores Locales</p>
             </div>
             <div>
-              <span class="block text-center font-bold text-4xl">6,000 +</span>
-              <p class="text-center font-semibold text-xl mb-0! capitalize mt-2">Adventures Planned</p>
+              <span class="block text-center font-bold text-4xl">6,00 +</span>
+              <p class="text-center font-semibold text-xl mb-0! capitalize mt-2">Aventuras Planeadas</p>
             </div>
             <div>
-              <span class="block text-center font-bold text-4xl">70,000 +</span>
-              <p class="text-center font-semibold text-xl mb-0! capitalize mt-2">Satisfied Customers</p>
+              <span class="block text-center font-bold text-4xl">70, 000 +</span>
+              <p class="text-center font-semibold text-xl mb-0! capitalize mt-2">Clientes satisfechos</p>
             </div>
           </div>
         </div>
       </div>
     </section>
     <section>
-      <div class="container">
-        <div class="flex items-center justify-between gap-10">
-          <div class="grow w-125">
-            <h2 class="text-3xl text-start font-bold tracking-wide mb-3">The Greatest Hiking Treks in Peru</h2>
-            <p class="text-start mb-0!">
-              Discover the best full-day tours available in Peru.
-            </p>
-          </div>
-          <div class="grow w-125 text-end">
-            <a href="#" class="inline-block bg-yellow text-nowrap py-3 px-7 rounded-lg hover:text-white font-medium hover:bg-green text-black transition-colors text-base">
-              View More <i class="fa-solid fa-arrow-right-long"></i>
-            </a>
-          </div>
-        </div>
-        <SliderFullDays data={getDataCategory} />
-      </div>
+      <SliderBlogs />
+    </section>
+    <section>
+      <SliderReviews />
     </section>
   </main>
 </MainLayout>

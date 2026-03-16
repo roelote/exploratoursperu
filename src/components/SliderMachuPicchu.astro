@@ -5,8 +5,8 @@ import "swiper/css/pagination";
 import { getInfoCategory } from "../libs/wp";
 
 const { data } = Astro.props;
-// console.log(data)
-const idCategoryMapi = 19;
+
+const idCategoryMapi = 14;
 
 const category = await getInfoCategory(idCategoryMapi);
 
@@ -15,8 +15,7 @@ function quitarHTML(str: any) {
 }
 ---
 
-<div class="w-full bg-gray-50">
-  <div class="container py-20">
+<div class="container my-20">
   <div class="flex items-center flex-col justify-center lg:flex-row lg:justify-between gap-5 lg:gap-5 mb-5 lg:mb-0">
     <div class="grow w-full lg:w-125">
       <h3 class="text-center lg:text-start text-red text-lg normal-case"><i class="fa-solid fa-person-hiking"></i> Machu Picchu Tours</h3>
@@ -29,10 +28,9 @@ function quitarHTML(str: any) {
         </a>
     </div>
   </div>
-  <div class="swiper mySwiperTreks my-5">
+  <div class="swiper mySwiperMachupicchu my-5">
     <div class="swiper-wrapper">
       {
-        
         data.map((c: any) => (
           <div class="swiper-slide py-1">
             <div class="overflow-hidden rounded-radio group hover:translate-y-[-10px] shadow hover:shadow-xl duration-300">
@@ -44,8 +42,8 @@ function quitarHTML(str: any) {
                   </a>
                 </div>
                 <div class="w-full px-5 py-7 select-none z-20 bg-white  transition-shadow border border-neutral-200">
-                  <h2 class="text-2xl font-semibold tracking-wide mb-3 capitalize" set:html={c.title.rendered} />
-                  <div class="line-clamp-2 text-start text-pretty text-sm mb-3" set:html={c.excerpt.rendered}/>
+                  <h2 class="font-semibold tracking-wide mb-3 capitalize" set:html={c.title.rendered} />
+                  <div class="line-clamp-2 text-start text-pretty text-sm mb-3" set:html={c.excerpt.rendered} />
                   <div class="flex items-center gap-5 mb-3">
                     <div class="flex flex-col justify-start items-start gap-2">
                       <div class="text-sm">
@@ -83,7 +81,7 @@ function quitarHTML(str: any) {
                   </div> */}
                   <hr class="my-5" />
                   <div class="w-full text-center">
-                    <a href={`/tour/${c.slug}`} class="inline-block w-full uppercase border-2 border-green text-black text-nowrap py-4 rounded-full font-medium group-hover:bg-green group-hover:text-white transition-colors duration-300 text-base">
+                    <a href={`/tour/${c.slug}`} class="inline-block uppercase w-full border-2 border-green text-black text-nowrap py-4 rounded-full font-medium group-hover:bg-green group-hover:text-white transition-colors duration-300 text-base">
                         Ver Tour <i class="fa-solid fa-arrow-right-long" />
                       </a>
                   </div>
@@ -98,13 +96,12 @@ function quitarHTML(str: any) {
     <div class="swiper-button-next bg-green/50 transition-colors rounded-full hover:bg-green text-white! p-3 shadow-lg"></div>
   </div>
 </div>
-</div>
 
 <script>
   import Swiper from "swiper";
   import { Navigation, Pagination } from "swiper/modules";
 
-  new Swiper(".mySwiperTreks", {
+  new Swiper(".mySwiperMachupicchu", {
     modules: [Navigation],
     loop: true,
     slidesPerView: 3,

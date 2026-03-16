@@ -30,31 +30,73 @@ const apiTour = `${domain}wp-json/wp/v2`;
 const apiPage = `${domain}wp-json/wp/v2`;
 const apiBlog = `${domain}wp-json/wp/v2`;
 const apiPosts  = `${domain}wp-json/wp/v2`;
-// const apiPostsCategoy  = `${domain}wp-json/wp/v2/tour_category`;
 const apiHeader = `${domain}wp-json/theme/v1`;
+const apiFooter = `${domain}wp-json/theme/v1`;
 const apiNav  = `${domain}wp-json/wp/v2`;
 const idLogo  = `${domain}wp-json/custom/v1`;
 const apiLogo = `${domain}wp-json/wp/v2`;
 const sidebar = `${domain}wp-json/custom/v1`;
+const apiCategory = `${domain}wp-json/wp/v2`;
 
-// export const getCategoryFullDays = async () => {
-//   try {
-//     const response = await fetch(`${apiPostsCategoy}/7`);
+export const getInfoCategory = async (id:number) => {
+  try {
+    const response = await fetch(`${apiCategory}/peru/${id}`);
 
-//     if (!response.ok) throw new Error(`Error al obtener datos de la Pagina`);
+    if (!response.ok) throw new Error(`Error al obtener datos de la Pagina`);
 
-//     const data = await response.json();
+    const data = await response.json();
 
-//     return data ?? null;
+    return data ?? null;
 
-//   } catch (error) {
-//     return null;
-//   }
-// };
+  } catch (error) {
+    return null;
+  }
+};
+
+export async function getImagesBatch(ids: number[], lang: string = "es") {
+  if (!ids?.length) return [];
+
+  const langParam = lang === "en" ? "&lang=en" : "";
+
+  const res = await fetch(
+    `${domain}/wp-json/wp/v2/media?include=${ids.join(",")}&per_page=${ids.length}${langParam}`
+  );
+
+  if (!res.ok) return [];
+
+  const data = await res.json();
+
+  const mapped = data.map((img:any)=>({
+    id: img.id,
+    url: fixWpUrl(img.source_url),
+    title: img.title?.rendered || "Gallery image"
+  }));
+
+  const ordered = ids
+    .map(id => mapped.find(img => img.id === Number(id)))
+    .filter(Boolean);
+
+  return ordered;
+}
 
 export const getInfoHeader = async () => {
   try {
     const response = await fetch(`${apiHeader}/settings`);
+
+    if (!response.ok) throw new Error(`Error al obtener datos de la Pagina`);
+
+    const data = await response.json();
+
+    return data ?? null;
+
+  } catch (error) {
+    return null;
+  }
+};
+
+export const getInfoFooter = async () => {
+  try {
+    const response = await fetch(`${apiFooter}/settings`);
 
     if (!response.ok) throw new Error(`Error al obtener datos de la Pagina`);
 

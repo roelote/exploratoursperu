@@ -1,19 +1,30 @@
 ---
 import type { GetStaticPaths } from "astro";
 import MainLayout from "../../layouts/MainLayout.astro";
-import { getTourInfo, getInfoByTours, getSidebarTour } from "../../libs/wp";
-import SliderHiking from "../../components/SliderHiking.astro";
+import { getTourInfo, getInfoByTours, getSidebarTour, getInfoCategory, getImages } from "../../libs/wp";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
 import Gallery from "../../components/Tours/Gallery.astro";
 import Detalles from "../../components/Tours/Detalles.astro";
+import SliderToursRelacionados from "../../components/SliderToursRelacionados.astro";
+import Sidebar from "../../components/Tours/Sidebar.astro";
 
 interface Props {
   tour: any;
   altLangUrl: string | null;
+  gallery: any;
 }
 
 const { slug } = Astro.params;
+
 const { altLangUrl } = Astro.props;
+
+const getTours = await getTourInfo();
+
+const [getCategory] = getTours.filter((c: any) => c.slug == slug);
+
+const [idCategory] = getCategory.peru;
+
+const category = await getInfoCategory(idCategory) ?? [];
 
 const sidebar = await getSidebarTour();
 
@@ -24,7 +35,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     const enSlug: string | null = tour.wpml_translations?.en?.slug ?? null;
     return {
       params: { slug: tour.slug },
-      props: { tour, altLangUrl: enSlug ? `/en/tour/${enSlug}` : null }
+      props: { tour, altLangUrl: enSlug ? `/en/tour/${enSlug}` : null },
     };
   });
 };
@@ -34,22 +45,47 @@ if (!slug) {
 }
 
 const getUrlTourInfo = await getInfoByTours(slug);
-const getByurl = getUrlTourInfo
+
+const getByurl = getUrlTourInfo;
 
 const [contentTour] = getUrlTourInfo;
 
 const titlePage = contentTour.title.rendered;
 const wrapper = contentTour.content.rendered;
+
+const [ids] = getUrlTourInfo.map((tour: any) => tour.acf.seccion_galleria.galleria) ?? [];
+
+
+// TODO: optimizar esta parte para traer solo las imagenes necesarias
+
+const preloadImages = ids.map((i: number) => getImages(i)) ?? [];
+
+const getImagesPreloads = await Promise.all(preloadImages) ?? [];
+
+const imgs = getImagesPreloads.slice(0, 3);
 ---
 
 <MainLayout altLangUrl={altLangUrl} seo={contentTour?.yoast_head_json}>
+
+  <Fragment slot="head">
+    {
+      imgs.map((img: any, i:number) => (
+        <link
+          rel="preload"
+          as="image/webp"
+          href={img?.url}
+          fetchpriority={"high"}
+        />
+      ))
+    }
+  </Fragment>
   <main>
     <section>
       {getUrlTourInfo.map((tour: any) => <Gallery img={tour.acf.seccion_galleria} />)}
     </section>
     <section>
       <div class="container mt-3">
-        <div class="bg-green/10 rounded-[20px] mt-3 p-5 md:p-10">
+        <div class="bg-green/10 rounded-radio mt-3 p-5 md:p-10">
           <div class="w-full flex flex-col xl:flex-row items-center justify-between gap-0 xl:gap-5">
             <div>
               <nav class="w-full xl:mb-2">
@@ -59,17 +95,22 @@ const wrapper = contentTour.content.rendered;
                       <i class="fa-solid fa-house"></i> Explore Tours Peru
                     </a>
                   </li>
-                  >
+                  <i class="fa-solid fa-chevron-right text-[8px] text-parragraph"></i>
+                  {
+                    category.name 
+                    ? <li>
+                        {/* <a href="" class="text-sm capitalize text-green font-medium hover:underline">{category.name}</a> */}
+                        <span class="text-sm capitalize text-green font-medium">{category.name}</span>
+                      </li>
+                      <i class="fa-solid fa-chevron-right text-[8px] text-parragraph"></i>
+                    : ""
+                  }
                   <li>
-                    <a href="" class="text-sm capitalize text-green font-medium hover:underline">Inca Trail</a>
-                  </li>
-                  >
-                  <li>
-                    <span class="text-sm capitalize text-black">Camino Inca a Machu Picchu 4 Days</span>
+                    <span class="text-sm capitalize text-black" set:html={titlePage} />
                   </li>
                 </ul>
               </nav>
-              <h1 class="text-3xl text-start font-semibold my-5 xl:my-0 inline-block">{titlePage}</h1>
+              <h1 class="text-3xl text-start font-semibold my-5 xl:my-0 inline-block" set:html={titlePage} />
             </div>
             <div>
               <div class="grid grid-cols-3 md:grid-cols-3 gap-5 md:gap-10 items-center md:justify-items-center details-tour">
@@ -84,15 +125,14 @@ const wrapper = contentTour.content.rendered;
       <div class="container my-10">
         <div class="w-full flex flex-col lg:flex-row items-start gap-10">
           <div class="w-full">
-            <div class="wrapper-content-astro">
+            <div class="wrapper-content-astro" id="wrapper-content-astro">
               <p class="mb-0!" set:html={wrapper} />
             </div>
           </div>
-
           <!-- sidebar tours -->
-          <div class="sticky top-0 w-full lg:w-[500px] h-full sidebar-tour-page">
+          <div class="sticky top-0 w-full lg:w-[500px] h-full">
             <div class="w-full h-full shadow-[0px_0px_30px_0px_rgba(0,0,0,0.1)] p-5 rounded-[20px]">
-              <p set:html={sidebar.content} />
+              <Sidebar content={sidebar.content} />
             </div>
           </div>
         </div>
@@ -100,17 +140,14 @@ const wrapper = contentTour.content.rendered;
     </section>
   </main>
   <section>
-    <div class="container">
-      <h2 class="text-2xl font-semibold text-center capitalize">Tours Relacionados</h2>
-      <SliderHiking />
-    </div>
+    <SliderToursRelacionados />
   </section>
 </MainLayout>
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     // TABS START
-    
+
     document.querySelectorAll(".responsive-tabs").forEach((tabsContainer) => {
       const titles = tabsContainer.querySelectorAll(".tabtitle");
       const contents = tabsContainer.querySelectorAll(".tabcontent");
