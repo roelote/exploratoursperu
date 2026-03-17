@@ -79,9 +79,10 @@ const imgs = getImagesPreloads.slice(0, 3);
       ))
     }
   </Fragment>
+  
   <main>
     <section>
-      {getUrlTourInfo.map((tour: any) => <Gallery img={tour.acf.seccion_galleria} />)}
+      {getUrlTourInfo.map((tour: any) => <Gallery img={tour.acf.seccion_galleria}/>)}
     </section>
     <section>
       <div class="container mt-3">
