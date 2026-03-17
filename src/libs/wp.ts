@@ -8,37 +8,51 @@ const domain = import.meta.env.WP_DOMAIN;
  *
  * Solo reemplaza URLs que contengan /wp-content/ o /wp-includes/ para ser preciso.
  */
-const _wpOrigin = (domain.endsWith('/') ? domain.slice(0, -1) : domain);
+const _wpOrigin = domain.endsWith("/") ? domain.slice(0, -1) : domain;
 
 const normalizeUrls = <T>(data: T): T => {
   if (!data) return data;
   const str = JSON.stringify(data);
-  const fixed = str.replace(
-    /"(https?:\/\/[^"]+\/wp-(?:content|includes)\/[^"]*)"/g,
-    (_match, url: string) => '"' + url.replace(/^https?:\/\/[^/]+/, _wpOrigin) + '"'
-  );
+  const fixed = str.replace(/"(https?:\/\/[^"]+\/wp-(?:content|includes)\/[^"]*)"/g, (_match, url: string) => '"' + url.replace(/^https?:\/\/[^/]+/, _wpOrigin) + '"');
   return JSON.parse(fixed) as T;
 };
 
 /** Corrige el origen de una URL individual de WordPress */
 export const fixWpUrl = (url: string | null | undefined): string => {
-  if (!url) return '';
+  if (!url) return "";
   return url.replace(/^https?:\/\/[^/]+/, _wpOrigin);
 };
 
 const apiTour = `${domain}wp-json/wp/v2`;
 const apiPage = `${domain}wp-json/wp/v2`;
 const apiBlog = `${domain}wp-json/wp/v2`;
-const apiPosts  = `${domain}wp-json/wp/v2`;
+const apiContacto = `${domain}wp-json/wp/v2`;
+const apiPosts = `${domain}wp-json/wp/v2`;
 const apiHeader = `${domain}wp-json/theme/v1`;
 const apiFooter = `${domain}wp-json/theme/v1`;
-const apiNav  = `${domain}wp-json/wp/v2`;
-const idLogo  = `${domain}wp-json/custom/v1`;
+const apiNav = `${domain}wp-json/wp/v2`;
+const idLogo = `${domain}wp-json/custom/v1`;
 const apiLogo = `${domain}wp-json/wp/v2`;
 const sidebar = `${domain}wp-json/custom/v1`;
 const apiCategory = `${domain}wp-json/wp/v2`;
 
-export const getInfoCategory = async (id:number) => {
+export const getInfoContacto = async (lang: string = "es") => {
+  try {
+    const langParam = lang === "en" ? "&lang=en" : "";
+
+    const response = await fetch(`${apiContacto}/pages?slug=contacto${langParam}`);
+
+    if (!response.ok) throw new Error(`Error al obtener datos del Blog`);
+
+    const [data] = await response.json();
+
+    return normalizeUrls(data ?? null);
+  } catch (error) {
+    return null;
+  }
+};
+
+export const getInfoCategory = async (id: number) => {
   try {
     const response = await fetch(`${apiCategory}/peru/${id}`);
 
@@ -47,7 +61,6 @@ export const getInfoCategory = async (id:number) => {
     const data = await response.json();
 
     return data ?? null;
-
   } catch (error) {
     return null;
   }
@@ -58,23 +71,19 @@ export async function getImagesBatch(ids: number[], lang: string = "es") {
 
   const langParam = lang === "en" ? "&lang=en" : "";
 
-  const res = await fetch(
-    `${domain}/wp-json/wp/v2/media?include=${ids.join(",")}&per_page=${ids.length}${langParam}`
-  );
+  const res = await fetch(`${domain}/wp-json/wp/v2/media?include=${ids.join(",")}&per_page=${ids.length}${langParam}`);
 
   if (!res.ok) return [];
 
   const data = await res.json();
 
-  const mapped = data.map((img:any)=>({
+  const mapped = data.map((img: any) => ({
     id: img.id,
     url: fixWpUrl(img.source_url),
-    title: img.title?.rendered || "Gallery image"
+    title: img.title?.rendered || "Gallery image",
   }));
 
-  const ordered = ids
-    .map(id => mapped.find(img => img.id === Number(id)))
-    .filter(Boolean);
+  const ordered = ids.map((id) => mapped.find((img) => img.id === Number(id))).filter(Boolean);
 
   return ordered;
 }
@@ -88,7 +97,6 @@ export const getInfoHeader = async () => {
     const data = await response.json();
 
     return data ?? null;
-
   } catch (error) {
     return null;
   }
@@ -103,7 +111,6 @@ export const getInfoFooter = async () => {
     const data = await response.json();
 
     return data ?? null;
-
   } catch (error) {
     return null;
   }
@@ -118,15 +125,15 @@ export const getInfoPage = async () => {
     const data = await response.json();
 
     return data ?? null;
-
   } catch (error) {
     return null;
   }
 };
 
-export const getInfoBlog = async (lang: string = 'es') => {
+export const getInfoBlog = async (lang: string = "es") => {
   try {
-    const langParam = lang === 'en' ? '&lang=en' : '';
+    const langParam = lang === "en" ? "&lang=en" : "";
+
     const response = await fetch(`${apiBlog}/pages?slug=blog${langParam}`);
 
     if (!response.ok) throw new Error(`Error al obtener datos del Blog`);
@@ -134,19 +141,17 @@ export const getInfoBlog = async (lang: string = 'es') => {
     const [data] = await response.json();
 
     return normalizeUrls(data ?? null);
-
   } catch (error) {
     return null;
   }
 };
 
-
-export const getPosts = async (lang: string = 'es') => {
+export const getPosts = async (lang: string = "es") => {
   try {
-    const langParam = lang === 'en' ? '&lang=en' : '';
+    const langParam = lang === "en" ? "&lang=en" : "";
     const response = await fetch(`${apiPosts}/posts?per_page=100${langParam}`);
 
-    if (!response.ok) throw new Error("Error al obtener datos del Blog")
+    if (!response.ok) throw new Error("Error al obtener datos del Blog");
 
     const data = await response.json();
 
@@ -157,9 +162,9 @@ export const getPosts = async (lang: string = 'es') => {
   }
 };
 
-export const getInfoPageHome = async (lang: string = 'es') => {
+export const getInfoPageHome = async (lang: string = "es") => {
   try {
-    const langParam = lang === 'en' ? '&lang=en' : '';
+    const langParam = lang === "en" ? "&lang=en" : "";
     const response = await fetch(`${apiPage}/pages?slug=home${langParam}`);
 
     if (!response.ok) throw new Error(`Error al obtener datos de la Pagina de Inicio)`);
@@ -167,14 +172,13 @@ export const getInfoPageHome = async (lang: string = 'es') => {
     const [data] = await response.json();
 
     return normalizeUrls(data ?? null);
-
   } catch (error) {
     return null;
   }
 };
 
-export const getSidebarTour = async (lang: string = 'es') => {
-  const endpoint = lang === 'en' ? 'sidebar-tour-en' : 'sidebar-tour';
+export const getSidebarTour = async (lang: string = "es") => {
+  const endpoint = lang === "en" ? "sidebar-tour-en" : "sidebar-tour";
   const response = await fetch(`${sidebar}/${endpoint}`);
 
   if (!response.ok) {
@@ -186,8 +190,8 @@ export const getSidebarTour = async (lang: string = 'es') => {
   return data;
 };
 
-export const getSidebarBlog = async (lang: string = 'es') => {
-  const endpoint = lang === 'en' ? 'sidebar-blog-en' : 'sidebar-blog';
+export const getSidebarBlog = async (lang: string = "es") => {
+  const endpoint = lang === "en" ? "sidebar-blog-en" : "sidebar-blog";
   const response = await fetch(`${sidebar}/${endpoint}`);
 
   if (!response.ok) {
@@ -199,8 +203,8 @@ export const getSidebarBlog = async (lang: string = 'es') => {
   return data;
 };
 
-export const getTourInfo = async (lang: string = 'es') => {
-  const langParam = lang === 'en' ? '&lang=en' : '';
+export const getTourInfo = async (lang: string = "es") => {
+  const langParam = lang === "en" ? "&lang=en" : "";
   const response = await fetch(`${apiTour}/tour?per_page=100${langParam}`);
 
   if (!response.ok) {
@@ -210,8 +214,7 @@ export const getTourInfo = async (lang: string = 'es') => {
   return normalizeUrls(await response.json());
 };
 
-
-export const getHeaderInfo = async (lang: string = 'es') => {
+export const getHeaderInfo = async (lang: string = "es") => {
   try {
     const response = await fetch(`${apiNav}/top-nav/?lang=${lang}`);
 
@@ -274,15 +277,15 @@ export const getImages = async (logo: number) => {
     const data = await response.json();
     return {
       url: fixWpUrl(data.guid.rendered),
-      title: data.title.rendered
+      title: data.title.rendered,
     };
   } catch (error) {
     return null;
   }
 };
 
-export const getInfoByTours = async (url: any, lang: string = 'es') => {
-  const langParam = lang === 'en' ? '&lang=en' : '';
+export const getInfoByTours = async (url: any, lang: string = "es") => {
+  const langParam = lang === "en" ? "&lang=en" : "";
   const response = await fetch(`${apiTour}/tour?slug=${url}${langParam}`);
 
   if (!response.ok) throw new Error(`Error al obtener datos del tour (${url})`);

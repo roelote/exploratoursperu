@@ -23,8 +23,8 @@
   --color-parragraph: #6e6e6e;
   --color-wasap: #25d366;
   --color-heading: #111827;
-  --color-tripadvisor: #00AF87;
-  --radius-radio: 20px
+  --color-tripadvisor: #00af87;
+  --radius-radio: 20px;
 }
 
 @layer base {
@@ -37,7 +37,7 @@
   }
 
   h3 {
-    @apply text-xl text-heading font-semibold mb-3;
+    @apply text-xl text-heading font-normal mb-3;
   }
 
   hr {
@@ -56,7 +56,7 @@
   --color-gray-bold: #64748b;
   --color-gray-icon: #d6d7d8;
   --color-parragraph: #6e6e6e;
-  --color-tripadvisor: #00AF87;
+  --color-tripadvisor: #00af87;
   --border-radius: 20px;
 }
 
@@ -126,8 +126,7 @@ img {
   margin-bottom: 1.25rem;
 }
 
-
-.contact-form-tour span{
+.contact-form-tour span {
   display: inline-block;
 }
 
@@ -204,7 +203,7 @@ img {
   color: #000;
 }
 
-.iti--inline-dropdown:not(.iti--container) .iti__dropdown-content{
+.iti--inline-dropdown:not(.iti--container) .iti__dropdown-content {
   overflow: hidden;
 }
 
@@ -217,33 +216,35 @@ img {
   display: block;
 }
 
-.form-loading{
-display:flex;
-align-items:center;
-gap:8px;
-margin-top:10px;
-font-size:14px;
-opacity:0;
-transform:translateY(-5px);
-transition:.3s;
+.form-loading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 14px;
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: 0.3s;
 }
 
-.form-loading.active{
-opacity:1;
-transform:translateY(0);
+.form-loading.active {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.loading-spinner{
-width:16px;
-height:16px;
-border:2px solid #ddd;
-border-top-color:#030246;
-border-radius:50%;
-animation:spin .6s linear infinite;
+.loading-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ddd;
+  border-top-color: #030246;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
 }
 
-@keyframes spin{
-to{transform:rotate(360deg)}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ------------------ */
@@ -625,7 +626,6 @@ to{transform:rotate(360deg)}
   text-decoration: underline;
 }
 
-
 /* BLOG GALLERIA */
 
 .wrapper-post .wp-block-gallery {
@@ -706,12 +706,11 @@ to{transform:rotate(360deg)}
 
 /* ------------------ */
 
-
 /* CATEGORIAS */
 
-.wp-block-categories-list .cat-item{
+.wp-block-categories-list .cat-item {
   display: flex;
-  align-items: center; 
+  align-items: center;
   justify-content: space-between;
   padding: 10px 0;
   border-bottom: 1px solid #e5e5e5;
@@ -720,13 +719,13 @@ to{transform:rotate(360deg)}
 
 /* dame un diseño moderno para mi lista check pero dame un icono de check redondeado de un color */
 
-.wrapper-home-page ul{
+.wrapper-home-page ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.wrapper-home-page ul li{
+.wrapper-home-page ul li {
   position: relative;
   display: flex;
   align-items: center;
@@ -734,7 +733,7 @@ to{transform:rotate(360deg)}
   color: var(--color-parragraph);
 }
 
-.wrapper-home-page ul li::before{
+.wrapper-home-page ul li::before {
   content: "";
   position: absolute;
   left: 0;
@@ -747,25 +746,26 @@ to{transform:rotate(360deg)}
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 640'%3E%3C!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--%3E%3Cpath fill='hsl(150, 100%25, 12%25)' d='M320 576C178.6 576 64 461.4 64 320C64 178.6 178.6 64 320 64C461.4 64 576 178.6 576 320C576 461.4 461.4 576 320 576zM438 209.7C427.3 201.9 412.3 204.3 404.5 215L285.1 379.2L233 327.1C223.6 317.7 208.4 317.7 199.1 327.1C189.8 336.5 189.7 351.7 199.1 361L271.1 433C276.1 438 282.9 440.5 289.9 440C296.9 439.5 303.3 435.9 307.4 430.2L443.3 243.2C451.1 232.5 448.7 217.5 438 209.7z'/%3E%3C/svg%3E");
 }
 
-.btn-link{
+.btn-link {
   background-color: var(--color-blue);
   color: #fff;
-  padding: .5em 2.5em;
+  padding: 0.5em 2.5em;
   border-radius: 8px;
   text-decoration: none;
   font-size: 14px;
   display: inline-block;
   border: 2px solid var(--color-blue);
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  margin: .5em 0;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+  margin: 0.5em 0;
 }
 
-.btn-link:hover{
+.btn-link:hover {
   background-color: transparent;
   color: var(--color-black);
 }
-
 
 /* bullets normales */
 .swiper-pagination-bullet {
@@ -774,7 +774,7 @@ to{transform:rotate(360deg)}
   background: #cfcfcf;
   opacity: 1;
   transform: scale(1);
-  transition: 
+  transition:
     transform 0.35s ease,
     background-color 0.35s ease,
     width 0.35s ease;
@@ -788,7 +788,6 @@ to{transform:rotate(360deg)}
   border-radius: 10px;
 }
 
-
 .wrapper-content-astro a {
   color: var(--color-green);
   text-decoration: none;
@@ -801,3 +800,234 @@ to{transform:rotate(360deg)}
   text-decoration: underline;
 }
 
+
+
+/* PAGINA CONTACTO */
+
+.content-page .wp-block-columns {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.content-page .wp-block-columns > .wp-block-column{
+   flex-grow: 1;
+   width: 300px;
+}
+
+.content-page .is-layout-flex {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.content-page .is-layout-flex .wp-block-columns {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  flex-grow: 0 !important;
+  gap: 10px !important;
+}
+
+.content-page .block-col{
+  display: flex;
+  align-items: center;
+}
+
+.content-page .block-col .wp-block-column {
+  flex-grow: 0 !important;
+}
+
+.content-page .wp-block-column > .wp-block-image{
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-green);
+  border-radius: 100%;
+}
+
+.content-page .wp-block-column > .wp-block-image img{
+  filter: invert(1) brightness(100);
+}
+
+.content-page .wp-block-column .is-layout-flex .wp-block-column h2 {
+  margin-bottom: 0 !important;
+}
+
+/* Contenedor principal de las 3 columnas */
+.wp-block-columns.wp-container-core-columns-is-layout-9d6595d7 {
+  gap: 2rem;
+  padding: 20px 0;
+  align-items: flex-start;
+}
+
+/* Estilo para los títulos con iconos (Ubicación, Llámenos, Escríbenos) */
+.content-page .wp-block-column .wp-block-columns {
+  margin-bottom: 15px !important;
+  align-items: center;
+  border-bottom: 2px solid #f0f0f0; /* Línea sutil decorativa */
+  padding-bottom: 10px;
+}
+
+/* Ajuste de las imágenes/iconos */
+.content-page .wp-block-image img {
+  height: auto;
+  max-width: 35px; /* Tamaño uniforme para los iconos */
+  display: block;
+  user-select: none;
+}
+
+/* Títulos de sección (Negritas principales) */
+.content-page .wp-block-column p strong {
+  color: #333;
+  font-size: 1.1rem;
+  display: block;
+  margin-top: 10px;
+}
+
+/* Párrafos de información (Direcciones, números, correos) */
+.content-page .wp-block-column p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #666;
+  margin-bottom: 8px !important;
+}
+
+/* Espaciado extra entre bloques de información */
+.content-page .wp-block-column p strong:not(:first-child) {
+  margin-top: 20px;
+}
+
+/* Ajuste para móviles */
+@media (max-width: 991px) {
+  .content-page .wp-block-columns.is-layout-flex {
+    flex-direction: column;
+  }
+
+  .content-page .wp-block-column {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #fafafa; /* Fondo ligero para separar secciones en móvil */
+    border-radius: 8px;
+  }
+}
+
+/* Contenedor principal */
+.content-page .form-contact-page p {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dos columnas */
+    gap: 20px;
+    margin: 0;
+}
+
+/* Estilo base para los campos (inputs) */
+.content-page .form-contact-page .wpcf7-form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #e2e8f0; /* Gris suave */
+    border-radius: 6px;
+    font-size: 14px;
+    color: #334155;
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+    outline: none;
+    box-sizing: border-box;
+}
+
+/* Efecto Focus: Minimalista pero profesional */
+.content-page .form-contact-page .wpcf7-form-control:focus {
+    border-color: var(--color-blue); /* O el color principal de tu marca */
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+}
+
+/* --- Manejo de Posiciones --- */
+
+/* 1. Nombre (Izquierda) y 2. Apellido (Derecha) */
+.content-page.form-contact-page span:nth-child(1),
+.content-page.form-contact-page span:nth-child(3) {
+    grid-column: span 1;
+}
+
+/* 3. Email (Izquierda) y 4. Teléfono (Derecha) */
+.content-page .form-contact-page span:nth-child(5),
+.content-page .form-contact-page span:nth-child(7) {
+    grid-column: span 1;
+}
+
+/* 5. Asunto - Ocupa todo el ancho */
+.content-page .form-contact-page span:nth-child(9) {
+    grid-column: span 2;
+}
+
+/* 6. Mensaje - Ocupa todo el ancho y le damos más altura */
+.content-page .form-contact-page span:nth-child(11) {
+    grid-column: span 2;
+}
+
+.content-page .form-contact-page span:nth-child(11) input {
+    padding-bottom: 60px; /* Simula un área de texto más amplia */
+}
+
+/* Responsive: Una sola columna en móviles */
+@media (max-width: 600px) {
+    .form-contact-page p {
+        grid-template-columns: 1fr;
+    }
+    .content-page .form-contact-page span:nth-child(n) {
+        grid-column: span 1;
+    }
+}
+
+/* Limpiar los <br> que mete Contact Form 7 por defecto */
+.content-page .form-contact-page br {
+    display: none;
+}
+
+/* Estilos para el botón de Contact Form 7 */
+.content-page .form-contact-page .wpcf7-submit {
+    display: block;
+    width: 100%; 
+    padding: 14px 28px;
+    background-color: var(--color-yellow); /* Negro sólido profesional */
+    color: #000;
+    border: 1px solid var(--color-yellow);
+    border-radius: var(--border-radius);
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    margin-top: 15px;
+    appearance: none;
+    -webkit-appearance: none;
+    grid-column: span 2;
+}
+
+/* Efecto Hover: Invierte los colores para un toque elegante */
+.content-page .form-contact-page .wpcf7-submit:hover {
+    background-color: transparent;
+    color: #000000;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Estado de click */
+.content-page .form-contact-page .wpcf7-submit:active {
+    transform: scale(0.98);
+}
+
+/* Estilo para el spinner de carga nativo de CF7 */
+.content-page .wpcf7-spinner {
+    position: absolute;
+    margin: 0 0 0 10px;
+    background-color: var(--color-yellow);
+}
+
+.content-page .content-page .wp-block-group{
+  padding: 30px;
+  background-color: #f9f9f9;
+  border-radius: 20px;
+}
+
+/* FINAL PAGINA CONTACTO */

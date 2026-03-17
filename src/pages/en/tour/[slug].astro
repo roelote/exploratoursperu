@@ -6,6 +6,7 @@ import "@fancyapps/ui/dist/fancybox/fancybox.css";
 import Gallery from "../../../components/Tours/Gallery.astro";
 import Detalles from "../../../components/Tours/Detalles.astro";
 import SliderToursRelacionados from "../../../components/SliderToursRelacionados.astro";
+import Sidebar from "../../../components/Tours/Sidebar.astro";
 
 interface Props {
   tour: any;
@@ -19,11 +20,9 @@ const { altLangUrl } = Astro.props;
 
 const getTours = await getTourInfo("en");
 
-
 const [getCategory] = getTours.filter((c: any) => c.slug == slug);
 
-const idCategory = getCategory.peru;
-
+const [idCategory] = getCategory.peru;
 
 const category = await getInfoCategory(idCategory) ?? [];
 
@@ -46,15 +45,17 @@ if (!slug) {
 }
 
 const getUrlTourInfo = await getInfoByTours(slug, "en");
+
 const getByurl = getUrlTourInfo;
 
 const [contentTour] = getUrlTourInfo;
 
-const titlePage = contentTour?.title?.rendered;
-const wrapper = contentTour?.content?.rendered;
+const titlePage = contentTour.title.rendered;
+const wrapper = contentTour.content.rendered;
 
+const ids = getUrlTourInfo.map((tour: any) => tour.acf.seccion_galleria.galleria) ?? [];
 
-const [ids] = getUrlTourInfo.map((tour: any) => tour.acf.seccion_galleria.galleria) ?? [];
+// TODO: optimizar esta parte para traer solo las imagenes necesarias
 
 const preloadImages = ids.map((i: number) => getImages(i)) ?? [];
 
@@ -77,6 +78,7 @@ const imgs = getImagesPreloads.slice(0, 3);
       ))
     }
   </Fragment>
+  
   <main>
     <section>
       {getUrlTourInfo.map((tour: any) => <Gallery img={tour.acf.seccion_galleria} lang="en" />)}
@@ -128,9 +130,9 @@ const imgs = getImagesPreloads.slice(0, 3);
             </div>
           </div>
           <!-- sidebar tours -->
-          <div class="sticky top-0 w-full lg:w-[500px] h-full sidebar-tour-page">
+          <div class="sticky top-0 w-full lg:w-[500px] h-full">
             <div class="w-full h-full shadow-[0px_0px_30px_0px_rgba(0,0,0,0.1)] p-5 rounded-[20px]">
-              <p set:html={sidebar.content} />
+              <Sidebar content={sidebar.content} />
             </div>
           </div>
         </div>
@@ -204,13 +206,5 @@ const imgs = getImagesPreloads.slice(0, 3);
     }
 
     // ACCORDION END
-  });
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@26.7.6/build/js/intlTelInput.min.js" defer></script>
-<script type="module">
-  const input = document.querySelector("#phone");
-  window.intlTelInput(input, {
-    loadUtils: () => import("https://cdn.jsdelivr.net/npm/intl-tel-input@26.7.6/build/js/utils.js"),
   });
 </script>

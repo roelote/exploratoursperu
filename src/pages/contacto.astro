@@ -1,0 +1,39 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import { getInfoContacto } from "../libs/wp";
+
+const data = await getInfoContacto();
+---
+
+<MainLayout>
+  <main>
+    <section>
+      <div class="w-full h-[450px] overflow-hidden">
+        <div class="relative w-full h-full bg-cover bg-center after:content-[''] after:absolute after:inset-0 after:bg-black/50 after:w-full after:h-full flex items-center justify-center" style={`background-image: url(${data.featured_img ?? ""})`}>
+          <div class="relative z-20">
+            <h1 class="text-white text-4xl block text-center mb-3">{data.title.rendered}</h1>
+            <div class="flex items-center justify-center gap-2">
+              <div>
+                <a href="/" class="inline-block text-white text-base">Inicio</a>
+              </div>
+              <div>
+                <span class="size-2 bg-yellow block rounded-full"></span>
+              </div>
+              <div>
+                <span class="text-yellow text-base">{data.title.rendered}</span>
+              </div>
+            </div>
+          </div>
+          <div class="absolute bottom-0 z-10 left-0 w-full h-14 bg-cover bg-center bg-no-repeat"  style={`background-image: url(https://cms.exploratoursperu.com/wp-content/uploads/footer-spray.webp)`} />
+        </div>
+      </div>
+    </section>
+    <section>
+        <div class="container">
+            <div class="content-page">
+                <div set:html={data.content.rendered} />
+            </div>
+        </div>
+    </section>
+  </main>
+</MainLayout>
