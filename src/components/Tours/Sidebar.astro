@@ -47,6 +47,24 @@ window.addEventListener("load", () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    // 1. Obtener datos del formulario
+    const formData = new FormData(form);
+    
+    // 2. NUEVA VALIDACIÓN: Verificar si todos los campos están vacíos
+    let isAllEmpty = true;
+    for (let value of formData.values()) {
+      if (value.toString().trim() !== "") {
+        isAllEmpty = false;
+        break;
+      }
+    }
+
+    if (isAllEmpty) {
+      alert("Por favor, completa al menos un campo antes de enviar.");
+      return; // Detiene la ejecución aquí
+    }
+
+    // Si pasa la validación, procedemos
     loader.classList.add("active");
     submitBtn.disabled = true;
 
@@ -55,7 +73,8 @@ window.addEventListener("load", () => {
       hiddenPhone.value = iti.getNumber();
     }
 
-    const formData = new FormData(form);
+    // Actualizamos el formData con el teléfono completo si es necesario
+    formData.set("telefono-completo", iti.getNumber());
 
     try {
       const res = await fetch(
@@ -78,10 +97,11 @@ window.addEventListener("load", () => {
     } catch (error) {
       console.error(error);
       alert("Error enviando el mensaje");
+    } finally {
+      // Usar finally asegura que el loader se quite siempre, incluso si hay error
+      loader.classList.remove("active");
+      submitBtn.disabled = false;
     }
-
-    loader.classList.remove("active");
-    submitBtn.disabled = false;
   });
 
 });

@@ -19,8 +19,8 @@ const getAsociaciones = foot.asociaciones;
         <div>
           {
             !a.url 
-            ? <img decoding="async" draggable="false" loading="lazy" fetchpriority="low" src={a.img?.url} class="size-40 object-contain object-center" alt={a.img?.title} /> 
-            : <a href={a.url.url} title={a.img?.title}><img decoding="async" draggable="false" fetchpriority="low" loading="lazy" src={a.img.url} class="size-40 object-contain object-center" alt={a.img?.title} /></a>
+            ? <img decoding="async" draggable="false" loading="lazy" fetchpriority="low" src={a.img?.url} class="size-40 object-contain object-center select-none" alt={a.img?.title} /> 
+            : <a href={a.url.url} title={a.img?.title}><img decoding="async" draggable="false" fetchpriority="low" loading="lazy" src={a.img.url} class="size-40 select-none object-contain object-center" alt={a.img?.title} /></a>
           }
         </div>
       ))
@@ -29,7 +29,7 @@ const getAsociaciones = foot.asociaciones;
 </div>
 
 <footer>
-  <img decoding="async" loading="lazy" src={imgBackground.url} class="w-full h-auto object-cover object-center" alt="footer img" />
+  <img decoding="async" loading="lazy" draggable="false" src={imgBackground.url} class="w-full h-auto object-cover select-none object-center" alt="footer img" />
   <div class="bg-black py-10">
     <div class="container mx-auto">
       <div class="flex w-full items-center md:items-start flex-col md:flex-row md:justify-between gap-10">

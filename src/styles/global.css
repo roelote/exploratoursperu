@@ -820,6 +820,10 @@ img {
   gap: 10px;
 }
 
+.content-page h2{
+  font-size: 2rem !important;
+}
+
 .content-page .is-layout-flex .wp-block-columns {
   display: flex;
   align-items: center;
@@ -856,7 +860,7 @@ img {
 }
 
 /* Contenedor principal de las 3 columnas */
-.wp-block-columns.wp-container-core-columns-is-layout-9d6595d7 {
+.content-page .wp-block-columns.wp-container-core-columns-is-layout-9d6595d7 {
   gap: 2rem;
   padding: 20px 0;
   align-items: flex-start;
@@ -899,10 +903,30 @@ img {
   margin-top: 20px;
 }
 
+.content-page .wp-block-group h2{
+  font-size: 1.7rem !important;
+}
+
 /* Ajuste para móviles */
 @media (max-width: 991px) {
+  
+  .content-page .form-contact-page p {
+    display: flex !important;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .content-page .wp-block-group h2 {
+    font-size: 1.5rem !important;
+    text-align: center;
+  }
+
   .content-page .wp-block-columns.is-layout-flex {
     flex-direction: column;
+  }
+
+  .content-page .wp-block-columns > .wp-block-column {
+    width: 100%;
   }
 
   .content-page .wp-block-column {
@@ -965,8 +989,10 @@ img {
     grid-column: span 2;
 }
 
-.content-page .form-contact-page span:nth-child(11) input {
-    padding-bottom: 60px; /* Simula un área de texto más amplia */
+.content-page .form-contact-page span:nth-child(13) {
+    grid-column: span 2;
+    display: flex;
+    justify-content: flex-end;
 }
 
 /* Responsive: Una sola columna en móviles */
@@ -979,6 +1005,14 @@ img {
     }
 }
 
+.content-page a{
+  color: var(--color-green);
+}
+.content-page a:hover{
+  color: var(--color-yellow);
+  text-decoration: underline;
+}
+
 /* Limpiar los <br> que mete Contact Form 7 por defecto */
 .content-page .form-contact-page br {
     display: none;
@@ -989,12 +1023,12 @@ img {
     display: block;
     width: 100%; 
     padding: 14px 28px;
-    background-color: var(--color-yellow); /* Negro sólido profesional */
-    color: #000;
-    border: 1px solid var(--color-yellow);
+    background-color: var(--color-green); /* Negro sólido profesional */
+    color: #fff;
+    border: 1px solid var(--color-green);
     border-radius: var(--border-radius);
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     cursor: pointer;
@@ -1024,10 +1058,11 @@ img {
     background-color: var(--color-yellow);
 }
 
-.content-page .content-page .wp-block-group{
-  padding: 30px;
+.content-page .wp-block-group{
+  padding: 20px;
   background-color: #f9f9f9;
   border-radius: 20px;
+  border: 1px solid #e5e5e5;
 }
 
 /* FINAL PAGINA CONTACTO */
