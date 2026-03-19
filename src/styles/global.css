@@ -820,6 +820,10 @@ img {
   gap: 10px;
 }
 
+.content-page h2{
+  font-size: 2rem !important;
+}
+
 .content-page .is-layout-flex .wp-block-columns {
   display: flex;
   align-items: center;
@@ -843,12 +847,20 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-green);
+
   border-radius: 100%;
 }
 
-.content-page .wp-block-column > .wp-block-image img{
-  filter: invert(1) brightness(100);
+.content-page .wp-block-group__inner-container > .wp-block-columns:nth-child(1) .wp-block-image {
+  background-color: rgb(219, 234, 254);
+}
+
+.content-page .wp-block-group__inner-container > .wp-block-columns:nth-child(2) .wp-block-image {
+  background-color: rgb(243, 232, 255);
+}
+
+.content-page .wp-block-group__inner-container > .wp-block-columns:nth-child(3) .wp-block-image {
+  background-color: rgb(219, 252, 231);
 }
 
 .content-page .wp-block-column .is-layout-flex .wp-block-column h2 {
@@ -856,7 +868,7 @@ img {
 }
 
 /* Contenedor principal de las 3 columnas */
-.wp-block-columns.wp-container-core-columns-is-layout-9d6595d7 {
+.content-page .wp-block-columns.wp-container-core-columns-is-layout-9d6595d7 {
   gap: 2rem;
   padding: 20px 0;
   align-items: flex-start;
@@ -864,16 +876,21 @@ img {
 
 /* Estilo para los títulos con iconos (Ubicación, Llámenos, Escríbenos) */
 .content-page .wp-block-column .wp-block-columns {
-  margin-bottom: 15px !important;
+  margin-bottom: 15px;
   align-items: center;
-  border-bottom: 2px solid #f0f0f0; /* Línea sutil decorativa */
-  padding-bottom: 10px;
 }
 
 /* Ajuste de las imágenes/iconos */
 .content-page .wp-block-image img {
   height: auto;
-  max-width: 35px; /* Tamaño uniforme para los iconos */
+  max-width: 30px;
+  display: block;
+  user-select: none;
+}
+
+.content-page .wp-block-image img:nth-child(1) {
+  height: auto;
+  max-width: 25px;
   display: block;
   user-select: none;
 }
@@ -899,16 +916,36 @@ img {
   margin-top: 20px;
 }
 
+.content-page .wp-block-group h2{
+  font-size: 1.7rem !important;
+  margin-bottom: 15px !important;
+}
+
 /* Ajuste para móviles */
 @media (max-width: 991px) {
+  
+  .content-page .form-contact-page p {
+    display: flex !important;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .content-page .wp-block-group h2 {
+    font-size: 1.5rem !important;
+    text-align: center;
+  }
+
   .content-page .wp-block-columns.is-layout-flex {
     flex-direction: column;
+  }
+
+  .content-page .wp-block-columns > .wp-block-column {
+    width: 100%;
   }
 
   .content-page .wp-block-column {
     margin-bottom: 30px;
     padding: 20px;
-    background: #fafafa; /* Fondo ligero para separar secciones en móvil */
     border-radius: 8px;
   }
 }
@@ -965,8 +1002,10 @@ img {
     grid-column: span 2;
 }
 
-.content-page .form-contact-page span:nth-child(11) input {
-    padding-bottom: 60px; /* Simula un área de texto más amplia */
+.content-page .form-contact-page span:nth-child(13) {
+    grid-column: span 2;
+    display: flex;
+    justify-content: flex-end;
 }
 
 /* Responsive: Una sola columna en móviles */
@@ -979,6 +1018,14 @@ img {
     }
 }
 
+.content-page a{
+  color: var(--color-green);
+}
+.content-page a:hover{
+  color: var(--color-yellow);
+  text-decoration: underline;
+}
+
 /* Limpiar los <br> que mete Contact Form 7 por defecto */
 .content-page .form-contact-page br {
     display: none;
@@ -988,15 +1035,15 @@ img {
 .content-page .form-contact-page .wpcf7-submit {
     display: block;
     width: 100%; 
-    padding: 14px 28px;
-    background-color: var(--color-yellow); /* Negro sólido profesional */
-    color: #000;
-    border: 1px solid var(--color-yellow);
+    padding: 13px 28px;
+    background-color: var(--color-green); /* Negro sólido profesional */
+    color: #fff;
+    border: 2px solid var(--color-green);
     border-radius: var(--border-radius);
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
+    /* letter-spacing: 1.5px; */
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     margin-top: 15px;
@@ -1005,11 +1052,9 @@ img {
     grid-column: span 2;
 }
 
-/* Efecto Hover: Invierte los colores para un toque elegante */
 .content-page .form-contact-page .wpcf7-submit:hover {
     background-color: transparent;
     color: #000000;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Estado de click */
@@ -1024,10 +1069,61 @@ img {
     background-color: var(--color-yellow);
 }
 
-.content-page .content-page .wp-block-group{
-  padding: 30px;
-  background-color: #f9f9f9;
-  border-radius: 20px;
+
+.content-page .wp-block-columns .wp-block-column > .wp-block-group{
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: var(--border-radius);
+  margin-bottom: 20px;
 }
+
+.content-page .sidebar-contact-page .wp-block-column{
+  box-shadow: none;
+  padding: 0;
+}
+
+.content-page .sidebar-contact-page .wp-block-columns.wp-container-core-columns-is-layout-9d6595d7{
+  padding: 0;
+}
+
+
+.content-page .sidebar-contact-page .wp-block-columns.is-layout-flex{
+  flex-direction: row;
+}
+
+.content-page .aligncenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content-page .aligncenter img{
+  width: 100%;
+  height: auto;
+  max-width: 50px !important;
+  margin-bottom: 1em;
+}
+
+
+.content-location-page{
+  background-color: #F3F4F6;
+}
+
+.content-location-page p:nth-child(2){
+  color: oklch(.551 .027 264.364);
+  font-weight: 500;
+}
+
+@media (max-width: 991px) {
+  .content-page .sidebar-contact-page .wp-block-column{
+    margin-bottom: 10px;
+  }
+
+  .content-page .wp-block-column .wp-block-columns{
+    margin-bottom: 0 !important;
+  }
+
+}
+
 
 /* FINAL PAGINA CONTACTO */

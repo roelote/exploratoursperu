@@ -12,7 +12,7 @@ const { altLangUrl } = Astro.props;
 const lang = Astro.currentLocale ?? "es";
 const isEn = lang === "en";
 const homeHref = isEn ? "/en/" : "/";
-// null explícito = sin traducción disponible → no mostrar bandera
+
 const altLangHref: string | null = altLangUrl === null ? null : (altLangUrl ?? (isEn ? "/" : "/en/"));
 const altLangLabel = isEn ? "ES" : "EN";
 
@@ -23,6 +23,7 @@ const header = getHeader?.header ?? null;
 
 const links = header?.link ?? [];
 const texts = header?.text ?? [];
+const btn = header?.boton ?? [];
 
 const getLogo = await getLogoInfo();
 
@@ -46,14 +47,15 @@ interface MenuItem {
         <div class="flex flex-col gap-2">
           <div class="flex gap-3 items-center">
             {
-              links.map((c: any) => (
-                <div>
-                  <a href={c.url} class="hover:text-green text-[13px] flex items-center flex-row flex-nowrap gap-1">
+              links.map((c: any, index: number) => (
+                <>
+                  <a href={c.url} target="_blank" class="hover:text-green text-[13px] flex items-center flex-row flex-nowrap gap-1">
                     <img decoding="async" class="size-5" src={c.img.url} alt="" />
                     <span class="font-medium"> {c.text_bold}</span>
                     <span class="font-light">{c.text}</span>
                   </a>
-                </div>
+                  {index < links.length - 1 && <span class="text-gray-400">|</span>}
+                </>
               ))
             }
             <span class="text-gray-400">|</span>
@@ -89,7 +91,7 @@ interface MenuItem {
 
           <div class="flex items-center justify-end gap-5">
             <RedesSociales />
-            <a href="#" class="inline-block bg-green py-2 px-7 rounded-lg text-white font-medium hover:bg-yellow hover:text-black transition-colors text-base"><i class="fa-solid fa-phone"></i> Contact Us</a>
+            <a href={btn.url.url} title={btn.url.title} class="inline-block bg-green py-2 px-7 rounded-lg text-white font-medium hover:bg-yellow hover:text-black transition-colors text-base"><i class="fa-solid fa-phone"></i> {btn.text}</a>
           </div>
         </div>
       </div>

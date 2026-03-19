@@ -24,16 +24,124 @@ const data = await getInfoContacto();
               </div>
             </div>
           </div>
-          <div class="absolute bottom-0 z-10 left-0 w-full h-14 bg-cover bg-center bg-no-repeat"  style={`background-image: url(https://cms.exploratoursperu.com/wp-content/uploads/footer-spray.webp)`} />
+          <div class="absolute -bottom-px z-10 left-0 w-full h-14 bg-cover bg-center bg-no-repeat"  style={`background-image: url(https://cms.exploratoursperu.com/wp-content/uploads/footer-spray.webp)`} />
         </div>
       </div>
     </section>
     <section>
-        <div class="container">
+        <div class="container mb-10">
             <div class="content-page">
-                <div set:html={data.content.rendered} />
+                <div set:html={data.content.rendered} id="cf7-container" />
             </div>
         </div>
     </section>
   </main>
 </MainLayout>
+
+
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@26.7.6/build/js/intlTelInput.min.js"></script>
+
+<script>
+window.addEventListener("load", () => {
+
+  const container = document.getElementById("cf7-container");
+  if (!container) return;
+
+  const form = container.querySelector("form");
+  if (!form) return;
+
+  const phoneInput = form.querySelector("#phone");
+  const submitBtn = form.querySelector('input[type="submit"]');
+  const hiddenPhone = form.querySelector('input[name="telefono-completo"]');
+
+  if (!phoneInput) return;
+
+  const iti = window.intlTelInput(phoneInput, {
+    loadUtils: () =>
+      import("https://cdn.jsdelivr.net/npm/intl-tel-input@26.7.6/build/js/utils.js"),
+    initialCountry: "auto",
+    geoIpLookup: (callback) => {
+      fetch("https://ipapi.co/json")
+        .then((res) => res.json())
+        .then((data) => callback(data.country_code))
+        .catch(() => callback("us"));
+    }
+  });
+
+  // Loader
+  const loader = document.createElement("div");
+  loader.className = "form-loading";
+  loader.innerHTML = `
+    <div class="loading-spinner"></div>
+    <span>Enviando mensaje...</span>
+  `;
+  submitBtn.parentNode.appendChild(loader);
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    // --- VALIDACIÓN GLOBAL ---
+    
+    // 1. Obtener todos los campos que NO sean el botón de envío ni campos ocultos técnicos
+    const inputs = form.querySelectorAll('input:not([type="submit"]):not([type="hidden"]), textarea, select');
+    let missingFields = false;
+
+    inputs.forEach(input => {
+      // Si es el campo de teléfono de intl-tel-input, lo validamos con su propia lógica
+      if (input.id === "phone") {
+        if (!iti.isValidNumber()) {
+          missingFields = true;
+        }
+      } else {
+        // Para el resto, verificamos que no estén vacíos
+        if (!input.value.trim()) {
+          missingFields = true;
+        }
+      }
+    });
+
+    if (missingFields) {
+      alert("Por favor, completa todos los campos correctamente antes de enviar.");
+      return; // Aquí bloqueamos el envío
+    }
+
+    // --- FIN VALIDACIÓN ---
+
+    loader.classList.add("active");
+    submitBtn.disabled = true;
+
+    if (hiddenPhone) {
+      hiddenPhone.value = iti.getNumber();
+    }
+
+    const formData = new FormData(form);
+
+    try {
+      const res = await fetch(
+        "https://cms.exploratoursperu.com/wp-json/contact-form-7/v1/contact-forms/512/feedback",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const data = await res.json();
+
+      if (data.status === "mail_sent") {
+        alert("Mensaje enviado correctamente");
+        form.reset();
+      } else {
+        alert(data.message);
+      }
+
+    } catch (error) {
+      console.error(error);
+      alert("Error enviando el mensaje");
+    } finally {
+      loader.classList.remove("active");
+      submitBtn.disabled = false;
+    }
+  });
+
+});
+</script>
