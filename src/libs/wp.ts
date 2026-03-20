@@ -71,7 +71,7 @@ export async function getImagesBatch(ids: number[], lang: string = "es") {
 
   const langParam = lang === "en" ? "&lang=en" : "";
 
-  const res = await fetch(`${domain}/wp-json/wp/v2/media?include=${ids.join(",")}&per_page=${ids.length}${langParam}`);
+  const res = await fetch(`${domain}wp-json/wp/v2/media?include=${ids.join(",")}&per_page=${ids.length}${langParam}`);
 
   if (!res.ok) return [];
 
@@ -291,4 +291,17 @@ export const getInfoByTours = async (url: any, lang: string = "es") => {
   if (!response.ok) throw new Error(`Error al obtener datos del tour (${url})`);
 
   return normalizeUrls(await response.json());
+};
+
+export const getFavicon = async (): Promise<string | null> => {
+  try {
+    const response = await fetch(`${domain}wp-json/`);
+    if (!response.ok) return null;
+    const data = await response.json();
+    const url: string | undefined = data.site_icon_url;
+    if (!url) return null;
+    return fixWpUrl(url);
+  } catch {
+    return null;
+  }
 };

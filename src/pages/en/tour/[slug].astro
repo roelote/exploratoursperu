@@ -32,10 +32,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const getTours = await getTourInfo("en");
 
   return getTours.map((tour: any) => {
-    const enSlug: string | null = tour.wpml_translations?.en?.slug ?? null;
+    const esSlug: string | null = tour.wpml_translations?.es?.slug ?? null;
     return {
       params: { slug: tour.slug },
-      props: { tour, altLangUrl: enSlug ? `/en/tour/${enSlug}` : null },
+      props: { tour, altLangUrl: esSlug ? `/tour/${esSlug}` : null },
     };
   });
 };

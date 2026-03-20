@@ -3,6 +3,7 @@ import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import "../styles/global.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import { getFavicon } from "../libs/wp";
 // ── Tipos Yoast ───────────────────────────────────────────────────────────────
 type YoastRobots = {
   index?: string;
@@ -81,12 +82,21 @@ const articleModTime = seo?.article_modified_time ?? null;
 const articlePubTime = seo?.article_published_time ?? null;
 // Robots: une los valores del objeto { index: "index", follow: "follow", "max-snippet": "max-snippet:-1", ... }
 const robotsContent = seo?.robots ? Object.values(seo.robots).join(", ") : null;
+const favicon = await getFavicon();
 ---
 
 <html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
+    {favicon ? (
+      <link rel="icon" href={favicon} />
+    ) : (
+      <>
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+      </>
+    )}
     <title>{pageTitle}</title>
     <slot name="head"/>
     <!-- Aquí se pueden inyectar más tags desde cada página -->
