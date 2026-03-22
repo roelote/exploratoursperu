@@ -14,11 +14,13 @@ const isEn = lang === "en";
 const homeHref = isEn ? "/en/" : "/";
 
 const altLangHref: string | null = altLangUrl === null ? null : (altLangUrl ?? (isEn ? "/" : "/en/"));
+// const altLangHref = altLangUrl ?? (isEn ? "/" : "/en/");
 const altLangLabel = isEn ? "ES" : "EN";
 
 const headerinfo = await getHeaderInfo(lang);
 
-const getHeader = await getInfoHeader();
+const getHeader = await getInfoHeader(lang);
+
 const header = getHeader?.header ?? null;
 
 const links = header?.link ?? [];
@@ -36,13 +38,12 @@ interface MenuItem {
 
 <header>
   <div class="container mx-auto">
-    <div class="w-full h-[85px] flex items-center justify-between py-3">
-      <div class="flex items-center justify-center">
-        <a href={homeHref} class="inline-block">
-          <img decoding="async" src={getLogo} draggable="false" alt="Logo" class="w-[140px] h-[90px] md:w-full md:h-[95px] object-cover object-center" />
+    <div class="w-full flex items-center justify-between py-2">
+      <div class="flex items-center">
+        <a href={homeHref} class="inline-block h-[73px] py-2">
+          <img decoding="async" src={getLogo} draggable="false" alt="Logo" class="h-full w-auto object-contain" />
         </a>
       </div>
-
       <div class="hidden lg:block">
         <div class="flex flex-col gap-2">
           <div class="flex gap-3 items-center">
@@ -51,8 +52,8 @@ interface MenuItem {
                 <>
                   <a href={c.url} target="_blank" class="hover:text-green text-[13px] flex items-center flex-row flex-nowrap gap-1">
                     <img decoding="async" class="size-5" src={c.img.url} alt="" />
-                    <span class="font-medium"> {c.text_bold}</span>
-                    <span class="font-light">{c.text}</span>
+                    <span class="text-nowrap font-medium"> {c.text_bold}</span>
+                    <span class="text-nowrap font-light">{c.text}</span>
                   </a>
                   {index < links.length - 1 && <span class="text-gray-400">|</span>}
                 </>
@@ -62,7 +63,7 @@ interface MenuItem {
             {
               texts.map((p: any, index: number) => (
                 <>
-                  <a href={p.url.url} title={p.url.title} class="hover:text-green text-[13px]">
+                  <a href={p.url.url} title={p.url.title} class="hover:text-green text-[13px] text-nowrap">
                     {p.text}
                   </a>
                   {index < header.text.length - 1 && <span class="text-gray-400">|</span>}
@@ -91,7 +92,7 @@ interface MenuItem {
 
           <div class="flex items-center justify-end gap-5">
             <RedesSociales />
-            <a href={btn.url.url} title={btn.url.title} class="inline-block bg-green py-2 px-7 rounded-lg text-white font-medium hover:bg-yellow hover:text-black transition-colors text-base"><i class="fa-solid fa-phone"></i> {btn.text}</a>
+            <a href={btn.url?.url} title={btn.url?.title} class="inline-block bg-green py-2 px-7 rounded-lg text-white font-medium hover:bg-yellow hover:text-black transition-colors text-base"><i class="fa-solid fa-phone"></i> {btn.text}</a>
           </div>
         </div>
       </div>
@@ -137,9 +138,9 @@ interface MenuItem {
   <div id="mobileOverlay" class="fixed inset-0 bg-black/50 opacity-0 invisible transition-all duration-300 lg:hidden"></div>
 
   <div id="mobileMenu" class="fixed top-0 right-0 h-full w-full max-w-full bg-white shadow-xl transform translate-x-full transition-transform duration-300 lg:hidden flex flex-col z-50">
-    <div class="flex items-center justify-between px-5 border-b border-neutral-200">
-      <a href={homeHref} class="inline-block">
-        <img decoding="async" src={getLogo} draggable="false" alt="Logo" class="w-[110px] h-[80px] object-cover object-center" loading="lazy" />
+    <div class="flex items-center justify-between px-5 border-b border-neutral-200 h-[70px]">
+      <a href={homeHref} class="w-[150px] h-auto inline-block">
+        <img decoding="async" src={getLogo} draggable="false" alt="Logo" class="w-full h-auto object-cover object-center" loading="lazy" />
       </a>
 
       <button id="menuClose" class="text-2xl cursor-pointer">

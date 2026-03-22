@@ -3,7 +3,6 @@ import type { GetStaticPaths } from "astro";
 import MainLayout from "../layouts/MainLayout.astro";
 import { getInfoPage } from "../libs/wp";
 
-
 export const getStaticPaths: GetStaticPaths = async () => {
    const dataPage = await getInfoPage();
   

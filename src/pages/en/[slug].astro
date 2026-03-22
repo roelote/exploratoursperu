@@ -1,0 +1,21 @@
+---
+import type { GetStaticPaths } from "astro";
+import MainLayout from "../../layouts/MainLayout.astro";
+import { getInfoPage } from "../../libs/wp";
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const dataPage = await getInfoPage("en");
+
+  return dataPage.map((page: any) => ({
+    params: { slug: page.slug },
+  }));
+};
+
+const { slug } = Astro.params;
+---
+
+<MainLayout>
+  <main>
+    <h1>{slug}</h1>
+  </main>
+</MainLayout>

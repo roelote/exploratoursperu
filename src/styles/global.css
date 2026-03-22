@@ -870,7 +870,6 @@ img {
 /* Contenedor principal de las 3 columnas */
 .content-page .wp-block-columns.wp-container-core-columns-is-layout-9d6595d7 {
   gap: 2rem;
-  padding: 20px 0;
   align-items: flex-start;
 }
 

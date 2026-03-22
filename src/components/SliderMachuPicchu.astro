@@ -7,26 +7,26 @@ import { getInfoCategory } from "../libs/wp";
 const { data } = Astro.props;
 
 const idCategoryMapi = 14;
-
+const pathname = Astro.url.pathname;
 const category = await getInfoCategory(idCategoryMapi);
 
-function quitarHTML(str: any) {
-  return str.replace(/<[^>]*>?/gm, "");
-}
+
 ---
 
-<div class="container my-20">
-  <div class="flex items-center flex-col justify-center lg:flex-row lg:justify-between gap-5 lg:gap-5 mb-5 lg:mb-0">
-    <div class="grow w-full lg:w-125">
-      <h3 class="text-center lg:text-start text-red text-lg normal-case"><i class="fa-solid fa-person-hiking"></i> Machu Picchu Tours</h3>
-      <h2 class="text-3xl text-center lg:text-start font-semibold tracking-wide mb-3">Caminatas más populares a Machu Picchu</h2>
-      <p class="text-center lg:text-start mb-0! text-pretty">Descubre las rutas más emocionantes para explorar el majestuoso Machu Picchu.</p>
-    </div>
-    <div class="grow w-full lg:w-125 text-center lg:text-end">
-      <a href="#" class="inline-block border-2 border-blue text-nowrap py-3 px-7 rounded-full font-medium hover:text-white hover:bg-blue text-black transition-colors duration-300 text-base">
-          Ver más <i class="fa-solid fa-arrow-right-long"></i>
-        </a>
-    </div>
+<section>
+  <div class="container my-20">
+  <div class="w-full text-center">
+    {
+      pathname === "/en/" || pathname === "/en"
+      ? <h3 class="text-center text-red text-lg normal-case"><i class="fa-solid fa-person-hiking"></i> Machu Picchu Tours</h3>
+    <h2 class="text-3xl text-center font-semibold tracking-wide mb-3">Most popular hiking routes to Machu Picchu</h2>
+    <p class="text-center mb-0! text-pretty">Discover the most exciting routes to explore the majestic Machu Picchu.</p>
+
+      : <h3 class="text-center text-red text-lg normal-case"><i class="fa-solid fa-person-hiking"></i> Machu Picchu Tours</h3>
+    <h2 class="text-3xl text-center font-semibold tracking-wide mb-3">Rutas de senderismo más conocidas hacia Machu Picchu</h2>
+    <p class="text-center mb-0! text-pretty">Descubre las rutas más emocionantes para explorar el majestuoso Machu Picchu.</p>
+    }
+    
   </div>
   <div class="swiper mySwiperMachupicchu my-5">
     <div class="swiper-wrapper">
@@ -42,7 +42,7 @@ function quitarHTML(str: any) {
                   </a>
                 </div>
                 <div class="w-full px-5 py-7 select-none z-20 bg-white  transition-shadow border border-neutral-200">
-                  <h2 class="font-semibold tracking-wide mb-3 capitalize" set:html={c.title.rendered} />
+                  <h3 class="line-clamp-1 font-medium text-2xl" set:html={c.title.rendered} />
                   <div class="line-clamp-2 text-start text-pretty text-sm mb-3" set:html={c.excerpt.rendered} />
                   <div class="flex items-center gap-5 mb-3">
                     <div class="flex flex-col justify-start items-start gap-2">
@@ -96,6 +96,7 @@ function quitarHTML(str: any) {
     <div class="swiper-button-next bg-green/50 transition-colors rounded-full hover:bg-green text-white! p-3 shadow-lg"></div>
   </div>
 </div>
+</section>
 
 <script>
   import Swiper from "swiper";

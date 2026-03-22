@@ -1,7 +1,7 @@
 ---
 import type { GetStaticPaths } from "astro";
 import MainLayout from "../../layouts/MainLayout.astro";
-import { getTourInfo, getInfoByTours, getSidebarTour, getInfoCategory, getImages } from "../../libs/wp";
+import { getTourInfo, getInfoByTours, getSidebarTour, getInfoCategory, getImages, getImagesBatch } from "../../libs/wp";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
 import Gallery from "../../components/Tours/Gallery.astro";
 import Detalles from "../../components/Tours/Detalles.astro";
@@ -58,10 +58,8 @@ const [ids] = getUrlTourInfo.map((tour: any) => tour.acf.seccion_galleria.galler
 
 // TODO: optimizar esta parte para traer solo las imagenes necesarias
 
-const preloadImages = ids.map((i: number) => getImages(i)) ?? [];
-
-const getImagesPreloads = await Promise.all(preloadImages) ?? [];
-
+const preloadImages = [getImagesBatch(ids)];
+const getImagesPreloads = (await Promise.all(preloadImages)).flat() ?? [];
 const imgs = getImagesPreloads.slice(0, 3);
 ---
 

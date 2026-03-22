@@ -34,7 +34,9 @@ const getAsociaciones = foot.asociaciones;
     <div class="container mx-auto">
       <div class="flex w-full items-center md:items-start flex-col md:flex-row md:justify-between gap-10">
         <div>
-          <img decoding="async" loading="lazy" class="object-cover object-center w-51.25 h-36.25" src={col1.img.url} alt="" />
+          <div class="w-full mb-5 mx-auto md:mx-0">
+            <img decoding="async" loading="lazy" class="object-cover object-center w-full md:w-[226px] h-full md:h-[100px]" src={col1.img.url} alt="" />
+          </div>
           <p class="w-full text-center md:w-52 md:text-start text-gray">{col1.descripcion}</p>
           <div class="mt-10 flex items-center md:items-start flex-col md:flex-row gap-5 md:gap-10">
             {

@@ -2,40 +2,31 @@
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { getInfoCategory } from "../libs/wp";
+
 const { data } = Astro.props;
-// console.log(data);
-
-const idCategory = 13;
-
-const getInfoCategories = await getInfoCategory(idCategory);
-
-function quitarHTML(str: any) {
-  return str.replace(/<[^>]*>?/gm, "");
-}
+const pathname = Astro.url.pathname;
 ---
 
-<div class="w-full bg-gray-50">
+<section>
+  <div class="w-full bg-gray-50">
   <div class="container py-20">
-    <div class="flex items-center flex-col justify-center lg:flex-row lg:justify-between gap-5 lg:gap-5 mb-5 lg:mb-0">
-      <div class="grow w-full lg:w-125">
-        <h3 class="text-center lg:text-start text-red text-lg normal-case"><i class="fa-solid fa-person-hiking"></i> Cusco Tours</h3>
-        <h2 class="text-3xl text-center lg:text-start font-semibold tracking-wide mb-3">City Tours</h2>
-        <p class="text-center lg:text-start mb-0! text-pretty">En esta sección se muestran los mejores tours de día completo disponibles.</p>
-      </div>
-      <div class="grow w-full lg:w-125 text-center lg:text-end">
-        <a href="#" class="inline-block border-2 border-blue text-nowrap py-3 px-7 rounded-full font-medium hover:text-white hover:bg-blue text-black transition-colors duration-300 text-base">
-          Ver más <i class="fa-solid fa-arrow-right-long"></i>
-        </a>
-        <!-- <a href="#" class="inline-block text-blue font-medium">Ver más <i class="fa-solid fa-arrow-right-long"></i></a> -->
-      </div>
+    <div class="w-full text-center">
+      {
+        pathname === "/en/" || pathname === "/en"
+        ? <h3 class="text-center text-red text-lg normal-case"><i class="fa-solid fa-person-hiking"></i> Cusco Tours</h3>
+          <h2 class="text-3xl text-center font-semibold tracking-wide mb-3">City Tours</h2>
+          <p class="text-center mb-0! text-pretty">This section showcases the best full-day tours available.</p>
+        : <h3 class="text-center text-red text-lg normal-case"><i class="fa-solid fa-person-hiking"></i> Cusco Tours</h3>
+          <h2 class="text-3xl text-center font-semibold tracking-wide mb-3">Recorridos por la ciudad de Cusco</h2>
+          <p class="text-center mb-0! text-pretty">En esta sección se muestran los mejores tours de día completo disponibles.</p>
+      }
     </div>
     <div class="swiper mySwiperFulldays">
       <div class="swiper-wrapper py-1 my-5">
         {
           data.map((c: any) => (
             <div class="swiper-slide">
-              <div class="w-full h-full p-5 rounded-[20px] bg-white group shadow hover:shadow-xl transition-all duration-300 hover:translate-y-[-10px]">
+              <div class="w-full h-full p-5 rounded-radio bg-white group shadow hover:shadow-xl transition-all duration-300 hover:translate-y-[-10px]">
                 <div class="flex flex-col gap-0">
                   <div>
                     <a href={"/tour/" + c.slug} class="inline-block overflow-hidden rounded-radio relative">
@@ -47,7 +38,7 @@ function quitarHTML(str: any) {
                   </div>
                   <div class="w-full">
                     <div class="pt-5">
-                      <h3 class="line-clamp-1" set:html={c.title.rendered} />
+                      <h3 class="line-clamp-1 font-medium text-2xl" set:html={c.title.rendered} />
                       <div class="flex items-center justify-between">
                         <div class="flex items-center gap-5 mb-3">
                           <p class="capitalize mb-0! text-sm">
@@ -85,6 +76,7 @@ function quitarHTML(str: any) {
     </div>
   </div>
 </div>
+</section>
 
 <script>
   import Swiper from "swiper";
