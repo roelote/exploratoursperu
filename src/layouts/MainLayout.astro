@@ -103,6 +103,14 @@ const robotsContent = seo?.robots ? Object.values(seo.robots).filter(Boolean).jo
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
+    {favicon ? (
+      <link rel="icon" href={favicon} />
+    ) : (
+      <>
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+      </>
+    )}
     <title>{pageTitle}</title>
     
     <slot name="head"/>

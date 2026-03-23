@@ -27,7 +27,7 @@ const categoryMachupicchu = category.filter((category: any) => category.peru == 
 const categoryTreks = category.filter((category: any) => category.peru == 19);
 ---
 
-<MainLayout seo={dataHome?.yoast_head_json} >
+<MainLayout seo={dataHome?.yoast_head_json} altLangUrl="/en/">
 
   <Fragment slot="head">
     <link rel="preload" as="image/webp" href={getInfoPortada} fetchpriority="high" />

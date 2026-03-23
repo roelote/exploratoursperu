@@ -4,27 +4,31 @@ import { getInfoBlog, getPosts, getSidebarBlog } from "../../../libs/wp";
 
 export async function getStaticPaths() {
   const allPosts = await getPosts('en');
+  const allEsPosts = await getPosts();
   const postsPerPage = 6;
   const totalPages = Math.ceil(allPosts.length / postsPerPage);
+  const totalEsPages = Math.ceil(allEsPosts.length / postsPerPage);
 
   return Array.from({ length: totalPages }, (_, i) => {
     const pageNum = i + 1;
     const start = i * postsPerPage;
     const end = start + postsPerPage;
+    const altLangUrl: string | null = pageNum <= totalEsPages ? `/blog/${pageNum}` : null;
 
     return {
       params: { page: String(pageNum) },
       props: {
         posts: allPosts.slice(start, end),
         totalPages,
-        allPosts
+        allPosts,
+        altLangUrl,
       },
     };
   });
 }
 
 const { page } = Astro.params;
-const { posts, totalPages, allPosts } = Astro.props;
+const { posts, totalPages, allPosts, altLangUrl } = Astro.props;
 const currentPage = Number(page);
 
 const data = await getInfoBlog('en');
@@ -44,7 +48,7 @@ function quitarHTML(str: any) {
 }
 ---
 
-<MainLayout>
+<MainLayout altLangUrl={altLangUrl}>
   <main>
     <section>
       <div class="w-full h-[450px] overflow-hidden">

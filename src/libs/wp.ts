@@ -81,7 +81,9 @@ export const getInfoCategory = async (id: number) => {
 export async function getImagesBatch(ids: number[]) {
   if (!ids?.length) return [];
 
-  const res = await fetch(`${domain}/wp-json/wp/v2/media?include=${ids.join(",")}&per_page=${ids.length}`);
+  const langParam = lang === "en" ? "&lang=en" : "";
+
+  const res = await fetch(`${domain}wp-json/wp/v2/media?include=${ids.join(",")}&per_page=${ids.length}${langParam}`);
 
   if (!res.ok) return [];
 
