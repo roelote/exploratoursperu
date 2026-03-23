@@ -11,6 +11,8 @@ const idCategoryMapi = 19;
 const category = await getInfoCategory(idCategoryMapi);
 
 const pathname = Astro.url.pathname;
+
+const dondition = pathname === "/en/" || pathname === "/en";
 ---
 
 <section>
@@ -18,10 +20,10 @@ const pathname = Astro.url.pathname;
   <div class="container py-20">
     <div class="w-full text-center">
       {
-        pathname === "/en/" || pathname === "/en"
+        dondition
         ? <h3 class="text-center text-red text-lg normal-case"><i class="fa-solid fa-person-hiking"></i> The best hikes and excursions to Machu Picchu</h3>
         <h2 class="text-3xl text-center font-semibold tracking-wide mb-3">Best tours and hikes to Machu Picchu</h2>
-        <p class="text-center mb-0! text-pretty">Aprovecha las mejores excursiones y aventuras de senderismo hacia Machu Picchu, la ciudad inca perdida.</p>
+        <p class="text-center mb-0! text-pretty">Take advantage of the best excursions and hiking adventures to Machu Picchu, the lost Inca city.</p>
 
         : <h3 class="text-center text-red text-lg normal-case"><i class="fa-solid fa-person-hiking"></i> Las mejores caminatas y excursiones a Machu Picchu</h3>
         <h2 class="text-3xl text-center font-semibold tracking-wide mb-3">Tour y caminatas mejores hacia machu picchu</h2>
@@ -83,7 +85,7 @@ const pathname = Astro.url.pathname;
                     <hr class="my-5" />
                     <div class="w-full text-center">
                       <a href={`/tour/${c.slug}`} class="inline-block w-full uppercase border-2 border-green text-black text-nowrap py-4 rounded-full font-medium group-hover:bg-green group-hover:text-white transition-colors duration-300 text-base">
-                        Ver Tour <i class="fa-solid fa-arrow-right-long" />
+                        {dondition ? "View Tour" : "Ver Tour" } <i class="fa-solid fa-arrow-right-long" />
                       </a>
                     </div>
                   </div>

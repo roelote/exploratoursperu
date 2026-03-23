@@ -8,6 +8,7 @@ import SliderBlogs from "../components/SliderBlogs.astro";
 import SliderReviews from "../components/SliderReviews.astro";
 import Image from "astro/components/Image.astro";
 import HeroPortada from "../components/HeroPortada.astro";
+import Contents from "../components/Contents.astro";
 
 interface Props {
   seo: any;
@@ -33,24 +34,6 @@ const categoryTreks = category.filter((category: any) => category.peru == 19);
   </Fragment>
 
   <main>
-    <!-- <section>
-      <div class="w-full relative">
-        <Image src={dataHome?.featured_img} width={1920} height={1080} loading="eager" fetchpriority="high" quality={80} format="webp" sizes="100vw" class="w-full h-[90vh] object-cover object-center" alt="" />
-        <div class="bg-black/50 absolute inset-0 w-full h-full z-10"></div>
-        <div class="w-full lg:w-248.75 absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-20 px-5 md:px-0">
-          <h1 class="text-4xl text-balance text-white font-bold tracking-widest text-center uppercase">
-            Descubre auténticos <span class="text-yellow">tours locales</span> y <span class="text-yellow">aventuras a Medida</span> en los Andes
-          </h1>
-          <p class="text-white! text-center inline-block my-5 text-base">
-            Convierte tu viaje soñado en realidad. Exploramos las maravillas de Machu Picchu y los secretos mejor guardados de nuestra tierra con el respaldo de verdaderos expertos locales. Diseñamos experiencias seguras y memorables; tu próxima gran historia comienza aquí.
-          </p>
-          <div class="flex flex-col md:flex-row items-center justify-center gap-5">
-            <a href="http://localhost:4321/tours/camino-inca-machu-picchu" class="w-full md:w-80 text-center bg-yellow capitalize py-3 inline-block text-black font-medium border-2 border-yellow hover:bg-transparent hover:text-white transition-all">Reserva el Camino Inca 2026</a>
-            <a href="#" class="w-full md:w-80 text-center bg-transparend border-2 border-yellow capitalize py-3 inline-block font-medium text-white hover:bg-yellow hover:text-black transition-all">Explora Nuestros Tours</a>
-          </div>
-        </div>
-      </div>
-    </section> -->
     <HeroPortada data={getInfoPortada} />
     <section>
       <div class="container py-20">
@@ -62,30 +45,7 @@ const categoryTreks = category.filter((category: any) => category.peru == 19);
     <SliderFullDays data={categoryFullday} />
     <SliderMachuPicchu data={categoryMachupicchu} />
     <SliderHiking data={categoryTreks} />
-    <section>
-      <div class="w-full bg-white py-10 my-20">
-        <div class="container">
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-0">
-            <div>
-              <span class="block text-center font-bold text-4xl">5</span>
-              <p class="text-center font-semibold text-xl mb-0! capitalize mt-2">Años de experiencia</p>
-            </div>
-            <div>
-              <span class="block text-center font-bold text-4xl">30</span>
-              <p class="text-center font-semibold text-xl mb-0! capitalize mt-2">Localboradores Locales</p>
-            </div>
-            <div>
-              <span class="block text-center font-bold text-4xl">6,00 +</span>
-              <p class="text-center font-semibold text-xl mb-0! capitalize mt-2">Aventuras Planeadas</p>
-            </div>
-            <div>
-              <span class="block text-center font-bold text-4xl">70, 000 +</span>
-              <p class="text-center font-semibold text-xl mb-0! capitalize mt-2">Clientes satisfechos</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <Contents/>
     <SliderBlogs />
     <SliderReviews />
   </main>

@@ -1,7 +1,7 @@
 ---
 import { getInfoFooter } from "../libs/wp";
-
-const getFooter = await getInfoFooter();
+const lang = Astro.currentLocale ?? "es";
+const getFooter = await getInfoFooter(lang);
 const foot = getFooter.footer;
 const col1 = foot.col_1;
 const col2 = foot.col_2;
@@ -15,7 +15,7 @@ const getAsociaciones = foot.asociaciones;
 <div class="container my-20">
   <div class="flex items-center flex-wrap md:flex-nowrap justify-between gap-5">
     {
-      getAsociaciones.map((a: any) => (
+      getAsociaciones?.map((a: any) => (
         <div>
           {
             !a.url 
@@ -29,13 +29,13 @@ const getAsociaciones = foot.asociaciones;
 </div>
 
 <footer>
-  <img decoding="async" loading="lazy" draggable="false" src={imgBackground.url} class="w-full h-auto object-cover select-none object-center" alt="footer img" />
+  <img decoding="async" loading="lazy" draggable="false" src={imgBackground?.url} class="w-full h-auto object-cover select-none object-center" alt="footer img" />
   <div class="bg-black py-10">
     <div class="container mx-auto">
       <div class="flex w-full items-center md:items-start flex-col md:flex-row md:justify-between gap-10">
         <div>
           <div class="w-full mb-5 mx-auto md:mx-0">
-            <img decoding="async" loading="lazy" class="object-cover object-center w-full md:w-[226px] h-full md:h-[100px]" src={col1.img.url} alt="" />
+            <img decoding="async" loading="lazy" class="object-cover object-center w-full md:w-[226px] h-full md:h-[100px]" src={col1?.img.url} alt="" />
           </div>
           <p class="w-full text-center md:w-52 md:text-start text-gray">{col1.descripcion}</p>
           <div class="mt-10 flex items-center md:items-start flex-col md:flex-row gap-5 md:gap-10">
@@ -43,7 +43,7 @@ const getAsociaciones = foot.asociaciones;
               col1.info.map((e: any) => (
                 <div class="text-center md:text-start">
                   <h4 class="mb-2 font-semibold tracking-wide text-red text-nowrap">{e.title}</h4>
-                  <a href={e.url} class="font-light text-white">
+                  <a href={e.url} target="_blank" class="font-light text-white">
                     {e.contacts}
                   </a>
                 </div>

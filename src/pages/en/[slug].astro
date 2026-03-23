@@ -6,7 +6,11 @@ import { getInfoPage } from "../../libs/wp";
 export const getStaticPaths: GetStaticPaths = async () => {
   const dataPage = await getInfoPage("en");
 
-  return dataPage.map((page: any) => ({
+   const excluded = ["contact-us", "blog"];
+
+  return dataPage
+  .filter((page:any) => !excluded.includes(page.slug))
+  .map((page: any) => ({
     params: { slug: page.slug },
   }));
 };

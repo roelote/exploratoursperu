@@ -7,6 +7,7 @@ import SliderMachuPicchu from "../../components/SliderMachuPicchu.astro";
 import SliderBlogs from "../../components/SliderBlogs.astro";
 import SliderReviews from "../../components/SliderReviews.astro";
 import HeroPortada from "../../components/HeroPortada.astro";
+import Contents from "../../components/Contents.astro";
 
 
 interface Props {
@@ -40,30 +41,7 @@ const categoryTreks = category.filter((category: any) => category.peru == 20);
     <SliderFullDays data={categoryFullday} />
     <SliderMachuPicchu data={categoryMachupicchu} />
     <SliderHiking data={categoryTreks} />
-    <section>
-      <div class="w-full bg-white py-10 my-20">
-        <div class="container">
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-0">
-            <div>
-              <span class="block text-center font-bold text-4xl">5</span>
-              <p class="text-center font-semibold text-xl mb-0! capitalize mt-2">Años de experiencia</p>
-            </div>
-            <div>
-              <span class="block text-center font-bold text-4xl">30</span>
-              <p class="text-center font-semibold text-xl mb-0! capitalize mt-2">Localboradores Locales</p>
-            </div>
-            <div>
-              <span class="block text-center font-bold text-4xl">6,00 +</span>
-              <p class="text-center font-semibold text-xl mb-0! capitalize mt-2">Aventuras Planeadas</p>
-            </div>
-            <div>
-              <span class="block text-center font-bold text-4xl">70, 000 +</span>
-              <p class="text-center font-semibold text-xl mb-0! capitalize mt-2">Clientes satisfechos</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <Contents />
     <SliderBlogs />
     <SliderReviews />
   </main>

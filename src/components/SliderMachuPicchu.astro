@@ -9,7 +9,7 @@ const { data } = Astro.props;
 const idCategoryMapi = 14;
 const pathname = Astro.url.pathname;
 const category = await getInfoCategory(idCategoryMapi);
-
+const dondition = pathname === "/en/" || pathname === "/en";
 
 ---
 
@@ -17,7 +17,7 @@ const category = await getInfoCategory(idCategoryMapi);
   <div class="container my-20">
   <div class="w-full text-center">
     {
-      pathname === "/en/" || pathname === "/en"
+      dondition
       ? <h3 class="text-center text-red text-lg normal-case"><i class="fa-solid fa-person-hiking"></i> Machu Picchu Tours</h3>
     <h2 class="text-3xl text-center font-semibold tracking-wide mb-3">Most popular hiking routes to Machu Picchu</h2>
     <p class="text-center mb-0! text-pretty">Discover the most exciting routes to explore the majestic Machu Picchu.</p>
@@ -82,7 +82,7 @@ const category = await getInfoCategory(idCategoryMapi);
                   <hr class="my-5" />
                   <div class="w-full text-center">
                     <a href={`/tour/${c.slug}`} class="inline-block uppercase w-full border-2 border-green text-black text-nowrap py-4 rounded-full font-medium group-hover:bg-green group-hover:text-white transition-colors duration-300 text-base">
-                        Ver Tour <i class="fa-solid fa-arrow-right-long" />
+                        {dondition ? "View Tour" : "Ver Tour" } <i class="fa-solid fa-arrow-right-long" />
                       </a>
                   </div>
                 </div>

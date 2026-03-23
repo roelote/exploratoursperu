@@ -13,8 +13,8 @@ const lang = Astro.currentLocale ?? "es";
 const isEn = lang === "en";
 const homeHref = isEn ? "/en/" : "/";
 
-const altLangHref: string | null = altLangUrl === null ? null : (altLangUrl ?? (isEn ? "/" : "/en/"));
-// const altLangHref = altLangUrl ?? (isEn ? "/" : "/en/");
+// const altLangHref: string | null = altLangUrl === null ? null : (altLangUrl ?? (isEn ? "/" : "/en/"));
+const altLangHref = altLangUrl ?? (isEn ? "/" : "/en/");
 const altLangLabel = isEn ? "ES" : "EN";
 
 const headerinfo = await getHeaderInfo(lang);

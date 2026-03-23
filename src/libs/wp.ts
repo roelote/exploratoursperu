@@ -116,15 +116,17 @@ export const getInfoHeader = async (lang: string = "es") => {
   }
 };
 
-export const getInfoFooter = async () => {
+export const getInfoFooter = async (lang: string = "es") => {
   try {
-    const response = await fetch(`${apiFooter}/settings`);
+    const langParam = lang === "en" ? "?lang=en" : "";
+
+    const response = await fetch(`${apiFooter}/settings${langParam}`);
 
     if (!response.ok) throw new Error(`Error al obtener datos de la Pagina`);
 
     const data = await response.json();
 
-    return data ?? null;
+    return normalizeUrls(data ?? []);
   } catch (error) {
     return null;
   }
@@ -308,3 +310,14 @@ export const getInfoByTours = async (url: any, lang: string = "es") => {
 
   return normalizeUrls(await response.json());
 };
+
+export const getInfoPageBySlug = async (url: any, lang: string = "es") => {
+
+  const langParam = lang === "en" ? "&lang=en" : "";
+  const response = await fetch(`${apiTour}/pages?slug=${url}${langParam}`);
+
+  if (!response.ok) throw new Error(`Error al obtener datos del tour (${url})`);
+
+  return normalizeUrls(await response.json());
+  
+} 

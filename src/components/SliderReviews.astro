@@ -4,6 +4,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 const pathname = Astro.url.pathname;
+const dondition = pathname === "/en/" || pathname === "/en";
 ---
 
 <section>
@@ -11,7 +12,7 @@ const pathname = Astro.url.pathname;
   <div class="container">
     <div class="w-full text-center mb-5">
       {
-        pathname === "/en/" || pathname === "/en" 
+        dondition
         ? <h3 class="text-center text-red text-lg normal-case"><i class="fa-solid fa-comments"></i> Opinions</h3>
       <h2 class="text-3xl text-center font-semibold tracking-wide mb-3">Our Travelers' Reviews</h2>
       <p class="text-center mb-0! text-pretty">Discover what our customers say about their experiences with us.</p>

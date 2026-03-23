@@ -14,7 +14,6 @@ let titles: string[] = [];
 if (img?.galleria?.length) {
   try {
     const data = await getImagesBatch(img.galleria, lang);
-
     const valid = data.filter((i:any) => i && i.url);
 
     images = valid.map((i:any) => i.url);
@@ -34,16 +33,13 @@ while (images.length < 3) {
 const visible = images.slice(0, 3);
 const hidden = images.slice(3);
 
-
 const visibleTitle = titles.slice(0, 3);
 const hiddenTitle = titles.slice(3);
 ---
 
 <div class="container mt-3">
-
   <div class="flex flex-col md:flex-row w-full h-[500px] md:h-[670px] gap-3 overflow-hidden rounded-radio">
 
-    <!-- Imagen principal -->
     <div class="w-full h-full group/col1 relative">
       <a href={visible[0]} data-fancybox="gallery" data-caption={visibleTitle[0]}>
         <img
@@ -52,7 +48,8 @@ const hiddenTitle = titles.slice(3);
           width="1200"
           height="800"
           fetchpriority="high"
-          decoding="async"
+          loading="eager"
+          decoding="sync"
           draggable="false"
           class="shadow-md w-full h-full object-cover object-center rounded-radio"
         />
@@ -63,10 +60,8 @@ const hiddenTitle = titles.slice(3);
       </div>
     </div>
 
-    <!-- columna derecha -->
     <div class="hidden md:flex w-full lg:min-w-[511px] lg:w-[511px] h-full flex-col gap-3">
 
-      <!-- imagen 2 -->
       <div class="grow w-full h-[300px] group/col2">
         <a href={visible[1]} data-fancybox="gallery" data-caption={visibleTitle[1]}>
           <img
@@ -74,13 +69,13 @@ const hiddenTitle = titles.slice(3);
             alt={visibleTitle[1]}
             width="800"
             height="600"
+            loading="lazy"
             decoding="async"
             class="shadow-md w-full h-full object-cover object-center rounded-radio"
           />
         </a>
       </div>
 
-      <!-- imagen 3 -->
       <div class="grow w-full h-[300px] group/col3">
         <a href={visible[2]} data-fancybox="gallery" data-caption={visibleTitle[2]}>
           <img
@@ -88,15 +83,14 @@ const hiddenTitle = titles.slice(3);
             alt={visibleTitle[2]}
             width="800"
             height="600"
-            fetchpriority="high"
-            draggable="false"
+            loading="lazy"
             decoding="async"
+            draggable="false"
             class="shadow-md w-full h-full object-cover object-center rounded-radio"
           />
         </a>
       </div>
 
-      <!-- imágenes ocultas para fancybox -->
       <div class="hidden">
         {
           hidden.map((url, i) => (
@@ -115,7 +109,6 @@ const hiddenTitle = titles.slice(3);
           ))
         }
       </div>
-
     </div>
   </div>
 </div>
@@ -126,85 +119,16 @@ const hiddenTitle = titles.slice(3);
 
   Fancybox.bind("[data-fancybox]", {
     Hash: false,
+    // animaciones
+    transitions: {
+      slide: {
+        from: { opacity: 0, transform: "translate3d(100%,0,0)" },
+        to: { opacity: 1, transform: "translate3d(0,0,0)" },
+      },
+      fade: {
+        from: { opacity: 0 },
+        to: { opacity: 1 },
+      },
+    },
   });
 </script>
-
-<!-- ---
-import { Image } from "astro:assets";
-import { getImages } from "../../libs/wp";
-
-const { img } = Astro.props;
-
-const fallback = "https://cms.exploratoursperu.com/wp-content/uploads/img-placeholder.png";
-
-let images = [];
-let ImgsTitles = [];
-
-if (img?.galleria?.length) {
-  try {
-    const promesas = img.galleria.map((id: any) => getImages(id));
-    const data = await Promise.all(promesas);
-
-    images = data.map((img) => img?.url ?? fallback);
-    ImgsTitles = data.map((img) => img?.title ?? "Gallery image");
-  } catch (e) {
-    images = [fallback, fallback, fallback];
-    ImgsTitles = ["Gallery image", "Gallery image", "Gallery image"];
-  }
-}
-
-while (images.length < 3) {
-  images.push(fallback);
-  ImgsTitles.push("Gallery image");
-}
-
-const visible = images.slice(0, 3);
-const hidden = images.slice(3);
-
-const visibleTitle = ImgsTitles.slice(0, 3);
-const hiddenTitle = ImgsTitles.slice(3);
----
-
-<div class="container mt-3">
-  <div class="flex flex-col md:flex-row w-full h-[500px] md:h-[670px] gap-3 overflow-hidden rounded-radio">
-
-    <div class="w-full h-full group/col1 relative">
-      <a href={visible[0]} data-fancybox="gallery" data-caption={visibleTitle[0]}>
-        <Image src={visible[0]} alt={visibleTitle[0]} width={1200} height={800} format="webp" quality={70} class="shadow-md w-full h-full object-cover object-center rounded-radio" loading="eager" />
-      </a>
-      <div class="absolute bottom-5 right-5 bg-white/90 hover:bg-white backdrop-blur-sm rounded-lg px-4 py-2 text-sm font-medium flex items-center gap-2 pointer-events-none cursor-pointer">
-        <i class="fa-solid fa-images"></i> {images.length} Fotos
-      </div>
-    </div>
-
-    <div class="hidden md:flex w-full lg:min-w-[511px] lg:w-[511px] h-full flex-col gap-3">
-      <div class="grow w-full h-[300px] group/col2">
-        <a href={visible[1]} data-fancybox="gallery" data-caption={visibleTitle[1]}>
-          <Image src={visible[1]} alt={visibleTitle[1]} width={800} height={600} format="webp" quality={70} loading="lazy" class="shadow-md w-full h-full object-cover object-center rounded-radio" />
-        </a>
-      </div>
-
-      <div class="grow w-full h-[300px] group/col3">
-        <a href={visible[2]} data-fancybox="gallery" data-caption={visibleTitle[2]}>
-          <Image src={visible[2]} alt={visibleTitle[2]} width={800} height={600} format="webp" quality={70} loading="lazy" class="shadow-md w-full h-full object-cover object-center rounded-radio" />
-        </a>
-      </div>
-
-      <div class="hidden">
-        {
-          hidden.map((url, i) => (
-            <a href={url} data-fancybox="gallery" data-caption={hiddenTitle[i]}>
-              <Image src={url} alt={hiddenTitle[i]} width={800} height={600} loading="lazy" />
-            </a>
-          ))
-        }
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-  import { Fancybox } from "@fancyapps/ui/dist/fancybox/";
-  import "@fancyapps/ui/dist/fancybox/fancybox.css";
-  Fancybox.bind("[data-fancybox]", { Hash: false });
-</script> -->

@@ -14,6 +14,7 @@ function getDateFormatter(date: any) {
 }
 
 const pathname = Astro.url.pathname;
+const dondition = pathname === "/en/" || pathname === "/en";
 ---
 
 <section>
@@ -21,7 +22,7 @@ const pathname = Astro.url.pathname;
   <div class="container">
     <div class="w-full text-center">
       {
-        pathname === "/en/" || pathname === "/en"
+        dondition
         ? <h3 class="text-center text-red text-lg normal-case"><i class="fa-solid fa-book"></i> Blog</h3>
         <h2 class="text-3xl text-center font-semibold tracking-wide mb-3">Latest blogs</h2>
         <p class="text-center mb-0! text-pretty">Dive into more stories, travel tips, and essential guides.</p>
@@ -68,7 +69,7 @@ const pathname = Astro.url.pathname;
                         </div>
                         <div>
                           <a href={`/blog/${post.slug}`} class="inline-block group bg-green py-3 px-7 text-center capitalize font-medium rounded-full hover:text-black hover:bg-yellow text-white transition-colors">
-                            Read More <i class="fa-solid fa-arrow-right-long text-white group-hover:text-black transition-colors" />
+                            {dondition ? "Read More" : "Leer más" } <i class="fa-solid fa-arrow-right-long text-white group-hover:text-black transition-colors" />
                           </a>
                         </div>
                       </div>
