@@ -78,7 +78,7 @@ export const getInfoCategory = async (id: number) => {
   }
 };
 
-export async function getImagesBatch(ids: number[]) {
+export async function getImagesBatch(ids: number[], lang: string = "es") {
   if (!ids?.length) return [];
 
   const langParam = lang === "en" ? "&lang=en" : "";
