@@ -43,9 +43,10 @@ interface Props {
   title?: string;
   altLangUrl?: string | null;
   seo?: YoastSeo | null;
+  favicon?: string;
 }
 
-const { title, altLangUrl, seo } = Astro.props;
+const { title, altLangUrl, seo, favicon } = Astro.props;
 
 /**
  * aqui estoy definiendo el dominio base del sitio
