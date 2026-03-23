@@ -36,11 +36,23 @@ const apiLogo = `${domain}wp-json/wp/v2`;
 const sidebar = `${domain}wp-json/custom/v1`;
 const apiCategory = `${domain}wp-json/wp/v2`;
 
-export const getInfoContacto = async (lang: string = "es") => {
+export const getInfoContacto = async () => {
   try {
-    const langParam = lang === "en" ? "&lang=en" : "";
+    const response = await fetch(`${apiContacto}/pages?slug=contacto`);
 
-    const response = await fetch(`${apiContacto}/pages?slug=contacto${langParam}`);
+    if (!response.ok) throw new Error(`Error al obtener datos del Blog`);
+
+    const [data] = await response.json();
+
+    return normalizeUrls(data ?? null);
+  } catch (error) {
+    return null;
+  }
+};
+
+export const getInfoContactoEn = async () => {
+  try {
+    const response = await fetch(`${apiContacto}/pages?slug=contact-us&lang=en`);
 
     if (!response.ok) throw new Error(`Error al obtener datos del Blog`);
 
@@ -66,7 +78,7 @@ export const getInfoCategory = async (id: number) => {
   }
 };
 
-export async function getImagesBatch(ids: number[], lang: string = "es") {
+export async function getImagesBatch(ids: number[]) {
   if (!ids?.length) return [];
 
   const langParam = lang === "en" ? "&lang=en" : "";
@@ -83,48 +95,56 @@ export async function getImagesBatch(ids: number[], lang: string = "es") {
     title: img.title?.rendered || "Gallery image",
   }));
 
-  const ordered = ids.map((id) => mapped.find((img) => img.id === Number(id))).filter(Boolean);
+  const ordered = ids.map((id) => mapped.find((img:any) => img.id === Number(id))).filter(Boolean);
 
   return ordered;
 }
 
-export const getInfoHeader = async () => {
+export const getInfoHeader = async (lang: string = "es") => {
   try {
-    const response = await fetch(`${apiHeader}/settings`);
+    const langParam = lang === "en" ? "?lang=en" : "";
+
+    const response = await fetch(`${apiHeader}/settings${langParam}`);
 
     if (!response.ok) throw new Error(`Error al obtener datos de la Pagina`);
 
     const data = await response.json();
 
-    return data ?? null;
+    // return data ?? []
+
+    return normalizeUrls(data ?? []);
   } catch (error) {
     return null;
   }
 };
 
-export const getInfoFooter = async () => {
+export const getInfoFooter = async (lang: string = "es") => {
   try {
-    const response = await fetch(`${apiFooter}/settings`);
+    const langParam = lang === "en" ? "?lang=en" : "";
+
+    const response = await fetch(`${apiFooter}/settings${langParam}`);
 
     if (!response.ok) throw new Error(`Error al obtener datos de la Pagina`);
 
     const data = await response.json();
 
-    return data ?? null;
+    return normalizeUrls(data ?? []);
   } catch (error) {
     return null;
   }
 };
 
-export const getInfoPage = async () => {
+export const getInfoPage = async (lang: string = "es") => {
   try {
-    const response = await fetch(`${apiPage}/pages`);
+    const langParam = lang === "en" ? "&lang=en" : "";
+
+    const response = await fetch(`${apiPage}/pages?per_page=100${langParam}`);
 
     if (!response.ok) throw new Error(`Error al obtener datos de la Pagina`);
 
     const data = await response.json();
 
-    return data ?? null;
+    return data ?? []
   } catch (error) {
     return null;
   }
@@ -293,15 +313,13 @@ export const getInfoByTours = async (url: any, lang: string = "es") => {
   return normalizeUrls(await response.json());
 };
 
-export const getFavicon = async (): Promise<string | null> => {
-  try {
-    const response = await fetch(`${domain}wp-json/`);
-    if (!response.ok) return null;
-    const data = await response.json();
-    const url: string | undefined = data.site_icon_url;
-    if (!url) return null;
-    return fixWpUrl(url);
-  } catch {
-    return null;
-  }
-};
+export const getInfoPageBySlug = async (url: any, lang: string = "es") => {
+
+  const langParam = lang === "en" ? "&lang=en" : "";
+  const response = await fetch(`${apiTour}/pages?slug=${url}${langParam}`);
+
+  if (!response.ok) throw new Error(`Error al obtener datos del tour (${url})`);
+
+  return normalizeUrls(await response.json());
+  
+} 

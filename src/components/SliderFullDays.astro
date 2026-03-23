@@ -2,40 +2,39 @@
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { getInfoCategory } from "../libs/wp";
+
 const { data } = Astro.props;
-// console.log(data);
-
-const idCategory = 13;
-
-const getInfoCategories = await getInfoCategory(idCategory);
-
-function quitarHTML(str: any) {
-  return str.replace(/<[^>]*>?/gm, "");
-}
+const pathname = Astro.url.pathname;
+const dondition = pathname === "/en/" || pathname === "/en";
 ---
 
-<div class="w-full bg-gray-50">
+<section>
+  <div class="w-full bg-gray-50 relative">
+    <div class="absolute top-0 left-0 w-full z-30">
+      <svg width="100%" height="50px" class="-scale-y-100" fill="#f9fafb" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+        <path class="elementor-shape-fill" opacity="0.33" d="M473,67.3c-203.9,88.3-263.1-34-320.3,0C66,119.1,0,59.7,0,59.7V0h1000v59.7 c0,0-62.1,26.1-94.9,29.3c-32.8,3.3-62.8-12.3-75.8-22.1C806,49.6,745.3,8.7,694.9,4.7S492.4,59,473,67.3z"></path>
+        <path class="elementor-shape-fill" opacity="0.66" d="M734,67.3c-45.5,0-77.2-23.2-129.1-39.1c-28.6-8.7-150.3-10.1-254,39.1 s-91.7-34.4-149.2,0C115.7,118.3,0,39.8,0,39.8V0h1000v36.5c0,0-28.2-18.5-92.1-18.5C810.2,18.1,775.7,67.3,734,67.3z"></path>
+        <path class="elementor-shape-fill" d="M766.1,28.9c-200-57.5-266,65.5-395.1,19.5C242,1.8,242,5.4,184.8,20.6C128,35.8,132.3,44.9,89.9,52.5C28.6,63.7,0,0,0,0 h1000c0,0-9.9,40.9-83.6,48.1S829.6,47,766.1,28.9z"></path>
+      </svg>
+    </div>
   <div class="container py-20">
-    <div class="flex items-center flex-col justify-center lg:flex-row lg:justify-between gap-5 lg:gap-5 mb-5 lg:mb-0">
-      <div class="grow w-full lg:w-125">
-        <h3 class="text-center lg:text-start text-red text-lg normal-case"><i class="fa-solid fa-person-hiking"></i> Cusco Tours</h3>
-        <h2 class="text-3xl text-center lg:text-start font-semibold tracking-wide mb-3">City Tours</h2>
-        <p class="text-center lg:text-start mb-0! text-pretty">En esta sección se muestran los mejores tours de día completo disponibles.</p>
-      </div>
-      <div class="grow w-full lg:w-125 text-center lg:text-end">
-        <a href="#" class="inline-block border-2 border-blue text-nowrap py-3 px-7 rounded-full font-medium hover:text-white hover:bg-blue text-black transition-colors duration-300 text-base">
-          Ver más <i class="fa-solid fa-arrow-right-long"></i>
-        </a>
-        <!-- <a href="#" class="inline-block text-blue font-medium">Ver más <i class="fa-solid fa-arrow-right-long"></i></a> -->
-      </div>
+    <div class="w-full text-center">
+      {
+        dondition
+        ? <h3 class="text-center text-red text-lg normal-case"><i class="fa-solid fa-person-hiking"></i> Cusco Tours</h3>
+          <h2 class="text-3xl text-center font-semibold tracking-wide mb-3">City Tours</h2>
+          <p class="text-center mb-0! text-pretty">This section showcases the best full-day tours available.</p>
+        : <h3 class="text-center text-red text-lg normal-case"><i class="fa-solid fa-person-hiking"></i> Cusco Tours</h3>
+          <h2 class="text-3xl text-center font-semibold tracking-wide mb-3">Recorridos por la ciudad de Cusco</h2>
+          <p class="text-center mb-0! text-pretty">En esta sección se muestran los mejores tours de día completo disponibles.</p>
+      }
     </div>
     <div class="swiper mySwiperFulldays">
       <div class="swiper-wrapper py-1 my-5">
         {
           data.map((c: any) => (
             <div class="swiper-slide">
-              <div class="w-full h-full p-5 rounded-[20px] bg-white group shadow hover:shadow-xl transition-all duration-300 hover:translate-y-[-10px]">
+              <div class="w-full h-full p-5 rounded-radio bg-white group shadow hover:shadow-xl transition-all duration-300 hover:translate-y-[-10px]">
                 <div class="flex flex-col gap-0">
                   <div>
                     <a href={"/tour/" + c.slug} class="inline-block overflow-hidden rounded-radio relative">
@@ -47,7 +46,7 @@ function quitarHTML(str: any) {
                   </div>
                   <div class="w-full">
                     <div class="pt-5">
-                      <h3 class="line-clamp-1" set:html={c.title.rendered} />
+                      <h3 class="line-clamp-1 font-medium text-2xl" set:html={c.title.rendered} />
                       <div class="flex items-center justify-between">
                         <div class="flex items-center gap-5 mb-3">
                           <p class="capitalize mb-0! text-sm">
@@ -64,8 +63,7 @@ function quitarHTML(str: any) {
                     <hr class="my-5!" />
                     <div class="w-full">
                       <a href={"/tour/" + c.slug} class="w-full uppercase inline-block text-center border-2 border-green text-nowrap py-3 px-7 text-black group-hover:bg-green group-hover:text-white rounded-full transition-colors text-base">
-                        Ver Tour &nbsp;
-                        <i class="fa-solid fa-arrow-right-long" />
+                        {dondition ? "View Tour" : "Ver Tour" }  &nbsp; <i class="fa-solid fa-arrow-right-long" />
                       </a>
                     </div>
                     {/* <div>
@@ -85,6 +83,7 @@ function quitarHTML(str: any) {
     </div>
   </div>
 </div>
+</section>
 
 <script>
   import Swiper from "swiper";

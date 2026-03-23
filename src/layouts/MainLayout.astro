@@ -3,7 +3,7 @@ import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import "../styles/global.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { getFavicon } from "../libs/wp";
+
 // ── Tipos Yoast ───────────────────────────────────────────────────────────────
 type YoastRobots = {
   index?: string;
@@ -41,28 +41,43 @@ type YoastSeo = {
 
 interface Props {
   title?: string;
-  /** string = URL explícita del idioma alterno; null = no existe traducción; undefined = calcular desde pathname */
   altLangUrl?: string | null;
-  /** Objeto yoast_head_json de la REST API de WordPress */
   seo?: YoastSeo | null;
 }
 
-const { title, altLangUrl, seo} = Astro.props;
+const { title, altLangUrl, seo } = Astro.props;
 
-const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? "";
+/**
+ * aqui estoy definiendo el dominio base del sitio
+ */
+const envSiteUrl = import.meta.env.PUBLIC_SITE_URL;
+const siteUrl = envSiteUrl 
+  ? envSiteUrl.replace(/\/$/, "") 
+  : Astro.url.origin; // Si falla el .env, usa el dominio actual detectado
+
 const lang = Astro.currentLocale ?? "es";
 const isEn = lang === "en";
-const pathname = Astro.url.pathname;
 
-// null = sin traducción; undefined = calcular desde pathname
-const computedAltPath: string | null = altLangUrl === null ? null : (altLangUrl ?? (isEn ? pathname.replace(/^\/en/, "") || "/" : "/en" + pathname));
+// 2. OBTENER EL PATHNAME (Ej: /tours-en-cusco)
+const pathname = Astro.url.pathname; 
 
-// hreflang: la URL del idioma actual y la del alterno (si existe)
-const esFullUrl = isEn ? (computedAltPath !== null ? siteUrl + computedAltPath : null) : siteUrl + pathname;
+// 3. LÓGICA DE PATH ALTERNO (Traducción)
+const computedAltPath: string | null = altLangUrl === null 
+  ? null 
+  : (altLangUrl ?? (isEn ? pathname.replace(/^\/en/, "") || "/" : `/en${pathname === '/' ? '' : pathname}`));
 
-const enFullUrl = isEn ? siteUrl + pathname : computedAltPath !== null ? siteUrl + computedAltPath : null;
+// 4. CONSTRUCCIÓN DE URLs ABSOLUTAS (Obligatorio para SEO)
+// Nos aseguramos de que siempre empiecen con el protocolo (http/https)
+const esFullUrl = isEn 
+  ? (computedAltPath !== null ? siteUrl + computedAltPath : null) 
+  : siteUrl + (pathname === '/en' ? '/' : pathname);
+
+const enFullUrl = isEn 
+  ? siteUrl + pathname 
+  : (computedAltPath !== null ? siteUrl + computedAltPath : null);
 
 const canonicalUrl = siteUrl + pathname;
+
 
 // ── Campos SEO desde Yoast ────────────────────────────────────────────────────
 const pageTitle = seo?.title ?? title ?? "Explora Tours Peru";
@@ -80,9 +95,8 @@ const twDesc = seo?.twitter_description ?? ogDesc;
 const twImage = seo?.twitter_image ?? ogImage;
 const articleModTime = seo?.article_modified_time ?? null;
 const articlePubTime = seo?.article_published_time ?? null;
-// Robots: une los valores del objeto { index: "index", follow: "follow", "max-snippet": "max-snippet:-1", ... }
-const robotsContent = seo?.robots ? Object.values(seo.robots).join(", ") : null;
-const favicon = await getFavicon();
+
+const robotsContent = seo?.robots ? Object.values(seo.robots).filter(Boolean).join(", ") : null;
 ---
 
 <html lang={lang}>
@@ -98,16 +112,18 @@ const favicon = await getFavicon();
       </>
     )}
     <title>{pageTitle}</title>
+    
     <slot name="head"/>
-    <!-- Aquí se pueden inyectar más tags desde cada página -->
+
     {metaDesc && <meta name="description" content={metaDesc} />}
     {robotsContent && <meta name="robots" content={robotsContent} />}
+    
     <link rel="canonical" href={canonicalUrl} />
+    
     {esFullUrl && <link rel="alternate" hreflang="es" href={esFullUrl} />}
     {enFullUrl && <link rel="alternate" hreflang="en" href={enFullUrl} />}
     {esFullUrl && <link rel="alternate" hreflang="x-default" href={esFullUrl} />}
 
-    <!-- Open Graph -->
     <meta property="og:type" content={ogType} />
     <meta property="og:locale" content={ogLocale} />
     <meta property="og:url" content={canonicalUrl} />
@@ -119,10 +135,8 @@ const favicon = await getFavicon();
     {articleModTime && <meta property="article:modified_time" content={articleModTime} />}
     {articlePubTime && <meta property="article:published_time" content={articlePubTime} />}
 
-    <!-- Twitter / X -->
     <meta name="twitter:card" content={twCard} />
     <meta name="twitter:title" content={twTitle} />
-    
     {twDesc && <meta name="twitter:description" content={twDesc} />}
     {twImage && <meta name="twitter:image" content={twImage} />}
 
@@ -130,7 +144,9 @@ const favicon = await getFavicon();
   </head>
   <body>
     <Header altLangUrl={computedAltPath} />
-    <slot />
+    <main>
+      <slot />
+    </main>
     <Footer />
   </body>
 </html>

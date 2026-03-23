@@ -1,0 +1,147 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import { getInfoContactoEn } from "../../libs/wp";
+
+const data = await getInfoContactoEn();
+const contentTour = data;
+---
+
+<MainLayout seo={contentTour?.yoast_head_json}>
+  <main>
+    <section>
+      <div class="w-full h-[450px] overflow-hidden">
+        <div class="relative w-full h-full bg-cover bg-center after:content-[''] after:absolute after:inset-0 after:bg-black/50 after:w-full after:h-full flex items-center justify-center" style={`background-image: url(${data.featured_img ?? ""})`}>
+          <div class="relative z-20">
+            <h1 class="text-white text-4xl block text-center mb-3">{data.title.rendered}</h1>
+            <div class="flex items-center justify-center gap-2">
+              <div>
+                <a href="/" class="inline-block text-white text-base">Inicio</a>
+              </div>
+              <div>
+                <span class="size-2 bg-yellow block rounded-full"></span>
+              </div>
+              <div>
+                <span class="text-yellow text-base">{data.title.rendered}</span>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="absolute -bottom-px z-10 left-0 w-full h-14 bg-cover bg-center bg-no-repeat"  style={`background-image: url(https://cms.exploratoursperu.com/wp-content/uploads/footer-spray.webp)`} /> -->
+          <div class="absolute bottom-0 left-0 w-full z-30">
+            <svg width="100%" height="50px" class="-scale-y-100" fill="#ffffff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+              <path class="elementor-shape-fill" opacity="0.33" d="M473,67.3c-203.9,88.3-263.1-34-320.3,0C66,119.1,0,59.7,0,59.7V0h1000v59.7 c0,0-62.1,26.1-94.9,29.3c-32.8,3.3-62.8-12.3-75.8-22.1C806,49.6,745.3,8.7,694.9,4.7S492.4,59,473,67.3z"></path>
+              <path class="elementor-shape-fill" opacity="0.66" d="M734,67.3c-45.5,0-77.2-23.2-129.1-39.1c-28.6-8.7-150.3-10.1-254,39.1 s-91.7-34.4-149.2,0C115.7,118.3,0,39.8,0,39.8V0h1000v36.5c0,0-28.2-18.5-92.1-18.5C810.2,18.1,775.7,67.3,734,67.3z"></path>
+              <path class="elementor-shape-fill" d="M766.1,28.9c-200-57.5-266,65.5-395.1,19.5C242,1.8,242,5.4,184.8,20.6C128,35.8,132.3,44.9,89.9,52.5C28.6,63.7,0,0,0,0 h1000c0,0-9.9,40.9-83.6,48.1S829.6,47,766.1,28.9z"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="container">
+        <div class="content-page my-10">
+          <div set:html={data.content.rendered} id="cf7-container" />
+        </div>
+      </div>
+    </section>
+  </main>
+</MainLayout>
+
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@26.7.6/build/js/intlTelInput.min.js"></script>
+
+<script>
+  window.addEventListener("load", () => {
+    const container = document.getElementById("cf7-container");
+    if (!container) return;
+
+    const form = container.querySelector("form");
+    if (!form) return;
+
+    const phoneInput = form.querySelector("#phone");
+    const submitBtn = form.querySelector('input[type="submit"]');
+    const hiddenPhone = form.querySelector('input[name="telefono-completo"]');
+
+    if (!phoneInput) return;
+
+    const iti = window.intlTelInput(phoneInput, {
+      loadUtils: () => import("https://cdn.jsdelivr.net/npm/intl-tel-input@26.7.6/build/js/utils.js"),
+      initialCountry: "auto",
+      geoIpLookup: (callback) => {
+        fetch("https://ipapi.co/json")
+          .then((res) => res.json())
+          .then((data) => callback(data.country_code))
+          .catch(() => callback("us"));
+      },
+    });
+
+    // Loader
+    const loader = document.createElement("div");
+    loader.className = "form-loading";
+    loader.innerHTML = `
+    <div class="loading-spinner"></div>
+    <span>Enviando mensaje...</span>
+  `;
+    submitBtn.parentNode.appendChild(loader);
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      // --- VALIDACIÓN GLOBAL ---
+
+      // 1. Obtener todos los campos que NO sean el botón de envío ni campos ocultos técnicos
+      const inputs = form.querySelectorAll('input:not([type="submit"]):not([type="hidden"]), textarea, select');
+      let missingFields = false;
+
+      inputs.forEach((input) => {
+        // Si es el campo de teléfono de intl-tel-input, lo validamos con su propia lógica
+        if (input.id === "phone") {
+          if (!iti.isValidNumber()) {
+            missingFields = true;
+          }
+        } else {
+          // Para el resto, verificamos que no estén vacíos
+          if (!input.value.trim()) {
+            missingFields = true;
+          }
+        }
+      });
+
+      if (missingFields) {
+        alert("Por favor, completa todos los campos correctamente antes de enviar.");
+        return; // Aquí bloqueamos el envío
+      }
+
+      // --- FIN VALIDACIÓN ---
+
+      loader.classList.add("active");
+      submitBtn.disabled = true;
+
+      if (hiddenPhone) {
+        hiddenPhone.value = iti.getNumber();
+      }
+
+      const formData = new FormData(form);
+
+      try {
+        const res = await fetch("https://cms.exploratoursperu.com/wp-json/contact-form-7/v1/contact-forms/512/feedback", {
+          method: "POST",
+          body: formData,
+        });
+
+        const data = await res.json();
+
+        if (data.status === "mail_sent") {
+          alert("Mensaje enviado correctamente");
+          form.reset();
+        } else {
+          alert(data.message);
+        }
+      } catch (error) {
+        console.error(error);
+        alert("Error enviando el mensaje");
+      } finally {
+        loader.classList.remove("active");
+        submitBtn.disabled = false;
+      }
+    });
+  });
+</script>
