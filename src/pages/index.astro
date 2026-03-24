@@ -2,13 +2,13 @@
 import SliderHiking from "../components/SliderHiking.astro";
 import SliderFullDays from "../components/SliderFullDays.astro";
 import MainLayout from "../layouts/MainLayout.astro";
-import { getInfoPageHome, getImages, getTourInfo } from "../libs/wp";
+import { getInfoPageHome, getTourInfo } from "../libs/wp";
 import SliderMachuPicchu from "../components/SliderMachuPicchu.astro";
 import SliderBlogs from "../components/SliderBlogs.astro";
 import SliderReviews from "../components/SliderReviews.astro";
-import Image from "astro/components/Image.astro";
 import HeroPortada from "../components/HeroPortada.astro";
 import Contents from "../components/Contents.astro";
+import ContentWP from "../components/contentWP.astro";
 
 interface Props {
   seo: any;
@@ -17,6 +17,8 @@ interface Props {
 const dataHome = await getInfoPageHome();
 
 const getInfoPortada = dataHome?.featured_img;
+
+const infoHome = dataHome.content.rendered
 
 const category = await getTourInfo();
 
@@ -35,13 +37,7 @@ const categoryTreks = category.filter((category: any) => category.peru == 19);
 
   <main>
     <HeroPortada data={getInfoPortada} />
-    <section>
-      <div class="container py-20">
-        <div class="wrapper-home-page">
-          <div set:html={dataHome.content.rendered} />
-        </div>
-      </div>
-    </section>
+    <ContentWP data={infoHome} />
     <SliderFullDays data={categoryFullday} />
     <SliderMachuPicchu data={categoryMachupicchu} />
     <SliderHiking data={categoryTreks} />

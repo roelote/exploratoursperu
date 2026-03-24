@@ -8,14 +8,15 @@ import SliderBlogs from "../../components/SliderBlogs.astro";
 import SliderReviews from "../../components/SliderReviews.astro";
 import HeroPortada from "../../components/HeroPortada.astro";
 import Contents from "../../components/Contents.astro";
-
+import ContentWP from "../../components/contentWP.astro";
 
 interface Props {
   seo: any;
 }
 
-
 const dataHome = await getInfoPageHome("en");
+
+const infoHome = dataHome.content.rendered;
 
 const heroInfo = dataHome?.featured_img;
 
@@ -31,13 +32,7 @@ const categoryTreks = category.filter((category: any) => category.peru == 20);
 <MainLayout seo={dataHome?.yoast_head_json}>
   <main>
     <HeroPortada data={heroInfo} />
-    <section>
-      <div class="container py-20">
-        <div class="wrapper-home-page">
-          <div set:html={dataHome.content.rendered} />
-        </div>
-      </div>
-    </section>
+    <ContentWP data={infoHome} />
     <SliderFullDays data={categoryFullday} />
     <SliderMachuPicchu data={categoryMachupicchu} />
     <SliderHiking data={categoryTreks} />

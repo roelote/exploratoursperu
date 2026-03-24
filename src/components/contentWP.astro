@@ -1,0 +1,11 @@
+---
+const { data } = Astro.props;
+---
+
+<section>
+  <div class="container py-20">
+    <div class="wrapper-home-page">
+      <div set:html={data} />
+    </div>
+  </div>
+</section>

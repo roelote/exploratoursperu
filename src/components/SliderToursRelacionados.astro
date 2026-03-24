@@ -2,6 +2,7 @@
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+
 import { getInfoCategory, getTourInfo } from "../libs/wp";
 
 const { slug } = Astro.params;
@@ -17,8 +18,12 @@ const idCategory = getCategory?.peru?.[0];
 const category = idCategory ? await getInfoCategory(idCategory) : null;
 
 const getInfoCategories = idCategory
-  ? getTours.filter((cat:any) => cat.peru?.includes(idCategory))
-  : [];
+? getTours.filter((cat:any) => cat.peru?.includes(idCategory))
+: [];
+
+const getAllInfoCategories = getInfoCategories
+? getInfoCategories.filter((cat:any) => slug != cat.slug)
+: [];
 ---
 
 <div class="w-full bg-white">
@@ -27,12 +32,12 @@ const getInfoCategories = idCategory
     <div class="swiper mySwiperRelated my-5">
       <div class="swiper-wrapper">
       {
-        getInfoCategories.map((c: any) => (
+        getAllInfoCategories.map((c: any) => (
           <div class="swiper-slide py-1">
             <div class="overflow-hidden rounded-radio group hover:translate-y-[-10px] shadow hover:shadow-xl duration-300">
               <div class="w-full h-full flex items-center flex-col">
                 <div class="w-full h-96 relative">
-                  <a href={`/tour/${c.slug}`} class="inline-block w-full h-full">
+                  <a href={`${lang === "en" ? `/en/tour/${c.slug}` : `/tour/${c.slug}` } `} class="inline-block w-full h-full">
                     <img decoding="async" loading="lazy" src={c.featured_img} alt={c.title.rendered} class="w-full h-full object-cover select-none" />
                     <div class="absolute inset-0 bg-linear-to-t from-black/50 to-transparent" />
                   </a>
@@ -67,7 +72,7 @@ const getInfoCategories = idCategory
                   </div>
                   <hr class="my-5" />
                   <div class="w-full text-center">
-                    <a href={`/tour/${c.slug}`} class="inline-block w-full border-2 border-green text-green text-nowrap py-4 rounded-full font-medium group-hover:bg-green group-hover:text-white transition-colors duration-300 text-base">
+                    <a href={`${lang === "en" ? `/en/tour/${c.slug}` : `/tour/${c.slug}` } `} class="inline-block w-full border-2 border-green text-green text-nowrap py-4 rounded-full font-medium group-hover:bg-green group-hover:text-white transition-colors duration-300 text-base">
                         Ver Tour <i class="fa-solid fa-arrow-right-long" />
                       </a>
                   </div>
@@ -82,7 +87,6 @@ const getInfoCategories = idCategory
       <div class="swiper-button-next bg-green/50 transition-colors rounded-full hover:bg-green text-white! p-3 shadow-lg"></div>
       <div class="swiper-pagination mt-5 relative!" />
     </div>
-    <!-- pagination -->
   </div>
 </div>
 
