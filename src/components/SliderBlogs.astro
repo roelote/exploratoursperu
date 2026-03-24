@@ -1,5 +1,6 @@
 ---
 import { getPosts } from "../libs/wp";
+
 const allPosts = await getPosts();
 
 const posts = allPosts.slice(0, 10);
@@ -97,17 +98,13 @@ const dondition = pathname === "/en/" || pathname === "/en";
 
 <script>
   import Swiper from "swiper";
-  import { Navigation, Pagination } from "swiper/modules";
+  import { Navigation } from "swiper/modules";
 
   new Swiper(".mySwiperBlogs", {
     modules: [Navigation],
     loop: true,
     slidesPerView: 3,
     spaceBetween: 10,
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
-    },
     navigation: {
       nextEl: ".swiper-button-next",
       prevEl: ".swiper-button-prev",
