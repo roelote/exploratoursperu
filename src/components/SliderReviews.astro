@@ -4,118 +4,105 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 const pathname = Astro.url.pathname;
-const dondition = pathname === "/en/" || pathname === "/en";
+const isEnglish = pathname.startsWith("/en");
+
+const reviews = [
+  {
+    title: isEnglish ? "An experience at Humantay Lake" : "Una experiencia en la Laguna Humantay",
+    content: isEnglish 
+      ? "The organization was impeccable and our guide knew every detail of the mountain. The landscape is out of this world." 
+      : "La organización fue impecable y nuestro guía conocía cada detalle de la montaña. El paisaje es de otro mundo.",
+    author: "María F.",
+    location: "España",
+    timeAgo: isEnglish ? "2 weeks ago" : "Hace 2 semanas",
+    img: "https://i.pravatar.cc/150?img=16"
+  },
+  {
+    title: isEnglish ? "Excellent Valley Tour" : "Excelente recorrido por el Valle",
+    content: isEnglish 
+      ? "Discovering places like Pumamarca and Inti Punku was magical. Very comfortable transport." 
+      : "Descubrir rincones como Pumamarca e Inti Punku fue mágico. El transporte muy cómodo y puntual.",
+    author: "Carlos R.",
+    location: "México",
+    timeAgo: isEnglish ? "1 month ago" : "Hace 1 mes",
+    img: "https://i.pravatar.cc/150?img=14"
+  },
+  {
+    title: isEnglish ? "Machu Picchu Hike" : "Caminata a Machu Picchu",
+    content: isEnglish 
+      ? "The hike was challenging but the views were worth it. The guide was very supportive and knowledgeable." 
+      : "La caminata fue desafiante pero las vistas valieron la pena. El guía fue muy atento y conocedor.",
+    author: "Ana L.",
+    location: "Colombia",
+    timeAgo: isEnglish ? "3 weeks ago" : "Hace 3 semanas",
+    img: "https://i.pravatar.cc/150?img=15"
+  },
+  {
+    title: isEnglish ? "Incredible Service" : "Servicio increíble",
+    content: isEnglish 
+      ? "From the moment we booked, the communication was excellent. They took care of every detail." 
+      : "Desde el momento de la reserva, la comunicación fue excelente. Se encargaron de cada detalle.",
+    author: "Luis M.",
+    location: "Argentina",
+    timeAgo: isEnglish ? "1 month ago" : "Hace 1 mes",
+    img: "https://i.pravatar.cc/150?img=17"
+  }
+
+];
 ---
 
 <section>
   <div class="w-full py-20">
-  <div class="container">
-    <div class="w-full text-center mb-5">
-      {
-        dondition
-        ? <h3 class="text-center text-red text-lg normal-case"><i class="fa-solid fa-comments"></i> Opinions</h3>
-      <h2 class="text-3xl text-center font-semibold tracking-wide mb-3">Our Travelers' Reviews</h2>
-      <p class="text-center mb-0! text-pretty">Discover what our customers say about their experiences with us.</p>
-
-        : <h3 class="text-center text-red text-lg normal-case"><i class="fa-solid fa-comments"></i> Opiniones</h3>
-      <h2 class="text-3xl text-center font-semibold tracking-wide mb-3">Opiniones de Nuestros Viajeros</h2>
-      <p class="text-center mb-0! text-pretty">Descubre lo que dicen nuestros clientes sobre sus experiencias con nosotros.</p>
-      }
-    </div>
-    <div class="swiper mySwiperReviews">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide h-auto">
-          <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 h-full flex flex-col justify-between transition-transform duration-300 hover:-translate-y-2">
-            <div>
-              <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center space-x-2 text-tripadvisor font-bold text-lg">
-                  <img loading="lazy" decoding="async" src="https://cms.exploratoursperu.com/wp-content/uploads/Logo-tripadvisor.svg" alt="" class="w-full h-7.5" />
-                </div>
-                <div class="flex text-yellow-400">★★★★★</div>
-              </div>
-              <h3 class="font-semibold text-gray-900 text-xl">"Una experiencia en la Laguna Humantay"</h3>
-              <p class="text-gray-600 text-sm leading-relaxed mb-6 line-clamp-3">La organización fue impecable y nuestro guía conocía cada detalle de la montaña. El paisaje es de otro mundo, y la logística hizo que la caminata fuera mucho más llevadera. Totalmente recomendado.</p>
-            </div>
-            <div class="flex items-center gap-4 mt-auto">
-              <img loading="lazy" decoding="async" src="https://i.pravatar.cc/150?img=16" class="size-10 object-cover object-center rounded-full" alt="" />
-              <div>
-                <p class="font-bold text-gray-900 mb-0!">María F.</p>
-                <p class="text-sm text-gray-500 mb-0!">España • Hace 2 semanas</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="swiper-slide h-auto">
-          <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 h-full flex flex-col justify-between transition-transform duration-300 hover:-translate-y-2">
-            <div>
-              <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center space-x-2 text-tripadvisor font-bold text-lg">
-                  <img loading="lazy" decoding="async" src="https://cms.exploratoursperu.com/wp-content/uploads/Logo-tripadvisor.svg" alt="" class="w-full h-7.5" />
-                </div>
-                <div class="flex text-yellow-400">★★★★★</div>
-              </div>
-              <h3 class="font-semibold text-gray-900 text-xl">"Excelente recorrido por el Valle"</h3>
-              <p class="text-gray-600 text-sm leading-relaxed mb-6 line-clamp-3">Descubrir rincones como Pumamarca e Inti Punku fue mágico. Se nota que diseñan rutas súper completas y fuera de lo común. El transporte muy cómodo y puntual en toda la ruta.</p>
-            </div>
-            <div class="flex items-center gap-4 mt-auto">
-              <img loading="lazy" decoding="async" src="https://i.pravatar.cc/150?img=14" class="size-10 object-cover object-center rounded-full" alt="" />
-              <div>
-                <p class="font-bold text-gray-900 mb-0!">Carlos J.</p>
-                <p class="text-sm text-gray-500 mb-0!">México • Hace 1 mes</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="swiper-slide h-auto">
-          <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 h-full flex flex-col justify-between transition-transform duration-300 hover:-translate-y-2">
-            <div>
-              <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center space-x-2 text-tripadvisor font-bold text-lg">
-                  <img loading="lazy" decoding="async" src="https://cms.exploratoursperu.com/wp-content/uploads/Logo-tripadvisor.svg" alt="" class="w-full h-7.5" />
-                </div>
-                <div class="flex text-yellow-400">★★★★★</div>
-              </div>
-              <h3 class="font-semibold text-gray-900 text-xl">"Desafío increíble en Ausangate"</h3>
-              <p class="text-gray-600 text-sm leading-relaxed mb-6 line-clamp-3">El trekking fue un desafío espectacular, pero el equipo lo hizo posible. Los cocineros, el guía y todo el campamento superaron mis expectativas. 100% recomendado para aventureros.</p>
-            </div>
-            <div class="flex items-center gap-4 mt-auto">
-              <img loading="lazy" decoding="async" src="https://i.pravatar.cc/150?img=32" class="size-10 object-cover object-center rounded-full" alt="" />
-              <div>
-                <p class="font-bold text-gray-900 mb-0!">Laura T.</p>
-                <p class="text-sm text-gray-500 mb-0!">Colombia • Hace 3 meses</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="swiper-slide h-auto">
-          <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 h-full flex flex-col justify-between transition-transform duration-300 hover:-translate-y-2">
-            <div>
-              <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center space-x-2 text-tripadvisor font-bold text-lg">
-                  <img loading="lazy" decoding="async" src="https://cms.exploratoursperu.com/wp-content/uploads/Logo-tripadvisor.svg" alt="" class="w-full h-7.5" />
-                </div>
-                <div class="flex text-yellow-400">★★★★★</div>
-              </div>
-              <h3 class="font-semibold text-gray-900 text-xl">"Excelente recorrido por el Valle"</h3>
-              <p class="text-gray-600 text-sm leading-relaxed mb-6 line-clamp-3">Descubrir rincones como Pumamarca e Inti Punku fue mágico. Se nota que diseñan rutas súper completas y fuera de lo común. El transporte muy cómodo y puntual en toda la ruta.</p>
-            </div>
-            <div class="flex items-center gap-4 mt-auto">
-              <img loading="lazy" decoding="async" src="https://i.pravatar.cc/150?img=65" class="size-10 object-cover object-center rounded-full" alt="" />
-              <div>
-                <p class="font-bold text-gray-900 mb-0!">Jhoen S.</p>
-                <p class="text-sm text-gray-500 mb-0!">México • Hace 3 mes</p>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div class="container">
+      <div class="w-full text-center mb-5">
+        {
+          isEnglish ? (
+            <>
+              <h3 class="text-center text-red text-lg normal-case"><i class="fa-solid fa-comments"></i> Opinions</h3>
+              <h2 class="text-3xl text-center font-semibold tracking-wide mb-3">Our Travelers' Reviews</h2>
+              <p class="text-center mb-0! text-pretty">Discover what our customers say about their experiences with us.</p>
+            </>
+          ) : (
+            <>
+              <h3 class="text-center text-red text-lg normal-case"><i class="fa-solid fa-comments"></i> Opiniones</h3>
+              <h2 class="text-3xl text-center font-semibold tracking-wide mb-3">Opiniones de Nuestros Viajeros</h2>
+              <p class="text-center mb-0! text-pretty">Descubre lo que dicen nuestros clientes sobre sus experiencias con nosotros.</p>
+            </>
+          )
+        }
       </div>
-      <div class="swiper-button-prev bg-white/50 hover:bg-white transition-colors rounded-full text-black! p-3 shadow-lg"></div>
-      <div class="swiper-button-next bg-white/50 hover:bg-white transition-colors rounded-full text-black! p-3 shadow-lg"></div>
+
+      <div class="swiper mySwiperReviews">
+        <div class="swiper-wrapper">
+          {reviews.map((review) => (
+            <div class="swiper-slide h-auto">
+              <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 h-full flex flex-col justify-between transition-transform duration-300 hover:-translate-y-2">
+                <div>
+                  <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center space-x-2 text-tripadvisor font-bold text-lg">
+                      <img decoding="async" loading="lazy" src="https://cms.exploratoursperu.com/wp-content/uploads/Logo-tripadvisor.svg" alt="TripAdvisor" title="TripAdvisor" class="w-full h-7.5" />
+                    </div>
+                    <div class="flex text-yellow-400">★★★★★</div>
+                  </div>
+                  <h3 class="font-semibold text-gray-900 text-xl">"{review.title}"</h3>
+                  <p class="text-gray-600 text-sm leading-relaxed mb-6 line-clamp-3">{review.content}</p>
+                </div>
+                <div class="flex items-center gap-4 mt-auto">
+                  <img decoding="async" loading="lazy" src={review.img} class="size-10 object-cover rounded-full" alt={review.author} title={review.author}/>
+                  <div>
+                    <p class="font-bold text-gray-900 mb-0!">{review.author}</p>
+                    <p class="text-sm text-gray-500 mb-0!">{review.location} • {review.timeAgo}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div class="swiper-button-prev bg-white/50 hover:bg-white transition-colors rounded-full text-black! p-3 shadow-lg"></div>
+        <div class="swiper-button-next bg-white/50 hover:bg-white transition-colors rounded-full text-black! p-3 shadow-lg"></div>
+      </div>
     </div>
   </div>
-</div>
 </section>
 
 <script>
@@ -125,25 +112,16 @@ const dondition = pathname === "/en/" || pathname === "/en";
   new Swiper(".mySwiperReviews", {
     modules: [Navigation],
     loop: true,
-    slidesPerView: 3,
-    spaceBetween: 10,
+    slidesPerView: 1,
+    spaceBetween: 20,
     navigation: {
       nextEl: ".swiper-button-next",
       prevEl: ".swiper-button-prev",
     },
     breakpoints: {
-      320: {
-        slidesPerView: 1,
-      },
-      640: {
-        slidesPerView: 1,
-      },
-      1024: {
-        slidesPerView: 2,
-      },
-      1280: {
-        slidesPerView: 3,
-      },
+      640: { slidesPerView: 1 },
+      1024: { slidesPerView: 2 },
+      1280: { slidesPerView: 3 },
     },
   });
 </script>

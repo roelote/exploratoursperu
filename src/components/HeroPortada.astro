@@ -6,7 +6,7 @@ const pathname = Astro.url.pathname;
 
 <section>
   <div class="w-full relative">
-    <Image src={data} width={1920} height={1080} loading="eager" fetchpriority="high" quality={80} format="webp" sizes="100vw" class="w-full h-[90vh] object-cover object-center" alt="Explore Tours Peru" />
+    <Image src={data} width={1920} height={1080} loading="eager" fetchpriority="high" quality={80} format="webp" sizes="100vw" class="w-full h-[90vh] object-cover object-center" alt="Explore Tours Peru" title="Explore Tours Peru" />
 
     <div class="bg-black/50 absolute inset-0 w-full h-full z-10"></div>
     <div class="w-full lg:w-248.75 absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-20 px-5 md:px-0 despues">
@@ -19,8 +19,8 @@ const pathname = Astro.url.pathname;
                 Turn your dream trip into reality. We explore the wonders of Machu Picchu and the best-kept secrets of our land with the support of true local experts. We design safe and memorable experiences; your next great story starts here.
             </p>
             <div class="flex flex-col md:flex-row items-center justify-center gap-5">
-                <a href="#" class="w-full md:w-80 text-center bg-yellow capitalize py-3 inline-block text-black font-medium border-2 border-yellow hover:bg-transparent hover:text-white transition-all">Book the Inca Trail 2026</a>
-                <a href="#" class="w-full md:w-80 text-center bg-transparend border-2 border-yellow capitalize py-3 inline-block font-medium text-white hover:bg-yellow hover:text-black transition-all">Explore Our Tours</a>
+                <a href="#" title="Book the Inca Trail 2026" class="w-full md:w-80 text-center bg-yellow capitalize py-3 inline-block text-black font-medium border-2 border-yellow hover:bg-transparent hover:text-white transition-all">Book the Inca Trail 2026</a>
+                <a href="#" title="Explore Our Tours" class="w-full md:w-80 text-center bg-transparend border-2 border-yellow capitalize py-3 inline-block font-medium text-white hover:bg-yellow hover:text-black transition-all">Explore Our Tours</a>
             </div>
 
                 : <h1 class="text-4xl text-balance text-white font-bold tracking-widest text-center uppercase">
@@ -30,8 +30,8 @@ const pathname = Astro.url.pathname;
             Convierte tu viaje soñado en realidad. Exploramos las maravillas de Machu Picchu y los secretos mejor guardados de nuestra tierra con el respaldo de verdaderos expertos locales. Diseñamos experiencias seguras y memorables; tu próxima gran historia comienza aquí.
           </p>
           <div class="flex flex-col md:flex-row items-center justify-center gap-5">
-            <a href="#" class="w-full md:w-80 text-center bg-yellow capitalize py-3 inline-block text-black font-medium border-2 border-yellow hover:bg-transparent hover:text-white transition-all">Reserva el Camino Inca 2026</a>
-            <a href="#" class="w-full md:w-80 text-center bg-transparend border-2 border-yellow capitalize py-3 inline-block font-medium text-white hover:bg-yellow hover:text-black transition-all">Explora Nuestros Tours</a>
+            <a href="#" title="Reserva el Camino Inca 2026" class="w-full md:w-80 text-center bg-yellow capitalize py-3 inline-block text-black font-medium border-2 border-yellow hover:bg-transparent hover:text-white transition-all">Reserva el Camino Inca 2026</a>
+            <a href="#" title="Explora Nuestros Tours" class="w-full md:w-80 text-center bg-transparend border-2 border-yellow capitalize py-3 inline-block font-medium text-white hover:bg-yellow hover:text-black transition-all">Explora Nuestros Tours</a>
           </div>
             }
     </div>
