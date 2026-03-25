@@ -1,8 +1,18 @@
 ---
-const { content } = Astro.props;
+const { content, price } = Astro.props;
+const precio = price.precio
 ---
 
 <div class="sidebar-tour-page" id="content-form-contact">
+  <div class="flex items-center justify-between">
+    <div>
+      <p class="text-parragraph text-sm font-medium mb-0!">Precio</p>
+      <p class="text-lg font-bold text-black! mb-0!">Desde</p>
+    </div>
+    <div>
+      <span class="text-4xl font-bold text-black">$ {precio}</span>
+    </div>
+  </div>
   <div set:html={content} id="cf7-container" />
 </div>
 

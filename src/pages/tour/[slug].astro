@@ -45,6 +45,7 @@ if (!slug) {
 }
 
 const getUrlTourInfo = await getInfoByTours(slug);
+const [getPrice] = getUrlTourInfo
 
 const getByurl = getUrlTourInfo;
 
@@ -54,9 +55,6 @@ const titlePage = contentTour.title.rendered;
 const wrapper = contentTour.content.rendered;
 
 const [ids] = getUrlTourInfo.map((tour: any) => tour.acf.seccion_galleria.galleria) ?? [];
-
-
-// TODO: optimizar esta parte para traer solo las imagenes necesarias
 
 const preloadImages = [getImagesBatch(ids)];
 const getImagesPreloads = (await Promise.all(preloadImages)).flat() ?? [];
@@ -80,7 +78,7 @@ const imgs = getImagesPreloads.slice(0, 3);
   
   <main>
     <section>
-      {getUrlTourInfo.map((tour: any) => <Gallery img={tour.acf.seccion_galleria}/>)}
+      {getUrlTourInfo.map((tour: any) => <Gallery img={tour.acf}/>)}
     </section>
     <section>
       <div class="container mt-3">
@@ -98,7 +96,6 @@ const imgs = getImagesPreloads.slice(0, 3);
                   {
                     category.name 
                     ? <li>
-                        {/* <a href="" class="text-sm capitalize text-green font-medium hover:underline">{category.name}</a> */}
                         <span class="text-sm capitalize text-green font-medium">{category.name}</span>
                       </li>
                       <i class="fa-solid fa-chevron-right text-[8px] text-parragraph"></i>
@@ -131,7 +128,7 @@ const imgs = getImagesPreloads.slice(0, 3);
           <!-- sidebar tours -->
           <div class="sticky top-0 w-full lg:w-[500px] h-full">
             <div class="w-full h-full shadow-[0px_0px_30px_0px_rgba(0,0,0,0.1)] p-5 rounded-[20px]">
-              <Sidebar content={sidebar.content} />
+              <Sidebar price={getPrice.acf} content={sidebar.content} />
             </div>
           </div>
         </div>
