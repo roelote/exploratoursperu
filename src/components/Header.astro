@@ -40,8 +40,8 @@ interface MenuItem {
   <div class="container mx-auto">
     <div class="w-full flex items-center justify-between py-2">
       <div class="flex items-center">
-        <a href={homeHref} class="inline-block h-[73px] py-2">
-          <img decoding="async" src={getLogo} draggable="false" alt="Logo" class="h-full w-auto object-contain" />
+        <a href={homeHref} class="inline-block h-[73px] py-2" title="Explore Tours Peru">
+          <img decoding="async" src={getLogo} draggable="false" alt="Explore Tours Peru" title="Explore Tours Peru" class="h-full w-auto object-contain" />
         </a>
       </div>
       <div class="hidden lg:block">
@@ -50,8 +50,8 @@ interface MenuItem {
             {
               links.map((c: any, index: number) => (
                 <>
-                  <a href={c.url} target="_blank" class="hover:text-green text-[13px] flex items-center flex-row flex-nowrap gap-1">
-                    <img decoding="async" class="size-5" src={c.img.url} alt="" />
+                  <a href={c.url} target="_blank" title={c.text} class="hover:text-green text-[13px] flex items-center flex-row flex-nowrap gap-1">
+                    <img decoding="async" class="size-5" src={c.img.url} alt={c.img.title} title={c.img.title} />
                     <span class="text-nowrap font-medium"> {c.text_bold}</span>
                     <span class="text-nowrap font-light">{c.text}</span>
                   </a>
@@ -63,7 +63,7 @@ interface MenuItem {
             {
               texts.map((p: any, index: number) => (
                 <>
-                  <a href={p.url.url} title={p.url.title} class="hover:text-green text-[13px] text-nowrap">
+                  <a href={p.url.url} class="hover:text-green text-[13px] text-nowrap" title={p.text}>
                     {p.text}
                   </a>
                   {index < header.text.length - 1 && <span class="text-gray-400">|</span>}
@@ -77,11 +77,11 @@ interface MenuItem {
                   <a href={altLangHref} title={altLangLabel} class="flex items-center gap-1.5 px-2 py-1 rounded-lg hover:bg-gray-100 transition-colors text-sm font-medium text-gray-700">
                     {isEn ? (
                       <>
-                        <img src="https://flagcdn.com/es.svg" alt="Español" class="h-4 w-6 object-cover rounded-sm shadow-sm" />
+                        <img decoding="async" src="https://flagcdn.com/es.svg" alt="Español" title="Español" class="h-4 w-6 object-cover rounded-sm shadow-sm" />
                       </>
                     ) : (
                       <>
-                        <img src="https://flagcdn.com/gb.svg" alt="English" class="h-4 w-6 object-cover rounded-sm shadow-sm" />
+                        <img decoding="async" src="https://flagcdn.com/gb.svg" alt="English" title="English" class="h-4 w-6 object-cover rounded-sm shadow-sm" />
                       </>
                     )}
                   </a>
@@ -113,7 +113,7 @@ interface MenuItem {
 
           return (
             <li class="relative group">
-              <a href={menu.href} class="py-4 px-2 inline-flex items-center gap-1 uppercase font-medium hover:text-green cursor-pointer">
+              <a href={menu.href} title={menu.name} class="py-4 px-2 inline-flex items-center gap-1 uppercase font-medium hover:text-green cursor-pointer">
                 {menu.name}
 
                 {hasChildren && <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300 group-hover:rotate-180" />}
@@ -123,7 +123,7 @@ interface MenuItem {
                 <ul class="absolute left-0 top-full mt-0 w-max bg-white shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
                   {menu.children.map((child: any) => (
                     <li>
-                      <a href={child.href} class="block px-4 py-3 text-sm hover:bg-neutral-100 hover:text-green transition-colors border-b border-neutral-200" set:html={child.name} />
+                      <a href={child.href} title={child.name} class="block px-4 py-3 text-sm hover:bg-neutral-100 hover:text-green transition-colors border-b border-neutral-200" set:html={child.name} />
                     </li>
                   ))}
                 </ul>
@@ -139,8 +139,8 @@ interface MenuItem {
 
   <div id="mobileMenu" class="fixed top-0 right-0 h-full w-full max-w-full bg-white shadow-xl transform translate-x-full transition-transform duration-300 lg:hidden flex flex-col z-50">
     <div class="flex items-center justify-between px-5 border-b border-neutral-200 h-[70px]">
-      <a href={homeHref} class="w-[150px] h-auto inline-block">
-        <img decoding="async" src={getLogo} draggable="false" alt="Logo" class="w-full h-auto object-cover object-center" loading="lazy" />
+      <a href={homeHref} class="w-[150px] h-auto inline-block" title="Explora Tours Peru">
+        <img decoding="async" src={getLogo} draggable="false" alt="Explore Tours Peru" title="Explore Tours Peru" class="w-full h-auto object-cover object-center" loading="lazy" />
       </a>
 
       <button id="menuClose" class="text-2xl cursor-pointer">
@@ -166,7 +166,7 @@ interface MenuItem {
                     <ul id={`accordion-${index}`} class="max-h-0 overflow-hidden transition-all duration-300 bg-neutral-50">
                       {menu.children?.map((child: MenuItem) => (
                         <li class="border-b border-neutral-200">
-                          <a href={child.href} class="block px-8 py-3 text-sm hover:text-green">
+                          <a href={child.href} title={child.name} class="block px-8 py-3 text-sm hover:text-green">
                             {child.name}
                           </a>
                         </li>
@@ -174,7 +174,7 @@ interface MenuItem {
                     </ul>
                   </>
                 ) : (
-                  <a href={menu.href} class="block px-5 py-4 font-medium">
+                  <a href={menu.href} title={menu.name} class="block px-5 py-4 font-medium">
                     {menu.name}
                   </a>
                 )}
@@ -186,27 +186,27 @@ interface MenuItem {
       <div class="py-10 px-5">
         <div class="flex items-center justify-center gap-5">
           <div class="w-full">
-            <a href="tel:+51987654321" class="font-medium inline-block bg-red py-3 w-full text-white text-center rounded-lg text-base"><i class="fa-solid fa-phone"></i> +51 987 654 321</a>
+            <a href="tel:+51987654321" title="Llamar a Explora Tours Peru" class="font-medium inline-block bg-red py-3 w-full text-white text-center rounded-lg text-base"><i class="fa-solid fa-phone"></i> +51 987 654 321</a>
           </div>
           <div class="w-full">
-            <a href="tel:+51987654321" class="font-medium inline-block bg-wasap py-3 w-full text-white text-center rounded-lg text-base"><i class="fa-brands fa-whatsapp"></i> +51 987 654 321</a>
+            <a href="tel:+51987654321" title="Chatear con Explora Tours Peru" class="font-medium inline-block bg-wasap py-3 w-full text-white text-center rounded-lg text-base"><i class="fa-brands fa-whatsapp"></i> +51 987 654 321</a>
           </div>
         </div>
         <div class="my-5 text-center">
-          <a href="" class="uppercase text-white bg-blue py-3 px-7 inline-block rounded-lg font-medium"><i class="fa-solid fa-envelope"></i> Plan Your Trip</a>
+          <a href="" title="Plan Your Trip" class="uppercase text-white bg-blue py-3 px-7 inline-block rounded-lg font-medium"><i class="fa-solid fa-envelope"></i> Plan Your Trip</a>
         </div>
         <RedesSociales />
         {
           altLangHref !== null && (
-            <a href={altLangHref} class="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors w-max">
+            <a href={altLangHref} title={isEn ? "Español" : "English"} class="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors w-max">
               {isEn ? (
                 <>
-                  <img src="https://flagcdn.com/es.svg" alt="Español" class="h-4 w-6 object-cover rounded-sm shadow-sm" />
+                  <img src="https://flagcdn.com/es.svg" alt="Español" title="Español" class="h-4 w-6 object-cover rounded-sm shadow-sm" />
                   <span class="text-sm font-medium">Español</span>
                 </>
               ) : (
                 <>
-                  <img src="https://flagcdn.com/gb.svg" alt="English" class="h-4 w-6 object-cover rounded-sm shadow-sm" />
+                  <img src="https://flagcdn.com/gb.svg" alt="English" title="English" class="h-4 w-6 object-cover rounded-sm shadow-sm" />
                   <span class="text-sm font-medium">English</span>
                 </>
               )}

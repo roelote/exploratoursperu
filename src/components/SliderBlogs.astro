@@ -42,8 +42,8 @@ const dondition = pathname === "/en/" || pathname === "/en";
                 <div class="bg-white w-full shadow hover:shadow-xl transition-all duration-300 rounded-radio hover:translate-y-[-10px] overflow-hidden group/img">
                   <div class="flex flex-col">
                     <div class="w-full h-[300px]">
-                      <a href={`/blog/${post.slug}`} class="inline-block overflow-hidden w-full h-full">
-                        <img decoding="async" loading="lazy" class="w-full h-full object-cover object-center" src={post.featured_image.full} alt="" />
+                      <a href={`/blog/${post.slug}`} title={dondition ? "Read More" : "Leer más"} class="inline-block overflow-hidden w-full h-full">
+                        <img decoding="async" loading="lazy" class="w-full h-full object-cover object-center" src={post.featured_image.full} alt={post.title.rendered} title={post.title.rendered} />
                       </a>
                     </div>
                     <div class="w-full p-5 lg:p-7">
@@ -69,7 +69,7 @@ const dondition = pathname === "/en/" || pathname === "/en";
                           </p>
                         </div>
                         <div>
-                          <a href={`/blog/${post.slug}`} class="inline-block group bg-green py-3 px-7 text-center capitalize font-medium rounded-full hover:text-black hover:bg-yellow text-white transition-colors">
+                          <a href={`/blog/${post.slug}`} title={dondition ? "Read More": "Leer más"} class="inline-block group bg-green py-3 px-7 text-center capitalize font-medium rounded-full hover:text-black hover:bg-yellow text-white transition-colors">
                             {dondition ? "Read More" : "Leer más" } <i class="fa-solid fa-arrow-right-long text-white group-hover:text-black transition-colors" />
                           </a>
                         </div>
@@ -82,7 +82,7 @@ const dondition = pathname === "/en/" || pathname === "/en";
           ) : (
             <div>
               <p class="text-start block">No hay nuevos posts en este momento. Regresa al inicio y descubre increíbles tours esperándote.</p>
-              <a href="/" class="group/btn w-max inline-block group bg-green py-3 px-7 text-center capitalize font-medium rounded-full hover:text-black hover:bg-yellow text-white transition-colors">
+              <a href="/" title={dondition ? "Read More": "Leer más"} class="group/btn w-max inline-block group bg-green py-3 px-7 text-center capitalize font-medium rounded-full hover:text-black hover:bg-yellow text-white transition-colors">
                 <i class="fa-solid fa-arrow-left  text-white group-hover/btn:text-black transition-colors" /> Read More
               </a>
             </div>
