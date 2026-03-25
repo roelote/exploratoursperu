@@ -11,9 +11,11 @@ const fallback =
 let images: string[] = [];
 let titles: string[] = [];
 
-if (img?.galleria?.length) {
+const getImgs = img?.seccion_galleria?.galleria;
+
+if (getImgs.length) {
   try {
-    const data = await getImagesBatch(img.galleria, lang);
+    const data = await getImagesBatch(getImgs, lang);
     const valid = data.filter((i:any) => i && i.url);
 
     images = valid.map((i:any) => i.url);
