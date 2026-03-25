@@ -198,29 +198,31 @@ export const getInfoPageHome = async (lang: string = "es") => {
 };
 
 export const getSidebarTour = async (lang: string = "es") => {
-  const endpoint = lang === "en" ? "sidebar-tour-en" : "sidebar-tour";
-  const response = await fetch(`${sidebar}/${endpoint}`);
+  try {
+    const endpoint = lang === "en" ? "sidebar-tour-en" : "sidebar-tour";
+    const response = await fetch(`${sidebar}/${endpoint}`);
 
-  if (!response.ok) {
-    throw new Error("No se pudo conectar a la API de Sidebar - Widget");
+    if (!response.ok) throw new Error("No se pudo conectar a la API de Sidebar - Widget");
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    return null;
   }
-
-  const data = await response.json();
-
-  return data;
 };
 
 export const getSidebarBlog = async (lang: string = "es") => {
-  const endpoint = lang === "en" ? "sidebar-blog-en" : "sidebar-blog";
-  const response = await fetch(`${sidebar}/${endpoint}`);
+  try {
+    const endpoint = lang === "en" ? "sidebar-blog-en" : "sidebar-blog";
+    const response = await fetch(`${sidebar}/${endpoint}`);
 
-  if (!response.ok) {
-    throw new Error("No se pudo conectar a la API de Sidebar - Widget");
+    if (!response.ok) throw new Error("No se pudo conectar a la API de Sidebar - Widget");
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    return null;
   }
-
-  const data = await response.json();
-
-  return data;
 };
 
 export const getTourInfo = async (lang: string = "es") => {
