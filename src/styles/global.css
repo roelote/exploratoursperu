@@ -766,7 +766,7 @@ img {
 .btn-link {
   background-color: var(--color-blue);
   color: #fff;
-  padding: 0.5em 2.5em;
+  padding: 10px 2.5em;
   border-radius: 8px;
   text-decoration: none;
   font-size: 14px;

@@ -69,7 +69,8 @@ const dondition = pathname === "/en/" || pathname === "/en";
                           </p>
                         </div>
                         <div>
-                          <a href={`/blog/${post.slug}`} title={dondition ? "Read More": "Leer más"} class="inline-block group bg-green py-3 px-7 text-center capitalize font-medium rounded-full hover:text-black hover:bg-yellow text-white transition-colors">
+                          <a href={`/blog/${post.slug}`} title={dondition ? "Read More": "Leer más"} 
+                          class="inline-block group bg-green border-2 border-green py-3 px-10 text-center capitalize font-medium rounded-full hover:text-black hover:bg-transparent text-white transition-colors">
                             {dondition ? "Read More" : "Leer más" } <i class="fa-solid fa-arrow-right-long text-white group-hover:text-black transition-colors" />
                           </a>
                         </div>
@@ -89,8 +90,8 @@ const dondition = pathname === "/en/" || pathname === "/en";
           )
         }
       </div>
-      <div class="swiper-button-prev bg-green/50 transition-colors rounded-full hover:bg-green text-white! p-3 shadow-lg"></div>
-      <div class="swiper-button-next bg-green/50 transition-colors rounded-full hover:bg-green text-white! p-3 shadow-lg"></div>
+      <div class="swiper-button-prev transition-colors rounded-full bg-white text-black! p-3 shadow-lg"></div>
+      <div class="swiper-button-next transition-colors rounded-full bg-white text-black! p-3 shadow-lg"></div>
     </div>
   </div>
 </div>

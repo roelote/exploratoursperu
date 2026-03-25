@@ -43,9 +43,12 @@ const dondition = pathname === "/en/" || pathname === "/en";
                   </div>
                   <div class="w-full">
                     <div class="pt-5">
-                      <h3 class="line-clamp-1 font-medium text-2xl" set:html={c.title.rendered} />
-                      <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-5 mb-3">
+                      {/* rayita debajo del titulo */}
+                      <h3 class="line-clamp-1 font-medium text-2xl mb-0!" set:html={c.title.rendered} />
+                      <span class="w-20 rounded-full h-1 bg-yellow mt-1 mb-3 block"></span>
+                      <div class="line-clamp-2 text-start text-pretty text-sm mb-3" set:html={c.excerpt.rendered} />
+                      <div class="flex items-center gap-5 mb-3">
+                      <div class="flex flex-col items-start gap-2">
                           <p class="capitalize mb-0! text-sm">
                             <i class="fa-solid text-parragraph fa-clock" /> {c.acf.detalles_tour.detalles[0].descripcion}
                           </p>
@@ -53,13 +56,19 @@ const dondition = pathname === "/en/" || pathname === "/en";
                             <i class="fa-solid text-parragraph fa-chart-line" /> {c.acf.detalles_tour.detalles[1].descripcion}
                           </p>
                         </div>
+                      <div class="w-px h-15 bg-gray-300" />
+                      <div>
+                        <p class="font-medium text-gray mb-0!">
+                          <span class="font-bold text-3xl text-black mb-1">$ {c.acf.precio}</span> <span class="text-sm">/ person</span>
+                        </p>
                         <div class="flex text-yellow">★★★★★</div>
                       </div>
-                      <div class="line-clamp-2 text-start text-pretty text-sm mb-3" set:html={c.excerpt.rendered} />
+                    </div>
                     </div>
                     <hr class="my-5!" />
                     <div class="w-full">
-                      <a href={"/tour/" + c.slug} title={dondition ? "View Tour" : "Ver Tour"} class="w-full uppercase inline-block text-center border-2 border-green text-nowrap py-3 px-7 text-black group-hover:bg-green group-hover:text-white rounded-full transition-colors text-base">
+                      <a href={"/tour/" + c.slug} title={dondition ? "View Tour" : "Ver Tour"} 
+                      class="w-full uppercase inline-block text-center text-nowrap py-3 px-7 border-2 border-green bg-green text-white hover:bg-transparent hover:text-black rounded-full transition-colors text-base">
                         {dondition ? "View Tour" : "Ver Tour" }  &nbsp; <i class="fa-solid fa-arrow-right-long" />
                       </a>
                     </div>
@@ -71,8 +80,8 @@ const dondition = pathname === "/en/" || pathname === "/en";
           ))
         }
       </div>
-      <div class="swiper-button-prev bg-green/50 transition-colors rounded-full hover:bg-green text-white! p-3 shadow-lg"></div>
-      <div class="swiper-button-next bg-green/50 transition-colors rounded-full hover:bg-green text-white! p-3 shadow-lg"></div>
+      <div class="swiper-button-prev transition-colors rounded-full bg-white text-black! p-3 shadow-lg"></div>
+      <div class="swiper-button-next transition-colors rounded-full bg-white text-black! p-3 shadow-lg"></div>
     </div>
   </div>
 </div>
