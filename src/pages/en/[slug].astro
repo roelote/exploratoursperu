@@ -1,25 +1,37 @@
 ---
 import type { GetStaticPaths } from "astro";
 import MainLayout from "../../layouts/MainLayout.astro";
-import { getInfoPage } from "../../libs/wp";
-
+import { getInfoPage, getInfoPageBySlug } from "../../libs/wp";
+const [dataPageSEO] = await getInfoPage("en");
 export const getStaticPaths: GetStaticPaths = async () => {
   const dataPage = await getInfoPage("en");
 
-   const excluded = ["contact-us", "blog"];
+  const excluded = ["contact-us", "blog"];
 
   return dataPage
-  .filter((page:any) => !excluded.includes(page.slug))
-  .map((page: any) => ({
-    params: { slug: page.slug },
-  }));
+    .filter((page: any) => !excluded.includes(page.slug))
+    .map((page: any) => ({
+      params: { slug: page.slug },
+    }));
 };
 
 const { slug } = Astro.params;
+
+const [data] = await getInfoPageBySlug(slug, "en");
+console.log(data);
+
 ---
 
-<MainLayout>
+<MainLayout seo={dataPageSEO?.yoast_head_json}>
   <main>
-    <h1>{slug}</h1>
+    <section class="relative flex items-center justify-center min-h-[50vh] bg-gray-900 bg-cover bg-center bg-no-repeat overflow-hidden mb-10" style="background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop');">
+      <div class="absolute inset-0 bg-black/50 z-10"></div>
+      <div class="relative z-20 px-6 text-center max-w-5xl mx-auto">
+        <h1 class="text-3xl lg:text-5xl font-bold uppercase tracking-tight text-white sm:leading-none">{data.title.rendered}</h1>
+      </div>
+    </section>
+    <div class="px-5 md:px-0 w-full h-full">
+      <div set:html={data.content.rendered} />
+    </div>
   </main>
 </MainLayout>
