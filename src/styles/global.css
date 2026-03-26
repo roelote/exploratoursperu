@@ -766,7 +766,7 @@ img {
 .btn-link {
   background-color: var(--color-blue);
   color: #fff;
-  padding: 0.5em 2.5em;
+  padding: 10px 2.5em;
   border-radius: 8px;
   text-decoration: none;
   font-size: 14px;
@@ -1138,8 +1138,88 @@ img {
 
 /* PAGINAS */
 
-.content-page-single h1 {
+.bg-img-single{
+  background-image: url("https://cms.exploratoursperu.com/wp-content/uploads/sobre-nosotros-machu-picchu.webp");
+  width: 100%;
+  height: 500px;
+  background-size: cover;
+  background-position: center center;
+  position: relative;
+}
+
+.bg-img-single::after{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 5;
+}
+
+.bg-img-single .content-page-single{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.bg-img-single .content-page-single h1 {
   font-size: 56px;
+  text-align: center;
+  display: block;
+  color: white !important;
+}
+
+.bg-img-single .content-page-single h2 {
+  text-align: center;
+  display: block;
+  color: white !important;
+}
+
+.bg-img-single .content-page-single p {
+  text-align: center;
+  display: block;
+  color: white !important;
+}
+
+
+.content-page-single img{
+  width: 100% !important;
+  border-radius: var(--border-radius);
+}
+
+.content-page-details{
+  padding: 40px;
+}
+
+.content-page-details h2 {
+  color: white !important;
+}
+.content-page-details h2::after{
+  content: "";
+  display: block;
+  width: 50px;
+  border-radius: 10px;
+  height: 3px;
+  background-color: var(--color-yellow);
+  margin-top: .5em;
+  margin-bottom: 10px;
+}
+
+.content-page-details .wp-block-columns{
+  margin-bottom: 0 !important;
+}
+
+.content-page-details p {
+  color: hsl(40 30% 97% / 0.8) !important;
+}
+
+.content-page-single h3{
+  color: var(--color-yellow);
+  font-size: 14px !important;
 }
 
 /* Contenedor Padre */
@@ -1152,7 +1232,7 @@ img {
 /* Contenedor de Columnas */
 .content-page-single .wp-block-columns {
   display: flex;
-  margin-bottom: 1.75em;
+  margin-bottom: 4rem;
   box-sizing: border-box;
   flex-wrap: wrap; /* Permite responsive en móviles */
   align-items: stretch;

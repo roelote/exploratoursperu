@@ -19,7 +19,6 @@ export async function getStaticPaths() {
 
 const { post, altLangUrl } = Astro.props as { post: any; altLangUrl: string | null };
 const blogs = allPosts.slice(0, 5);
-// console.log(post);
 
 function getDateFormatter(date: any) {
   return new Date(date).toLocaleDateString("en-US", {

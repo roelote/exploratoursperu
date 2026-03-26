@@ -10,7 +10,6 @@ const idCategoryMapi = 14;
 const pathname = Astro.url.pathname;
 const category = await getInfoCategory(idCategoryMapi);
 const dondition = pathname === "/en/" || pathname === "/en";
-
 ---
 
 <section>
@@ -42,7 +41,8 @@ const dondition = pathname === "/en/" || pathname === "/en";
                   </a>
                 </div>
                 <div class="w-full px-5 py-7 select-none z-20 bg-white  transition-shadow border border-neutral-200">
-                  <h3 class="line-clamp-1 font-medium text-2xl" set:html={c.title.rendered} />
+                  <h3 class="line-clamp-1 font-medium text-2xl mb-0!" set:html={c.title.rendered} />
+                  <span class="w-20 rounded-full h-1 bg-yellow mt-1 mb-3 block"></span>
                   <div class="line-clamp-2 text-start text-pretty text-sm mb-3" set:html={c.excerpt.rendered} />
                   <div class="flex items-center gap-5 mb-3">
                     <div class="flex flex-col justify-start items-start gap-2">
@@ -64,14 +64,15 @@ const dondition = pathname === "/en/" || pathname === "/en";
                     <div class="w-px h-15 bg-gray-300" />
                     <div>
                       <p class="font-medium text-gray mb-0!">
-                        <span class="font-bold text-3xl text-black mb-1">$ 549</span> <span class="text-sm">/ person</span>
+                        <span class="font-bold text-3xl text-black mb-1">$ {c.acf.precio}</span> <span class="text-sm">/ person</span>
                       </p>
                       <div class="flex text-yellow">★★★★★</div>
                     </div>
                   </div>
                   <hr class="my-5" />
                   <div class="w-full text-center">
-                    <a href={`/tour/${c.slug}`} title={dondition ? "View Tour" : "Ver Tour"} class="inline-block uppercase w-full border-2 border-green text-black text-nowrap py-4 rounded-full font-medium group-hover:bg-green group-hover:text-white transition-colors duration-300 text-base">
+                    <a href={`/tour/${c.slug}`} title={dondition ? "View Tour" : "Ver Tour"} 
+                    class="inline-block uppercase w-full border-2 border-green text-nowrap py-3 rounded-full font-medium bg-green text-white hover:bg-transparent hover:text-black transition-colors duration-300 text-base">
                         {dondition ? "View Tour" : "Ver Tour" } <i class="fa-solid fa-arrow-right-long" />
                       </a>
                   </div>
@@ -82,8 +83,8 @@ const dondition = pathname === "/en/" || pathname === "/en";
         ))
       }
     </div>
-    <div class="swiper-button-prev bg-green/50 transition-colors rounded-full hover:bg-green text-white! p-3 shadow-lg"></div>
-    <div class="swiper-button-next bg-green/50 transition-colors rounded-full hover:bg-green text-white! p-3 shadow-lg"></div>
+    <div class="swiper-button-prev transition-colors rounded-full bg-white text-black! p-3 shadow-lg"></div>
+    <div class="swiper-button-next transition-colors rounded-full bg-white text-black! p-3 shadow-lg"></div>
   </div>
 </div>
 </section>
