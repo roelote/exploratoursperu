@@ -1138,7 +1138,7 @@ img {
 
 /* PAGINAS */
 
-.bg-img-single{
+.bg-img-single {
   background-image: url("https://cms.exploratoursperu.com/wp-content/uploads/sobre-nosotros-machu-picchu.webp");
   width: 100%;
   height: 500px;
@@ -1147,7 +1147,7 @@ img {
   position: relative;
 }
 
-.bg-img-single::after{
+.bg-img-single::after {
   content: "";
   position: absolute;
   top: 0;
@@ -1158,58 +1158,34 @@ img {
   z-index: 5;
 }
 
-.bg-img-single .content-page-single{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
-}
-
-.bg-img-single .content-page-single h1 {
+.content-page-single h1 {
   font-size: 56px;
-  text-align: center;
-  display: block;
-  color: white !important;
 }
 
-.bg-img-single .content-page-single h2 {
-  text-align: center;
-  display: block;
-  color: white !important;
-}
-
-.bg-img-single .content-page-single p {
-  text-align: center;
-  display: block;
-  color: white !important;
-}
-
-
-.content-page-single img{
+.content-page-single img {
   width: 100% !important;
   border-radius: var(--border-radius);
 }
 
-.content-page-details{
+.content-page-details {
   padding: 40px;
 }
 
 .content-page-details h2 {
   color: white !important;
 }
-.content-page-details h2::after{
+.content-page-details h2::after {
   content: "";
   display: block;
   width: 50px;
   border-radius: 10px;
   height: 3px;
   background-color: var(--color-yellow);
-  margin-top: .5em;
+  margin-top: 0.5em;
   margin-bottom: 10px;
 }
 
-.content-page-details .wp-block-columns{
+.content-page-details .wp-block-columns {
   margin-bottom: 0 !important;
 }
 
@@ -1217,7 +1193,49 @@ img {
   color: hsl(40 30% 97% / 0.8) !important;
 }
 
-.content-page-single h3{
+.content-page-bisness {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+/* Usando selectores más limpios y variables de Tailwind si es posible */
+.content-page-bisness {
+  /* Contenedor del icono (Círculo) */
+  .wp-block-image {
+    @apply flex items-center justify-center bg-green-100 rounded-full p-2.5;
+    width: 50px;
+    height: 50px;
+    transition: transform 0.2s ease; /* Pequeña mejora profesional */
+    margin: 0 auto 0.5em auto;
+
+    &:hover {
+      @apply scale-105; /* Un toque sutil al pasar el mouse */
+    }
+
+    img {
+      @apply w-full h-full object-contain m-0;
+      aspect-ratio: 1/1;
+      user-select: none;
+    }
+  }
+
+  p {
+    text-align: center;
+  }
+
+  /* Grid de columnas de WordPress */
+  .wp-block-columns {
+    @apply flex flex-wrap md:flex-nowrap gap-8 mb-16 items-stretch;
+    /* md:flex-nowrap evita que se rompa en tablets, gap-8 es más moderno */
+  }
+
+  /* Si las columnas tienen bordes o cards */
+  .wp-block-column {
+    @apply flex flex-col flex-1;
+  }
+}
+
+.content-page-single h3 {
   color: var(--color-yellow);
   font-size: 14px !important;
 }
@@ -1331,3 +1349,93 @@ img {
 .content-page-single .wp-block-column.is-vertically-aligned-center {
   align-self: center;
 }
+
+/* PAGE ABOUT US */
+
+/* 1. Corregimos el selector del padre (clase doble de WordPress) */
+.nuestro.equipo {
+    display: block !important;
+    width: 100% !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+}
+
+/* 2. Forzamos el Grid en el contenedor de columnas de WP */
+.nuestro.equipo .wp-block-columns {
+    display: grid !important;
+    grid-template-columns: 1fr !important; /* 1 col en móvil */
+    gap: 30px !important;
+    margin: 0 !important;
+    padding: 20px 0 !important;
+}
+
+/* 3. Diseño de 2 columnas en Tablets y PC (desde 782px que es el estándar de WP) */
+@media (min-width: 782px) {
+    .nuestro.equipo .wp-block-columns {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+/* 4. Estilo de cada Tarjeta (Columnas individuales) */
+.nuestro.equipo .wp-block-column {
+    background: #ffffff !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    margin: 0 !important; /* Quitamos el margen lateral que WP pone por defecto */
+    width: 100% !important;
+}
+
+/* 5. Ajuste de la Imagen */
+.nuestro.equipo .wp-block-image {
+    margin: 0 !important;
+    width: 100% !important;
+}
+
+.nuestro.equipo .wp-block-image img {
+    width: 100% !important;
+    height: 250px !important;
+    object-fit: cover !important;
+    display: block !important;
+}
+
+/* 6. Espaciado de Textos */
+.nuestro.equipo p {
+    padding: 0 20px !important;
+    margin: 10px 0 !important;
+}
+
+.nuestro.equipo p strong {
+    font-size: 20px !important;
+    color: #1a202c !important;
+}
+
+.nuestro.equipo .has-small-font-size {
+    color: #718096 !important;
+    font-size: 14px !important;
+    margin-top: -5px !important;
+}
+
+/* 7. Iconos Sociales */
+.nuestro.equipo .advgb-social-icons {
+    padding: 10px 20px 20px 20px !important;
+    display: flex !important;
+    gap: 15px !important;
+}
+
+.nuestro.equipo .advgb-social-icon {
+    width: 35px !important;
+    height: 35px !important;
+    margin: 0 !important;
+}
+
+.nuestro.equipo .advgb-social-icon img{
+   width: 30px !important;
+    height: 30px !important;
+    object-fit: contain;
+    object-position: center;
+}
+
+/* Limpieza de basura de WordPress */
+.nuestro.equipo p:empty { display: none !important; }

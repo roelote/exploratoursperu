@@ -24,6 +24,9 @@ const getInfoCategories = idCategory
 const getAllInfoCategories = getInfoCategories
 ? getInfoCategories.filter((cat:any) => slug != cat.slug)
 : [];
+
+const pathname = Astro.url.pathname;
+const dondition = pathname === "/en/" || pathname === "/en";
 ---
 
 <div class="w-full bg-white">
@@ -65,10 +68,18 @@ const getAllInfoCategories = getInfoCategories
                     </div>
                     <div class="w-px h-15 bg-gray-300" />
                     <div>
-                      <p class="font-medium text-gray mb-0!">
-                        <span class="font-bold text-3xl text-black mb-1">$ 549</span> <span class="text-sm">/ person</span>
-                      </p>
-                      <div class="flex text-yellow">★★★★★</div>
+                      {
+                          dondition
+                          ?<span class="text-sm"> From</span>
+                        <p class="font-medium text-gray mb-0! block">
+                           <span class="font-bold text-3xl text-black mb-1">$ {c.acf.precio}</span> <span class="text-sm text-black!">per person</span>
+                        </p>
+                        :
+                        <span class="text-sm"> Desde</span>
+                        <p class="font-medium text-gray mb-0! block">
+                           <span class="font-bold text-3xl text-black mb-1">$ {c.acf.precio}</span> <span class="text-sm text-black!">por persona</span>
+                        </p>
+                        }
                     </div>
                   </div>
                   <hr class="my-5" />
