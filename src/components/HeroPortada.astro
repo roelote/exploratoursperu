@@ -9,10 +9,10 @@ const pathname = Astro.url.pathname;
     <Image src={data} width={1920} height={1080} loading="eager" fetchpriority="high" quality={80} format="webp" sizes="100vw" class="w-full h-[90vh] object-cover object-center" alt="Explore Tours Peru" title="Explore Tours Peru" />
 
     <div class="bg-black/50 absolute inset-0 w-full h-full z-10"></div>
-    <div class="w-full lg:w-248.75 absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-20 px-5 md:px-0 despues">
+    <div class="content-hero-portada w-full lg:w-248.75 absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-20 px-5 md:px-0 despues">
       {
             pathname === "/en/" || pathname === "/en"
-            ? <h1 class="text-4xl text-balance text-white font-bold tracking-widest text-center uppercase">
+            ? <h1>
             Discover <span class="text-yellow">authentic local tours</span> and <span class="text-yellow">tailor-made adventures</span> in the Andes
             </h1>
             <p class="text-white! text-center inline-block my-5 text-base">
@@ -23,7 +23,7 @@ const pathname = Astro.url.pathname;
                 <a href="#" title="Explore Our Tours" class="w-full md:w-80 text-center bg-transparend border-2 border-yellow capitalize py-3 inline-block font-medium text-white hover:bg-yellow hover:text-black transition-all">Explore Our Tours</a>
             </div>
 
-                : <h1 class="text-4xl text-balance text-white font-bold tracking-widest text-center uppercase">
+                : <h1>
             Descubre auténticos <span class="text-yellow">tours locales</span> y <span class="text-yellow">aventuras a Medida</span> en los Andes
           </h1>
           <p class="text-white! text-center inline-block my-5 text-base">
