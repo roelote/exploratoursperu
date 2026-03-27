@@ -92,7 +92,7 @@ interface MenuItem {
 
           <div class="flex items-center justify-end gap-5">
             <RedesSociales />
-            <a href={btn.url?.url} title={btn.url?.title} class="inline-block bg-green py-2 px-7 rounded-lg text-white font-medium hover:bg-yellow hover:text-black transition-colors text-base"><i class="fa-solid fa-phone"></i> {btn.text}</a>
+            <a href={btn.url?.url} title={btn.url?.title} class="inline-block bg-green py-2.5 px-7 rounded-lg text-white hover:bg-yellow hover:text-black transition-colors text-base"><i class="fa-solid fa-phone"></i> {btn.text}</a>
           </div>
         </div>
       </div>
@@ -258,7 +258,8 @@ interface MenuItem {
       if (!content) return;
 
       if (content.style.maxHeight) {
-        content.style.maxHeight = null;
+        content.style.maxHeight = "";
+        // content.style.maxHeight = null;
       } else {
         content.style.maxHeight = content.scrollHeight + "px";
       }
