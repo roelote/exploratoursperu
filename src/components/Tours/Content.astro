@@ -1,0 +1,10 @@
+---
+const { content } = Astro.props;
+
+function cleanHTML(html:any) {
+  return html
+    .replace(/style="[^"]*"/g, '');
+}
+---
+
+<div set:html={cleanHTML(content)} />
