@@ -7,6 +7,7 @@ import Gallery from "../../../components/Tours/Gallery.astro";
 import Detalles from "../../../components/Tours/Detalles.astro";
 import SliderToursRelacionados from "../../../components/SliderToursRelacionados.astro";
 import Sidebar from "../../../components/Tours/Sidebar.astro";
+import Content from "../../../components/Tours/Content.astro";
 
 interface Props {
   tour: any;
@@ -130,7 +131,7 @@ const imgs = getImagesPreloads.slice(0, 3);
         <div class="w-full flex flex-col lg:flex-row items-start gap-10">
           <div class="w-full">
             <div class="wrapper-content-astro" id="wrapper-content-astro">
-              <p class="mb-0!" set:html={wrapper} />
+              <Content content={wrapper} />
             </div>
           </div>
           <!-- sidebar tours -->

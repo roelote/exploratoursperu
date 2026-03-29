@@ -7,6 +7,7 @@ import Gallery from "../../components/Tours/Gallery.astro";
 import Detalles from "../../components/Tours/Detalles.astro";
 import SliderToursRelacionados from "../../components/SliderToursRelacionados.astro";
 import Sidebar from "../../components/Tours/Sidebar.astro";
+import Content from "../../components/Tours/Content.astro";
 
 interface Props {
   tour: any;
@@ -122,7 +123,7 @@ const imgs = getImagesPreloads.slice(0, 3);
         <div class="w-full flex flex-col lg:flex-row items-start gap-10">
           <div class="w-full">
             <div class="wrapper-content-astro" id="wrapper-content-astro">
-              <p class="mb-0!" set:html={wrapper} />
+              <Content content={wrapper} />
             </div>
           </div>
           <!-- sidebar tours -->
@@ -186,21 +187,34 @@ const imgs = getImagesPreloads.slice(0, 3);
 
     // ACCORDION START
 
-    var acc = document.getElementsByClassName("advgb-accordion-header");
-    var i;
+  var acc = document.getElementsByClassName("advgb-accordion-header");
 
-    for (i = 0; i < acc.length; i++) {
-      acc[i].addEventListener("click", function () {
-        this.classList.toggle("active");
-        var panel = this.nextElementSibling;
-        if (panel.style.maxHeight) {
-          panel.style.maxHeight = null;
-        } else {
-          panel.style.maxHeight = panel.scrollHeight + "px";
-        }
-      });
-    }
+  for (let i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function () {
+      this.classList.toggle("active");
 
+      const item = this.closest(".advgb-accordion-item");
+      const iconClosed = item.querySelector(".advgb-icon-closed");
+      const iconOpened = item.querySelector(".advgb-icon-opened");
+
+      const panel = this.nextElementSibling;
+
+      if (panel.style.maxHeight) {
+        panel.style.maxHeight = null;
+
+        // estado cerrado
+        if (iconClosed) iconClosed.style.display = "block";
+        if (iconOpened) iconOpened.style.display = "none";
+
+      } else {
+        panel.style.maxHeight = panel.scrollHeight + "px";
+
+        // estado abierto
+        if (iconClosed) iconClosed.style.display = "none";
+        if (iconOpened) iconOpened.style.display = "block";
+      }
+    });
+  }
     // ACCORDION END
   });
 </script>
