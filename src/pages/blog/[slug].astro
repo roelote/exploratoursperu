@@ -1,7 +1,7 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
 import { getPosts, getSidebarBlog } from "../../libs/wp";
-
+const domain = import.meta.env.DOMAIN;
 const sidebar = await getSidebarBlog();
 const allPosts = await getPosts();
 
@@ -21,8 +21,8 @@ const { post, altLangUrl } = Astro.props as { post: any; altLangUrl: string | nu
 const blogs = allPosts.slice(0, 5);
 
 function getDateFormatter(date: any) {
-  return new Date(date).toLocaleDateString("en-US", {
-    month: "short",
+  return new Date(date).toLocaleDateString("es-ES", {
+    month: "long",
     day: "numeric",
     year: "numeric",
   });
@@ -41,36 +41,45 @@ function getDateFormatter(date: any) {
               </div>
               <div class="wrapper-post">
                 <div class="mt-5 shadow-[0px_0px_30px_0px_rgba(0,0,0,0.1)] p-5 rounded-[20px] overflow-hidden">
-                  <div class="w-full flex items-center justify-start gap-5 mb-3">
-                    <div>
+                  <div class="w-full flex items-center justify-start gap-3 mb-3">
+                    <div class="py-2.5 px-5 bg-green/20 text-center rounded-lg group hover:bg-green transition-colors duration-300 cursor-pointer select-none">
                       <p class="flex items-center gap-1 mb-0!">
-                        <i class="fa-solid fa-hourglass-end"></i>
-                        <span class="text-sm">{post.reading_time.minutes} min read</span>
+                        <i class="fa-solid fa-user text-green group-hover:text-white"></i>
+                        <span class="text-sm text-green group-hover:text-white">Explora Tours</span>
                       </p>
                     </div>
                     <div>
                         <span class="size-2 bg-yellow block rounded-full"></span>
                     </div>
-                    <div>
+                    <div class="py-2.5 px-5 bg-green/20 text-center rounded-lg group hover:bg-green transition-colors duration-300 cursor-pointer select-none">
                       <p class="flex items-center gap-1 mb-0!">
-                        <i class="fa-solid fa-user"></i>
-                        <span class="text-sm">Explora Tours</span>
+                        <i class="fa-solid fa-hourglass-end text-green group-hover:text-white"></i>
+                        <span class="text-sm text-green group-hover:text-white">{post.reading_time.minutes} min de lectura</span>
+                      </p>
+                    </div>
+                    <div>
+                        <span class="size-2 bg-yellow block rounded-full"></span>
+                    </div>
+                    <div class="py-2.5 px-5 bg-green/20 text-center rounded-lg group hover:bg-green transition-colors duration-300 cursor-pointer select-none">
+                      <p class="flex items-center gap-1 mb-0!">
+                        <i class="fa-solid fa-calendar text-green group-hover:text-white"></i>
+                        <span class="text-sm text-green group-hover:text-white">{getDateFormatter(post.date)}</span>
                       </p>
                     </div>
                   </div>
                   <h1>{post.title.rendered}</h1>
-                  <p set:html={post.content.rendered} />
+                  <div set:html={post.content.rendered} />
                 </div>
               </div>
             </div>
             <div class="w-full lg:w-1/3 sticky top-2 right-0">
               <div class="w-full shadow-[0px_0px_30px_0px_rgba(0,0,0,0.1)] p-5 rounded-[20px] overflow-hidden">
-                <p set:html={sidebar?.content} />
-                <h3 class="text-lg md:text-2xl text-start font-semibold mb-3">Entradas recientes</h3>
+                <div set:html={sidebar?.content} />
+                <h3 class="mt-4">Entradas recientes</h3>
                 <div class="flex flex-col gap-3">
                   {
                     blogs.map((last: any) => (
-                      <div>
+                      <a href={`${last.slug}`} title={last.title.rendered} >
                         <div class="flex items-center justify-between gap-2">
                           <div class="w-[80px] min-w-[80px] h-[80px] ">
                             <img decoding="async" fetchpriority="high" class="w-full h-full object-cover object-center rounded-lg" src={last.featured_image.thumbnail} alt="" />
@@ -94,7 +103,7 @@ function getDateFormatter(date: any) {
                             </p>
                           </div>
                         </div>
-                      </div>
+                      </a>
                     ))
                   }
                 </div>

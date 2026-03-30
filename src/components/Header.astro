@@ -36,7 +36,7 @@ interface MenuItem {
 }
 ---
 
-<header class="bg-white sticky top-0 z-50 shadow-sm">
+<header>
   <div class="container mx-auto">
     <div class="w-full flex items-center justify-between py-2">
       <div class="flex items-center">
@@ -192,8 +192,9 @@ interface MenuItem {
       </div>
     </div>
   </div>
+</header>
 
-   <nav class="bg-[#F5F5F5] shadow-sm hidden lg:block">
+<nav class="bg-[#F5F5F5] shadow-sm hidden lg:block sticky top-0 z-50">
     <ul class="flex justify-center gap-6">
       {
         headerinfo?.map((menu: any) => {
@@ -222,8 +223,6 @@ interface MenuItem {
       }
     </ul>
   </nav>
-
-</header>
 
 <script>
   const menuToggle = document.getElementById("menuToggle");

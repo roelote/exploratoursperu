@@ -71,7 +71,7 @@ function quitarHTML(str: any) {
                             <div class="w-full flex items-center justify-start gap-2 mb-3">
                               <div>
                                 <p class="flex items-center gap-1 mb-0!">
-                                  <i class="fa-solid fa-hourglass-end" /> <span class="text-sm">{post.reading_time.minutes} min read</span>
+                                  <i class="fa-solid fa-hourglass-end" /> <span class="text-sm">{post.reading_time.minutes} min de Lectura</span>
                                 </p>
                               </div>
                               <div>
@@ -84,7 +84,7 @@ function quitarHTML(str: any) {
                               </div>
                             </div>
                             <h2 class="line-clamp-2 text-lg! lg:text-2xl!">{post.title.rendered}</h2>
-                            <p class="text-start line-clamp-2">{quitarHTML(post.content.rendered)}</p>
+                            <div class="line-clamp-3" set:html={post.excerpt.rendered} />
                             <hr class="my-5!" />
                             <div class="flex items-end justify-between">
                               <div>
@@ -199,13 +199,13 @@ function quitarHTML(str: any) {
                   {
                     posts.length > 0
                       ? blogs.map((last: any) => (
-                          <div>
+                          <a href={last.slug} class="flex items-center gap-2 hover:bg-gray-100 transition-colors duration-300 rounded-radio">
                             <div class="flex items-center justify-between gap-2">
                               <div class="w-[80px] min-w-[80px] h-[80px] ">
                                 <img decoding="async" fetchpriority="high" class="w-full h-full object-cover object-center rounded-lg" src={last.featured_image.thumbnail} alt="" />
                               </div>
                               <div class="w-full">
-                                <p class="text-base! mb-0! font-semibold line-clamp-2">{last.title.rendered}</p>
+                                <p class="text-base! mb-0! font-semibold line-clamp-2 text-balance">{last.title.rendered}</p>
                                 <p class="text-sm mb-0! flex items-center gap-1">
                                   <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-month">
                                     <>
@@ -223,7 +223,7 @@ function quitarHTML(str: any) {
                                 </p>
                               </div>
                             </div>
-                          </div>
+                          </a>
                         ))
                       : "No hay nuevas entradas..."
                   }
