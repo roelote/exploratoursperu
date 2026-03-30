@@ -2,9 +2,9 @@
 import MainLayout from "../../../layouts/MainLayout.astro";
 import { getInfoBlog, getPosts, getSidebarBlog } from "../../../libs/wp";
 
-const data = await getInfoBlog('en');
-const allPosts = await getPosts('en');
-const sidebar = await getSidebarBlog('en');
+const data = await getInfoBlog("en");
+const allPosts = await getPosts("en");
+const sidebar = await getSidebarBlog("en");
 
 const postsPerPage = 6;
 const currentPage = 1;
@@ -84,7 +84,7 @@ function quitarHTML(str: any) {
                               </div>
                             </div>
                             <h2 class="line-clamp-2 text-lg! lg:text-2xl!">{post.title.rendered}</h2>
-                            <p class="text-start line-clamp-2">{quitarHTML(post.content.rendered)}</p>
+                            <div class="text-start line-clamp-2" set:html={post.excerpt.rendered} />
                             <hr class="my-5!" />
                             <div class="flex items-end justify-between">
                               <div>
@@ -138,8 +138,10 @@ function quitarHTML(str: any) {
                         page === currentPage ? (
                           <span class="px-4 py-2 rounded bg-blue text-white cursor-default">{page}</span>
                         ) : (
-                          <a href={`/en/blog/${page}`} class="px-4 py-2 rounded hover:bg-gray-100">{page}</a>
-                        )
+                          <a href={`/en/blog/${page}`} class="px-4 py-2 rounded hover:bg-gray-100">
+                            {page}
+                          </a>
+                        ),
                       )}
                       {currentPage < totalPages && (
                         <a href={`/en/blog/${currentPage + 1}`} class="px-3 py-2 text-gray-600 hover:text-black">
@@ -155,12 +157,12 @@ function quitarHTML(str: any) {
             <div class="w-full lg:w-[350px] lg:min-w-[350px] sticky top-2 right-0">
               <div class="w-full shadow-[0px_0px_30px_0px_rgba(0,0,0,0.1)] p-5 rounded-[20px] overflow-hidden">
                 <p set:html={sidebar?.content} />
-                <h3 class="text-lg md:text-2xl text-start font-semibold mb-3">Recent Posts</h3>
+                <h3>Recent Posts</h3>
                 <div class="flex flex-col gap-3">
                   {
                     blogs.length > 0
                       ? blogs.map((last: any) => (
-                          <div>
+                          <a href={`${last.slug}`} title={last.title.rendered} >
                             <div class="flex items-center justify-between gap-2">
                               <div class="w-[80px] min-w-[80px] h-[80px]">
                                 <img decoding="async" fetchpriority="high" class="w-full h-full object-cover object-center rounded-lg" src={last.featured_image.thumbnail} alt="" />
@@ -184,7 +186,7 @@ function quitarHTML(str: any) {
                                 </p>
                               </div>
                             </div>
-                          </div>
+                          </a>
                         ))
                       : "No new posts..."
                   }

@@ -37,7 +37,7 @@
   }
 
   h3 {
-    @apply text-xl text-heading font-normal mb-3;
+    @apply text-xl text-heading font-semibold inline-block mb-3;
   }
 
   hr {
@@ -565,7 +565,7 @@ img {
 /* Contenedor general */
 .advgb-search-bar-form {
   width: 100%;
-  margin: 20px 0;
+  margin-bottom: 20px;
 }
 
 /* Ajuste del inner */

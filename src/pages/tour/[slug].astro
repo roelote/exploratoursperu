@@ -189,32 +189,64 @@ const imgs = getImagesPreloads.slice(0, 3);
 
   var acc = document.getElementsByClassName("advgb-accordion-header");
 
-  for (let i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", function () {
-      this.classList.toggle("active");
+// 👉 función para cerrar todos
+function closeAllAccordions() {
+  for (let j = 0; j < acc.length; j++) {
+    const item = acc[j].closest(".advgb-accordion-item");
+    const panel = acc[j].nextElementSibling;
+
+    const iconClosed = item.querySelector(".advgb-icon-closed");
+    const iconOpened = item.querySelector(".advgb-icon-opened");
+
+    acc[j].classList.remove("active");
+    panel.style.maxHeight = null;
+
+    if (iconClosed) iconClosed.style.display = "block";
+    if (iconOpened) iconOpened.style.display = "none";
+  }
+}
+
+// 👉 eventos click
+for (let i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function () {
+    const isActive = this.classList.contains("active");
+
+    // cerrar todos primero
+    closeAllAccordions();
+
+    // si NO estaba activo → abrirlo
+    if (!isActive) {
+      this.classList.add("active");
 
       const item = this.closest(".advgb-accordion-item");
+      const panel = this.nextElementSibling;
+
       const iconClosed = item.querySelector(".advgb-icon-closed");
       const iconOpened = item.querySelector(".advgb-icon-opened");
 
-      const panel = this.nextElementSibling;
+      panel.style.maxHeight = panel.scrollHeight + "px";
 
-      if (panel.style.maxHeight) {
-        panel.style.maxHeight = null;
+      if (iconClosed) iconClosed.style.display = "none";
+      if (iconOpened) iconOpened.style.display = "block";
+    }
+  });
+}
 
-        // estado cerrado
-        if (iconClosed) iconClosed.style.display = "block";
-        if (iconOpened) iconOpened.style.display = "none";
+// 👉 abrir el primero al iniciar
+if (acc.length > 0) {
+  const first = acc[0];
+  const item = first.closest(".advgb-accordion-item");
+  const panel = first.nextElementSibling;
 
-      } else {
-        panel.style.maxHeight = panel.scrollHeight + "px";
+  const iconClosed = item.querySelector(".advgb-icon-closed");
+  const iconOpened = item.querySelector(".advgb-icon-opened");
 
-        // estado abierto
-        if (iconClosed) iconClosed.style.display = "none";
-        if (iconOpened) iconOpened.style.display = "block";
-      }
-    });
-  }
+  first.classList.add("active");
+  panel.style.maxHeight = panel.scrollHeight + "px";
+
+  if (iconClosed) iconClosed.style.display = "none";
+  if (iconOpened) iconOpened.style.display = "block";
+}
     // ACCORDION END
   });
 </script>
