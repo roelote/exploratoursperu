@@ -7,6 +7,7 @@ import Gallery from "../../../components/Tours/Gallery.astro";
 import Detalles from "../../../components/Tours/Detalles.astro";
 import SliderToursRelacionados from "../../../components/SliderToursRelacionados.astro";
 import Sidebar from "../../../components/Tours/Sidebar.astro";
+import Content from "../../../components/Tours/Content.astro";
 
 interface Props {
   tour: any;
@@ -129,7 +130,7 @@ const imgs = getImagesPreloads.slice(0, 3);
         <div class="w-full flex flex-col lg:flex-row items-start gap-10">
           <div class="w-full">
             <div class="wrapper-content-astro" id="wrapper-content-astro">
-              <p class="mb-0!" set:html={wrapper} />
+              <Content content={wrapper} />
             </div>
           </div>
           <!-- sidebar tours -->
@@ -145,68 +146,3 @@ const imgs = getImagesPreloads.slice(0, 3);
     <SliderToursRelacionados />
   </section>
 </MainLayout>
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    // TABS START
-
-    document.querySelectorAll(".responsive-tabs").forEach((tabsContainer) => {
-      const titles = tabsContainer.querySelectorAll(".tabtitle");
-      const contents = tabsContainer.querySelectorAll(".tabcontent");
-
-      const nav = document.createElement("div");
-      nav.classList.add("tabs-nav");
-
-      titles.forEach((title, index) => {
-        const btn = document.createElement("button");
-        btn.textContent = title.textContent;
-
-        if (index === 0) {
-          btn.classList.add("active");
-          contents[index].classList.add("active");
-        }
-
-        btn.addEventListener("click", () => {
-          nav.querySelectorAll("button").forEach((b) => b.classList.remove("active"));
-          contents.forEach((c) => c.classList.remove("active"));
-
-          btn.classList.add("active");
-          contents[index].classList.add("active");
-        });
-
-        nav.appendChild(btn);
-      });
-
-      tabsContainer.prepend(nav);
-
-      titles.forEach((title, index) => {
-        title.addEventListener("click", () => {
-          if (window.innerWidth <= 768) {
-            contents[index].classList.toggle("active");
-          }
-        });
-      });
-    });
-
-    // TABS END
-
-    // ACCORDION START
-
-    var acc = document.getElementsByClassName("advgb-accordion-header");
-    var i;
-
-    for (i = 0; i < acc.length; i++) {
-      acc[i].addEventListener("click", function () {
-        this.classList.toggle("active");
-        var panel = this.nextElementSibling;
-        if (panel.style.maxHeight) {
-          panel.style.maxHeight = null;
-        } else {
-          panel.style.maxHeight = panel.scrollHeight + "px";
-        }
-      });
-    }
-
-    // ACCORDION END
-  });
-</script>

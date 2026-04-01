@@ -37,7 +37,7 @@
   }
 
   h3 {
-    @apply text-xl text-heading font-normal mb-3;
+    @apply text-xl text-heading font-semibold inline-block mb-3;
   }
 
   hr {
@@ -295,7 +295,8 @@ img {
   font-weight: 600;
 }
 
-/* ocultar titulos originales en desktop */
+/* Estilos para el acordeón en móvil */
+
 .responsive-tabs .tabtitle {
   display: none;
 }
@@ -316,24 +317,10 @@ img {
 /* -------- MOBILE -------- */
 
 @media (max-width: 768px) {
-  /* .responsive-tabs h2 {
-    margin-bottom: 0;
-  } */
-
-  .responsive-tabs .tabcontent {
-    box-shadow: none;
-  }
-
-  .responsive-tabs .tabcontent {
-    margin: 10px 0;
-  }
-
-  /* ocultar nav tabs */
   .responsive-tabs .tabs-nav {
     display: none;
   }
 
-  /* mostrar titulos */
   .responsive-tabs .tabtitle {
     display: block;
     padding: 14px;
@@ -343,17 +330,36 @@ img {
     font-weight: 500;
     margin: 0.5em 0;
     text-transform: uppercase;
+    transition: background 0.3s ease; /* Suaviza el cambio de color al tocar */
+  }
+
+  /* Estilo cuando el título está abierto (opcional) */
+  .responsive-tabs .tabtitle.active {
+    background: #e9e9e9;
   }
 
   .responsive-tabs .tabcontent {
-    display: none;
+    /* En lugar de display: none, usamos esto para poder animar: */
+    display: block; 
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    padding: 0 14px; /* Padding lateral se mantiene, vertical a 0 */
+    margin: 0;
     border: none;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid transparent;
+    
+    /* La magia de la animación */
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 0.3s ease, 
+                padding 0.4s ease;
   }
 
   .responsive-tabs .tabcontent.active {
-    display: block;
-  }
+    max-height: 5000px;
+    padding: 14px;
+    opacity: 1;
+}
 }
 
 /* ------------------ */
@@ -371,19 +377,18 @@ img {
   align-items: center;
   gap: 10px;
   cursor: pointer;
-  padding: 14px 16px;
+  padding: 16px;
   transition: background 0.25s ease;
   justify-content: space-between;
   user-select: none;
   flex-direction: row-reverse;
-  background: transparent !important;
+  background: white;
   color: black !important;
-  border: none !important;
-  border-bottom: 1px solid oklch(92.8% 0.006 264.531) !important;
+  border-bottom: 1px solid #E5E7EB !important;
 }
 
 .advgb-accordion-header:hover {
-  background: #f5f5f5;
+  background: #F3F4F6;
 }
 
 .advgb-accordion-header-title {
@@ -454,11 +459,6 @@ img {
   outline: none;
   font-size: 15px;
   transition: 0.4s;
-}
-
-.tabcontent .active,
-.accordion:hover {
-  background-color: #ccc;
 }
 
 .panel {
