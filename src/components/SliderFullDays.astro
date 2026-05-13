@@ -22,10 +22,10 @@ const dondition = pathname === "/en/" || pathname === "/en";
       {
         dondition
         ? <h3 class="text-center text-red text-lg normal-case"><i class="fa-solid fa-person-hiking"></i> Cusco Tours</h3>
-          <h2 class="text-3xl text-center font-semibold tracking-wide mb-3">City Tours</h2>
+          <h2 class="max-w-lg mb-6 font-sans text-3xl font-bold leading-none tracking-tight text-gray-900 sm:text-4xl md:mx-auto text-balance">City Tours</h2>
           <p class="text-center mb-0! text-pretty">This section showcases the best full-day tours available.</p>
         : <h3 class="text-center text-red text-lg normal-case"><i class="fa-solid fa-person-hiking"></i> Cusco Tours</h3>
-          <h2 class="text-3xl text-center font-semibold tracking-wide mb-3">Recorridos por la ciudad de Cusco</h2>
+          <h2 class="max-w-lg mb-6 font-sans text-3xl font-bold leading-none tracking-tight text-gray-900 sm:text-4xl md:mx-auto text-balance">Recorridos por la ciudad de Cusco</h2>
           <p class="text-center mb-0! text-pretty">En esta sección se muestran los mejores tours de día completo disponibles.</p>
       }
     </div>
@@ -60,14 +60,14 @@ const dondition = pathname === "/en/" || pathname === "/en";
                       <div>
                         {
                           dondition
-                          ?<span class="text-sm"> From</span>
+                          ?<span class="text-sm font-light"> From</span>
                         <p class="font-medium text-gray mb-0! block">
-                           <span class="font-bold text-3xl text-black mb-1">$ {c.acf.precio}</span> <span class="text-sm text-black!">per person</span>
+                           <span class="font-bold text-3xl text-black mb-1">$ {c.acf.precio}</span> <span class="text-sm font-light text-black!">per person</span>
                         </p>
                         :
-                        <span class="text-sm"> Desde</span>
+                        <span class="text-sm font-light"> Desde</span>
                         <p class="font-medium text-gray mb-0! block">
-                           <span class="font-bold text-3xl text-black mb-1">$ {c.acf.precio}</span> <span class="text-sm text-black!">por persona</span>
+                           <span class="font-bold text-3xl text-black mb-1">$ {c.acf.precio}</span> <span class="text-sm font-light text-black!">por persona</span>
                         </p>
                         }
                       </div>
@@ -88,8 +88,8 @@ const dondition = pathname === "/en/" || pathname === "/en";
           ))
         }
       </div>
-      <div class="swiper-button-prev transition-colors rounded-full bg-white text-black! p-3 shadow-lg"></div>
-      <div class="swiper-button-next transition-colors rounded-full bg-white text-black! p-3 shadow-lg"></div>
+      <div class="swiper-button-prev transition-colors rounded-full bg-white text-green! p-3 shadow-lg"></div>
+      <div class="swiper-button-next transition-colors rounded-full bg-white text-green! p-3 shadow-lg"></div>
     </div>
   </div>
 </div>

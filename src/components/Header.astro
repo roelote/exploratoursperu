@@ -36,7 +36,7 @@ interface MenuItem {
 }
 ---
 
-<header class="bg-white sticky top-0 z-50 shadow-sm">
+<header>
   <div class="container mx-auto">
     <div class="w-full flex items-center justify-between py-2">
       <div class="flex items-center">
@@ -92,7 +92,7 @@ interface MenuItem {
 
           <div class="flex items-center justify-end gap-5">
             <RedesSociales />
-            <a href={btn.url?.url} title={btn.url?.title} class="inline-block bg-green py-2 px-7 rounded-lg text-white font-medium hover:bg-yellow hover:text-black transition-colors text-base"><i class="fa-solid fa-phone"></i> {btn.text}</a>
+            <a href={btn.url?.url} title={btn.url?.title} class="inline-block bg-green py-2.5 px-7 rounded-lg text-white hover:bg-yellow hover:text-black transition-colors text-base"><i class="fa-solid fa-phone"></i> {btn.text}</a>
           </div>
         </div>
       </div>
@@ -192,8 +192,9 @@ interface MenuItem {
       </div>
     </div>
   </div>
+</header>
 
-   <nav class="bg-[#F5F5F5] shadow-sm hidden lg:block">
+<nav class="bg-[#F5F5F5] shadow-sm hidden lg:block sticky top-0 z-50">
     <ul class="flex justify-center gap-6">
       {
         headerinfo?.map((menu: any) => {
@@ -222,8 +223,6 @@ interface MenuItem {
       }
     </ul>
   </nav>
-
-</header>
 
 <script>
   const menuToggle = document.getElementById("menuToggle");
@@ -258,7 +257,8 @@ interface MenuItem {
       if (!content) return;
 
       if (content.style.maxHeight) {
-        content.style.maxHeight = null;
+        content.style.maxHeight = "";
+        // content.style.maxHeight = null;
       } else {
         content.style.maxHeight = content.scrollHeight + "px";
       }

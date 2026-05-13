@@ -40,9 +40,9 @@ const hiddenTitle = titles.slice(3);
 ---
 
 <div class="container mt-3">
-  <div class="flex flex-col md:flex-row w-full h-[500px] md:h-[625px] gap-3 overflow-hidden rounded-radio">
+  <div class="flex flex-col md:flex-row w-full h-[500px] md:h-[625px] gap-3 overflow-hidden">
 
-    <div class="w-full h-full group/col1 relative">
+    <div class="w-full h-full group/col1 relative overflow-hidden rounded-radio">
       <a href={visible[0]} data-fancybox="gallery" data-caption={visibleTitle[0]}>
         <img
           src={visible[0]}
@@ -53,7 +53,7 @@ const hiddenTitle = titles.slice(3);
           loading="eager"
           decoding="sync"
           draggable="false"
-          class="shadow-md w-full h-full object-cover object-center rounded-radio"
+          class="shadow-md w-full h-full object-cover object-center group-hover/col1:scale-105 transition-transform duration-300"
         />
       </a>
 
@@ -64,7 +64,7 @@ const hiddenTitle = titles.slice(3);
 
     <div class="hidden md:flex w-full lg:min-w-[511px] lg:w-[511px] h-full flex-col gap-3">
 
-      <div class="grow w-full h-[300px] group/col2">
+      <div class="grow w-full h-[300px] group/col2 overflow-hidden rounded-radio">
         <a href={visible[1]} data-fancybox="gallery" data-caption={visibleTitle[1]}>
           <img
             src={visible[1]}
@@ -73,12 +73,12 @@ const hiddenTitle = titles.slice(3);
             height="600"
             loading="lazy"
             decoding="async"
-            class="shadow-md w-full h-full object-cover object-center rounded-radio"
+            class="shadow-md w-full h-full object-cover object-center rounded-radio group-hover/col2:scale-105 transition-transform duration-300"
           />
         </a>
       </div>
 
-      <div class="grow w-full h-[300px] group/col3">
+      <div class="grow w-full h-[300px] group/col3 overflow-hidden rounded-radio">
         <a href={visible[2]} data-fancybox="gallery" data-caption={visibleTitle[2]}>
           <img
             src={visible[2]}
@@ -88,7 +88,7 @@ const hiddenTitle = titles.slice(3);
             loading="lazy"
             decoding="async"
             draggable="false"
-            class="shadow-md w-full h-full object-cover object-center rounded-radio"
+            class="shadow-md w-full h-full object-cover object-center rounded-radio group-hover/col3:scale-105 transition-transform duration-300"
           />
         </a>
       </div>

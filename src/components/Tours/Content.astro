@@ -1,0 +1,130 @@
+---
+const { content } = Astro.props;
+
+const contents = cleanHTML(content);
+
+function cleanHTML(html: any) {
+  return html.replace(/style="[^"]*"/g, "");
+}
+---
+
+<div set:html={contents} />
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // TABS START
+
+    document.querySelectorAll(".responsive-tabs").forEach((tabsContainer) => {
+      const titles = tabsContainer.querySelectorAll(".tabtitle");
+      const contents = tabsContainer.querySelectorAll(".tabcontent");
+
+      const nav = document.createElement("div");
+      nav.classList.add("tabs-nav");
+
+      titles.forEach((title, index) => {
+        const btn = document.createElement("button");
+        btn.textContent = title.textContent;
+
+        if (index === 0) {
+          btn.classList.add("active");
+          contents[index].classList.add("active");
+        }
+
+        btn.addEventListener("click", () => {
+          nav.querySelectorAll("button").forEach((b) => b.classList.remove("active"));
+          contents.forEach((c) => c.classList.remove("active"));
+
+          btn.classList.add("active");
+          contents[index].classList.add("active");
+        });
+
+        nav.appendChild(btn);
+      });
+
+      tabsContainer.prepend(nav);
+
+      // --- Lógica de Acordeón en Móvil ---
+      // ... (resto de tu código anterior igual)
+
+      titles.forEach((title, index) => {
+        title.addEventListener("click", () => {
+          if (window.innerWidth <= 768) {
+            const content = contents[index];
+            const isOpen = content.classList.contains("active");
+
+            // 1. Cerramos todos los contenidos y quitamos 'active' de los títulos
+            contents.forEach((c) => c.classList.remove("active"));
+            titles.forEach((t) => t.classList.remove("active"));
+
+            // 2. Si el que clickeamos NO estaba abierto, lo abrimos
+            if (!isOpen) {
+              content.classList.add("active");
+              title.classList.add("active");
+            }
+          }
+        });
+      });
+    });
+
+    // TABS END
+
+    // ACCORDION START
+
+    var acc = document.getElementsByClassName("advgb-accordion-header");
+
+    function closeAllAccordions() {
+      for (let j = 0; j < acc.length; j++) {
+        const item = acc[j].closest(".advgb-accordion-item");
+        const panel = acc[j].nextElementSibling;
+
+        const iconClosed = item.querySelector(".advgb-icon-closed");
+        const iconOpened = item.querySelector(".advgb-icon-opened");
+
+        acc[j].classList.remove("active");
+        panel.style.maxHeight = null;
+
+        if (iconClosed) iconClosed.style.display = "block";
+        if (iconOpened) iconOpened.style.display = "none";
+      }
+    }
+
+    for (let i = 0; i < acc.length; i++) {
+      acc[i].addEventListener("click", function () {
+        const isActive = this.classList.contains("active");
+
+        closeAllAccordions();
+
+        if (!isActive) {
+          this.classList.add("active");
+
+          const item = this.closest(".advgb-accordion-item");
+          const panel = this.nextElementSibling;
+
+          const iconClosed = item.querySelector(".advgb-icon-closed");
+          const iconOpened = item.querySelector(".advgb-icon-opened");
+
+          panel.style.maxHeight = panel.scrollHeight + "px";
+
+          if (iconClosed) iconClosed.style.display = "none";
+          if (iconOpened) iconOpened.style.display = "block";
+        }
+      });
+    }
+
+    if (acc.length > 0) {
+      const first = acc[0];
+      const item = first.closest(".advgb-accordion-item");
+      const panel = first.nextElementSibling;
+
+      const iconClosed = item.querySelector(".advgb-icon-closed");
+      const iconOpened = item.querySelector(".advgb-icon-opened");
+
+      first.classList.add("active");
+      panel.style.maxHeight = panel.scrollHeight + "px";
+
+      if (iconClosed) iconClosed.style.display = "none";
+      if (iconOpened) iconOpened.style.display = "block";
+    }
+    // ACCORDION END
+  });
+</script>
