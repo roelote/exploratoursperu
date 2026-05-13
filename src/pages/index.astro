@@ -22,11 +22,12 @@ const infoHome = dataHome.content.rendered
 
 const category = await getTourInfo();
 
-const categoryFullday = category.filter((category: any) => category.peru == 13);
-
 const categoryMachupicchu = category.filter((category: any) => category.peru == 14);
 
 const categoryTreks = category.filter((category: any) => category.peru == 19);
+
+const categoryFullday = category.filter((category: any) => category.peru == 13);
+
 ---
 
 <MainLayout seo={dataHome?.yoast_head_json} altLangUrl="/en/">
@@ -38,9 +39,9 @@ const categoryTreks = category.filter((category: any) => category.peru == 19);
   <main class="container-main">
     <HeroPortada data={getInfoPortada} />
     <ContentWP data={infoHome} />
-    <SliderFullDays data={categoryFullday} />
     <SliderMachuPicchu data={categoryMachupicchu} />
     <SliderHiking data={categoryTreks} />
+    <SliderFullDays data={categoryFullday} />
     <Contents/>
     <SliderBlogs />
     <SliderReviews />
